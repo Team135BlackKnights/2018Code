@@ -64,8 +64,8 @@ public class DriveTrain extends Subsystem
 		double forward_factor = (left + right) / 2;
 		double turning_factor = (left - right) / 2;
 		
-		double l_setValue = forward_factor * FORWARD_TANK_TUNING + turning_factor + TURNING_TANK_TUNING;
-		double r_setValue = forward_factor * FORWARD_TANK_TUNING - turning_factor + TURNING_TANK_TUNING;
+		double l_setValue = forward_factor * FORWARD_TANK_TUNING + turning_factor * TURNING_TANK_TUNING;
+		double r_setValue = forward_factor * FORWARD_TANK_TUNING - turning_factor * TURNING_TANK_TUNING;
 		
 		leftSide.set(l_setValue);
 		rightSide.set(r_setValue);
