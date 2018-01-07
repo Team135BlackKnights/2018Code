@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveTrain extends Subsystem 
 {
-	private static DriveTrain instance
+	private static DriveTrain instance;
 	
 	private static final double DEADBAND = utilities.clamp(SmartDashboard.getNumber("Joystick Deadband", .05), 0, .15);
 	private static final double PERCENT_POWER = utilities.clamp(SmartDashboard.getNumber("Drivetrain Motor Drive Percent Power", 1.0), 0, 1);
