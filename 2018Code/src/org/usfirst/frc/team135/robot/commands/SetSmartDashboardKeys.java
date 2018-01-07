@@ -54,6 +54,12 @@ public class SetSmartDashboardKeys extends Command {
 			SmartDashboard.setPersistent("Turn Tank Tuning Constant");
 		}
 		
+		if (!SmartDashboard.containsKey("Global directions"))
+		{
+			SmartDashboard.putBoolean("Global directions", true);
+			SmartDashboard.setPersistent("Global directions");
+		}
+		
     }
 
     // Called repeatedly when this Command is scheduled to run

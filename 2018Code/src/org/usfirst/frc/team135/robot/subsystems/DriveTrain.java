@@ -1,7 +1,10 @@
 package org.usfirst.frc.team135.robot.subsystems;
 
-import org.usfirst.frc.team135.robot.RobotMap.motors;
-import org.usfirst.frc.team135.robot.RobotMap.utilities;
+import java.util.Optional;
+
+import org.usfirst.frc.team135.robot.Commons;
+import org.usfirst.frc.team135.robot.Commons.motors;
+import org.usfirst.frc.team135.robot.Commons.utilities;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -13,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class DriveTrain extends Subsystem 
+public class DriveTrain extends Subsystem implements Commons
 {
 	private static DriveTrain instance;
 	
@@ -35,6 +38,7 @@ public class DriveTrain extends Subsystem
 		for (int i = 0; i < 6; i++)
 		{
 			talons[i] = new WPI_TalonSRX(i);
+			this.addChild("Talon " + Integer.toString(i) , talons[i]);
 		}
 		
 		leftSide = new SpeedControllerGroup(talons[motors.MID_LEFT], talons[motors.REAR_LEFT]);
@@ -47,6 +51,9 @@ public class DriveTrain extends Subsystem
 				talons[motors.REAR_RIGHT]);
 		
 		chassis.setDeadband(DEADBAND);
+		
+		this.addChild("Chassis", chassis);
+		SmartDashboard.putData("Drivetrain", this);
 	}
 	
 	public static DriveTrain getInstance()
@@ -73,9 +80,9 @@ public class DriveTrain extends Subsystem
 		
 	}
 	
-	public void CartesianDrive(double y, double x, double rotationalRate)
+	public void CartesianDrive(double y, double x, double rotationalRate, Optional<Double> fieldOrientation)
 	{
-		chassis.driveCartesian(CalcPower(y), CalcPower(x), rotationalRate);
+		chassis.driveCartesian(CalcPower(y), CalcPower(x), rotationalRate, fieldOrientation.orElse(0.0));
 	}
 	
 	public void PolarDrive(double magnitude, double angle, double rotationalRate)

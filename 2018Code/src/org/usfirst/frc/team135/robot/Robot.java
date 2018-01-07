@@ -26,6 +26,7 @@ public class Robot extends TimedRobot {
 	public static final ExampleSubsystem kExampleSubsystem
 			= new ExampleSubsystem();
 	public static OI oi;
+	public static Gyro gyro;
 	public static DriveTrain drivetrain;
 
 	Command m_autonomousCommand;
@@ -38,6 +39,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		oi = OI.getInstance();
+		gyro = Gyro.getInstance();
 		drivetrain = DriveTrain.getInstance();
 		
 		m_chooser.addDefault("Default Auto", new ExampleCommand());

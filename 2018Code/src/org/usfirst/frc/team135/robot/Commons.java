@@ -8,7 +8,7 @@
 package org.usfirst.frc.team135.robot;
 
 
-public interface RobotMap 
+public interface Commons 
 {
 	public class auto
 	{
@@ -21,6 +21,16 @@ public interface RobotMap
 		{
 			return Math.max(0, Math.min(1, input));
 		}
+	}
+	
+	public class convert
+	{
+		public static final float CM2INCH = 0.393701f;
+	}
+	
+	public class stats
+	{
+		public static final double ANGULAR_VELOCITY_OF_THE_EARTH = 0.00417807464791; //In degrees/second
 	}
 	
 	public class motors

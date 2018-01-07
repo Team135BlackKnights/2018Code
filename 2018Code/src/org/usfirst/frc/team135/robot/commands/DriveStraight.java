@@ -1,36 +1,47 @@
 package org.usfirst.frc.team135.robot.commands;
 
 import org.usfirst.frc.team135.robot.Robot;
+import org.usfirst.frc.team135.robot.extra.AngleOut;
 
-import java.util.Optional;
-
-import org.usfirst.frc.team135.robot.OI;
-
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class DriveJ extends Command {
+public class DriveStraight extends Command {
+
+	PIDController angleController;
+	AngleOut angleOut;
+	private double timeout;
 	
-    public DriveJ() 
+    public DriveStraight() 
     {
     	requires(Robot.drivetrain);
     	requires(Robot.gyro);
+    	angleOut = new AngleOut();
+    	angleController = new PIDController(0.0, 0.0, 0.0, Robot.gyro.getPIDSource(), angleOut);
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() {
+    protected void initialize() 
+    {
+    	this.addChild(angleController);
+    	this.addChild(angleOut);
+    	this.addChild(timeout);
+    	
+    	SmartDashboard.putData("Drive Straight", this);
+    	
+    	setTimeout(timeout);
+    	angleController.enable();
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	Double globalDirection = SmartDashboard.getBoolean("Global directions", true) ? 
-    								Robot.gyro.getCorrectedAngle() : null;
-    	
-    	Robot.drivetrain.CartesianDrive(Robot.oi.GetY(OI.RIGHT), Robot.oi.GetX(OI.RIGHT), Robot.oi.GetTwist(OI.LEFT),
-    									Optional.ofNullable(globalDirection));
+    protected void execute() 
+    {
+    	Robot.drivetrain.CartesianDrive(y, x, angleOut.output, Robot.gyro.getRawAngle());
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -1,7 +1,7 @@
 package org.usfirst.frc.team135.robot.commands;
 
-import org.usfirst.frc.team135.robot.RobotMap;
-import org.usfirst.frc.team135.robot.RobotMap.*;
+import org.usfirst.frc.team135.robot.Commons;
+import org.usfirst.frc.team135.robot.Commons.*;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class GetGameSpecificMessage extends Command implements RobotMap{
+public class GetGameSpecificMessage extends Command implements Commons{
 
     public GetGameSpecificMessage() 
     {
