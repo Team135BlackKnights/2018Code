@@ -1,59 +1,53 @@
 package org.usfirst.frc.team135.robot.subsystems;
 
-import java.util.Optional;
+import org.usfirst.frc.team135.robot.commands.DriveJ;
 
-import org.usfirst.frc.team135.robot.Commons;
-import org.usfirst.frc.team135.robot.Commons.motors;
-import org.usfirst.frc.team135.robot.Commons.utilities;
-
+import com.ctre.CANTalon.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class DriveTrain extends Subsystem implements Commons
-{
+public class DriveTrain extends Subsystem {
+
 	private static DriveTrain instance;
 	
-	private static final double DEADBAND = utilities.clamp(SmartDashboard.getNumber("Joystick Deadband", .05), 0, .15);
-	private static final double PERCENT_POWER = utilities.clamp(SmartDashboard.getNumber("Drivetrain Motor Drive Percent Power", 1.0), 0, 1);
-	private static final double POWER_CAP = utilities.clamp(SmartDashboard.getNumber("Drivetrain Motor Drive Power Cap", 1.0), .2, 1);
-	
-	private static final double FORWARD_TANK_TUNING = utilities.clamp(SmartDashboard.getNumber("Foward Tank Tuning Constant", 1.0), 0, 1.0);
-	private static final double STRAFE_TANK_TUNING = utilities.clamp(SmartDashboard.getNumber("Strafe Tank Tuning Constant", 1.0), 0, 1.0);
-	private static final double TURNING_TANK_TUNING = utilities.clamp(SmartDashboard.getNumber("Turn Tank Tuning Constant", 1.0), 0, 1.0);
-	
-	private SpeedControllerGroup leftSide, rightSide;
+	private WPI_TalonSRX[] talons = new WPI_TalonSRX[4];
 	
 	private MecanumDrive chassis;
-	private WPI_TalonSRX[] talons = new WPI_TalonSRX[6];
+	
+	public static final int
+		FRONT_LEFT = 0,
+		REAR_LEFT = 1,
+		FRONT_RIGHT = 2,
+		REAR_RIGHT = 3;
+	
+	private static final double TICK2REV = (1/4096.0);
 	
 	private DriveTrain()
-	{		
-		for (int i = 0; i < 6; i++)
+	{
+		for (int i = 0; i < 4; i++)
 		{
 			talons[i] = new WPI_TalonSRX(i);
-			this.addChild("Talon " + Integer.toString(i) , talons[i]);
+			talons[i].setSafetyEnabled(false);
+			talons[i].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
+			talons[i].setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 10, 10);
+			talons[i].setSelectedSensorPosition(0, 0, 10);
+			
+			talons[i].configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_10Ms, 10);
+			talons[i].configVelocityMeasurementWindow(16, 10); //Might want to check this later
+			talons[i].config_kP(0, .01, 10);
 		}
 		
-		leftSide = new SpeedControllerGroup(talons[motors.MID_LEFT], talons[motors.REAR_LEFT]);
-		rightSide = new SpeedControllerGroup(talons[motors.MID_RIGHT], talons[motors.REAR_RIGHT]);
-		
-		chassis = new MecanumDrive(
-				talons[motors.MID_LEFT], 
-				talons[motors.REAR_LEFT], 
-				talons[motors.MID_RIGHT], 
-				talons[motors.REAR_RIGHT]);
-		
-		chassis.setDeadband(DEADBAND);
-		
-		this.addChild("Chassis", chassis);
-		SmartDashboard.putData("Drivetrain", this);
+		chassis = new MecanumDrive(talons[FRONT_LEFT], talons[REAR_LEFT],
+									talons[FRONT_RIGHT], talons[REAR_RIGHT]);
+		chassis.setDeadband(.15);
+		chassis.setSafetyEnabled(true);
 	}
 	
 	public static DriveTrain getInstance()
@@ -62,48 +56,39 @@ public class DriveTrain extends Subsystem implements Commons
 		{
 			instance = new DriveTrain();
 		}
-		
 		return instance;
 	}
 	
-	public void TankDrive(double left, double right)
+	
+	public double getEncoderCounts(int side)
 	{
-		double forward_factor = (left + right) / 2;
-		double turning_factor = (left - right) / 2;
+		return ((double)talons[side].getSelectedSensorPosition(0)) ;
+	}
+	
+	public double getEncoderSpeed(int side)
+	{
+		return ((double)talons[side].getSelectedSensorVelocity(0));
+	}
+	
+	public void driveCartesianWorld(double y, double x, double rotationalRate, double fieldOrientation)
+	{
+		chassis.driveCartesian(y, x, rotationalRate, fieldOrientation);
 		
-		double l_setValue = forward_factor * FORWARD_TANK_TUNING + turning_factor * TURNING_TANK_TUNING;
-		double r_setValue = forward_factor * FORWARD_TANK_TUNING - turning_factor * TURNING_TANK_TUNING;
-		
-		leftSide.set(l_setValue);
-		rightSide.set(r_setValue);
-		
-		
 	}
 	
-	public void CartesianDrive(double y, double x, double rotationalRate, Optional<Double> fieldOrientation)
+	public void driveCartesianLocal(double y, double x, double rotationalRate, double fieldOrientation)
 	{
-		chassis.driveCartesian(CalcPower(y), CalcPower(x), rotationalRate, fieldOrientation.orElse(0.0));
+		chassis.driveCartesian(y, x, rotationalRate);
 	}
 	
-	public void PolarDrive(double magnitude, double angle, double rotationalRate)
+	public void drivePolar(double magnitude, double angle, double rotationalRate)
 	{
-		chassis.drivePolar(CalcPower(magnitude), CalcPower(angle), rotationalRate);
+		chassis.drivePolar(magnitude, angle, rotationalRate);
 	}
-	
-	public void Rotate(double rate)
-	{
-		chassis.drivePolar(0, 0, CalcPower(rate));
-	}
-	
-	private double CalcPower(double input)
-	{
-		return Math.min(input * PERCENT_POWER, POWER_CAP);
-	}
-	
 
+	
     public void initDefaultCommand() 
     {
-
+    	setDefaultCommand(new DriveJ());
     }
 }
-
