@@ -18,7 +18,7 @@ public class SetSmartDashboardKeys extends Command {
     // Called just before this Command runs the first time
     protected void initialize() 
     {
-		if(!SmartDashboard.containsKey("Joystick Deadband"))
+		/*if(!SmartDashboard.containsKey("Joystick Deadband"))
 		{
 			SmartDashboard.putNumber("Joystick Deadband", .05);
 			SmartDashboard.setPersistent("Joystick Deadband");
@@ -58,7 +58,7 @@ public class SetSmartDashboardKeys extends Command {
 		{
 			SmartDashboard.putBoolean("Global directions", true);
 			SmartDashboard.setPersistent("Global directions");
-		}
+		} */
 		
     }
 

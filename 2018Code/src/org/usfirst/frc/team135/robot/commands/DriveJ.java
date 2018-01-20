@@ -21,12 +21,13 @@ public class DriveJ extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.drivetrain.InitializeDriveTrain();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	Robot.drivetrain.driveCartesianWorld(Robot.oi.GetY(OI.RIGHT), Robot.oi.GetX(OI.RIGHT), Robot.oi.GetTwist(OI.RIGHT),
+    	Robot.drivetrain.driveCartesianLocal(Robot.oi.GetY(OI.RIGHT), Robot.oi.GetX(OI.RIGHT), Robot.oi.GetTwist(OI.RIGHT),
     									Robot.gyro.getCorrectedAngle());
     }
 

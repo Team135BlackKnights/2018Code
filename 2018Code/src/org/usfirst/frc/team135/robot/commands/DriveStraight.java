@@ -21,7 +21,7 @@ public class DriveStraight extends Command {
     	requires(Robot.drivetrain);
     	requires(Robot.gyro);
     	angleOut = new AngleOut();
-    	angleController = new PIDController(0.0, 0.0, 0.0, Robot.gyro.getPIDSource(), angleOut);
+    	//angleController = new PIDController(0.0, 0.0, 0.0, Robot.gyro.getPIDSource(), angleOut);
     }
 
     // Called just before this Command runs the first time
@@ -41,7 +41,7 @@ public class DriveStraight extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() 
     {
-    	Robot.drivetrain.CartesianDrive(y, x, angleOut.output, Robot.gyro.getRawAngle());
+    //	Robot.drivetrain.CartesianDrive(y, x, angleOut.output, Robot.gyro.getRawAngle());
     }
 
     // Make this return true when this Command no longer needs to run execute()
