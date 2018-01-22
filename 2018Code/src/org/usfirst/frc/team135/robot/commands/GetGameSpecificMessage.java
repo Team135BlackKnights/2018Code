@@ -1,7 +1,6 @@
 package org.usfirst.frc.team135.robot.commands;
 
-import org.usfirst.frc.team135.robot.Commons;
-import org.usfirst.frc.team135.robot.Commons.*;
+import org.usfirst.frc.team135.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
@@ -9,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class GetGameSpecificMessage extends Command implements Commons{
+public class GetGameSpecificMessage extends Command implements RobotMap{
 
     public GetGameSpecificMessage() 
     {
@@ -25,12 +24,13 @@ public class GetGameSpecificMessage extends Command implements Commons{
     // Called repeatedly when this Command is scheduled to run
     protected void execute() 
     {
-    	auto.msg = DriverStation.getInstance().getGameSpecificMessage();
+    //	auto.msg = DriverStation.getInstance().getGameSpecificMessage();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return !auto.msg.isEmpty();
+      //  return !auto.msg.isEmpty();
+    	return false;
     }
 
     // Called once after isFinished returns true

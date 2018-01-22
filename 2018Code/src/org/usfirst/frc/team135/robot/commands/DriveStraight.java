@@ -27,9 +27,9 @@ public class DriveStraight extends Command {
     // Called just before this Command runs the first time
     protected void initialize() 
     {
-    	this.addChild(angleController);
-    	this.addChild(angleOut);
-    	this.addChild(timeout);
+    	//this.addChild(angleController);
+    	//this.addChild(angleOut);
+    	//this.addChild(timeout);
     	
     	SmartDashboard.putData("Drive Straight", this);
     	

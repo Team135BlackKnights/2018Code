@@ -1,12 +1,13 @@
 package org.usfirst.frc.team135.robot.subsystems;
 
-import org.usfirst.frc.team135.robot.commands.DriveJ;
+import org.usfirst.frc.team135.robot.commands.*;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import org.usfirst.frc.team135.robot.Robot;
 import org.usfirst.frc.team135.robot.RobotMap;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
@@ -20,7 +21,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	private WPI_TalonSRX frontRightTalon, frontLeftTalon, rearRightTalon, rearLeftTalon;
 	private MecanumDrive chassis;
 	private static final double TICK2REV = (1/4096.0);
-	
+
 	private DriveTrain()
 	{
 		ConfigureTalons();
@@ -86,18 +87,40 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		
 	}
 	
-	public void driveCartesianLocal(double y, double x, double rotationalRate, double fieldOrientation)
+	public void driveCartesianLocal(double x, double y, double rotationalRate, double fieldOrientation)
 	{
-		chassis.driveCartesian(y, x, rotationalRate);
+		chassis.driveCartesian(x, -y, rotationalRate);
 	}
+
 	
 	public void drivePolar(double magnitude, double angle, double rotationalRate)
 	{
 		chassis.drivePolar(magnitude, angle, rotationalRate);
+	}
+	
+	public void driveSingleMotor(int id)
+	{
+		if (id == REAR_LEFT_TALON_ID)
+		{
+			rearLeftTalon.set(Robot.oi.GetManipY());
+		}
+		if (id == REAR_RIGHT_TALON_ID)
+		{
+			rearRightTalon.set(Robot.oi.GetManipY());
+		}
+		if (id == FRONT_LEFT_TALON_ID)
+		{
+			frontLeftTalon.set(Robot.oi.GetManipY());
+		}
+		if (id == FRONT_RIGHT_TALON_ID)
+		{
+			frontRightTalon.set(Robot.oi.GetManipY());
+		}
 	}
 
     public void initDefaultCommand() 
     {
     	setDefaultCommand(new DriveJ());
     }
+   
 }

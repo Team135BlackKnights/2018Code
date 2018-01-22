@@ -15,6 +15,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team135.robot.commands.*;
 import org.usfirst.frc.team135.robot.subsystems.*;
 
+import org.usfirst.frc.team135.robot.commands.DriveMotor;
+import org.usfirst.frc.team135.robot.commands.DriveJ;
+import org.usfirst.frc.team135.robot.commands.DriveStraight;
+import org.usfirst.frc.team135.robot.commands.ExampleCommand;
+import org.usfirst.frc.team135.robot.commands.GetGameSpecificMessage;
+import org.usfirst.frc.team135.robot.commands.SetSmartDashboardKeys;
+
+import org.usfirst.frc.team135.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team135.robot.subsystems.Gyro;
+import org.usfirst.frc.team135.robot.subsystems.ExampleSubsystem;
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -38,9 +49,12 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotInit() {
-		oi = OI.getInstance();
 		gyro = Gyro.getInstance();
 		drivetrain = DriveTrain.getInstance();
+		
+		
+		oi = OI.getInstance();
+
 		
 		m_chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
@@ -130,5 +144,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+	
 	}
 }

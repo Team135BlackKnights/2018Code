@@ -2,21 +2,21 @@ package org.usfirst.frc.team135.robot.commands;
 
 import org.usfirst.frc.team135.robot.Robot;
 
-import org.usfirst.frc.team135.robot.OI;
-import org.usfirst.frc.team135.robot.subsystems.DriveTrain;
-
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team135.robot.subsystems.DriveTrain;
 
 /**
  *
  */
-public class DriveJ extends Command {
+public class DriveMotor extends Command {
+
+	private int id;
 	
-    public DriveJ() 
-    {
+    public DriveMotor(int id) {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
     	requires(Robot.drivetrain);
-    	requires(Robot.gyro);
+    	this.id = id;
     }
 
     // Called just before this Command runs the first time
@@ -26,9 +26,7 @@ public class DriveJ extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
-    	Robot.drivetrain.driveCartesianLocal(Robot.oi.GetX(), Robot.oi.GetY(), Robot.oi.GetTwist(),
-    									0);
+    	Robot.drivetrain.driveSingleMotor(id);
     }
 
     // Make this return true when this Command no longer needs to run execute()
