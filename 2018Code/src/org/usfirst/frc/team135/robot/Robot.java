@@ -39,7 +39,7 @@ public class Robot extends TimedRobot {
 	public static OI oi;
 	public static Gyro gyro;
 	public static DriveTrain drivetrain;
-	//test
+	
 
 	Command m_autonomousCommand;
 	Command getGameSpecificMessage;
@@ -52,14 +52,12 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		gyro = Gyro.getInstance();
 		drivetrain = DriveTrain.getInstance();
+		
 		oi = OI.getInstance();	
 		
 		m_chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
-
-		
-		
 	}
 
 	/**
@@ -135,6 +133,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		System.out.println("P value is " + Robot.drivetrain.returnPValue());
+	
 		
 	}
 
@@ -142,7 +142,6 @@ public class Robot extends TimedRobot {
 	 * This function is called periodically during test mode.
 	 */
 	
-
 	@Override
 	public void testPeriodic() {
 

@@ -11,9 +11,13 @@ import com.ctre.phoenix.motorcontrol.can.*;
 
 import org.usfirst.frc.team135.robot.Robot;
 import org.usfirst.frc.team135.robot.RobotMap;
+
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+
 
 
 /**
@@ -33,10 +37,10 @@ public class DriveTrain extends Subsystem implements RobotMap{
 															60 seconds per min  
 														    10 "100ms" per second
 														    4096 NU (native units) per revolution */
-	private double kP = 0; //proportionate constant
-	private double kI = 0; //integral constant
-	private double kD = 0; //derivative constant
-	private double kF; //feed-forward
+	private double kP; 
+	private double kI;
+	private double kD;
+	private double kF;
 
 	private String orientation;
 															
@@ -53,13 +57,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		ConfigureTalons(rearRightTalon, REAR_RIGHT_TALON_ID);
 		ConfigureTalons(rearLeftTalon, REAR_LEFT_TALON_ID);
 		
-		kP= SmartDashboard.getNumber("P", 0);  //gets PID values from dashboard, 0 is default
-		kI= SmartDashboard.getNumber("I", 0); 
-		kD= SmartDashboard.getNumber("D", 0);
-		kF= SmartDashboard.getNumber("F", 0);
-		//test
-		
-		orientation = SmartDashboard.getString("Orientation (Robot/Field)", "Field");
+		orientation = Preferences.getInstance().getString("Orientation", "Robot");
 	}
 	
 	public void ConfigureTalons(WPI_TalonSRX talon, int talon_id)
@@ -73,12 +71,23 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		talon.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_100Ms, 10);
 		talon.configVelocityMeasurementWindow(64, 0);
 	
+		kP = Preferences.getInstance().getDouble("P", 0);
+		kI = Preferences.getInstance().getDouble("I", 0);
+		kD = Preferences.getInstance().getDouble("D", 0);
+		kF = Preferences.getInstance().getDouble("FeedForward", 0);
+		
 		talon.config_kP(0, kP, 10); //slot 0, value, timeoutMS
 		talon.config_kI(0, kI, 10);
 		talon.config_kD(0, kD, 10);
 		talon.config_kF(0, kF, 10);
+		
 
 		InitializeDriveTrain();
+	}
+	
+	public double returnPValue()
+	{
+		return kP;
 	}
 	
 	public void InitializeDriveTrain()
@@ -132,7 +141,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		}
 		if (id == REAR_RIGHT_TALON_ID)
 		{
-			rearRightTalon.set(Robot.oi.GetManipY());
+			rearRightTalon.set(-Robot.oi.GetManipY());
 		}
 		if (id == FRONT_LEFT_TALON_ID)
 		{
@@ -140,7 +149,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		}
 		if (id == FRONT_RIGHT_TALON_ID)
 		{
-			frontRightTalon.set(Robot.oi.GetManipY());
+			frontRightTalon.set(-Robot.oi.GetManipY());
 		}
 		
 	}
@@ -154,7 +163,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		}
 		if (id == REAR_RIGHT_TALON_ID)
 		{
-			rearRightTalon.set(ControlMode.Velocity, Robot.oi.GetManipY()*MOTOR_SETPOINT_PER_100MS);
+			rearRightTalon.set(ControlMode.Velocity, -Robot.oi.GetManipY()*MOTOR_SETPOINT_PER_100MS);
 		}
 		if (id == FRONT_LEFT_TALON_ID)
 		{
@@ -162,7 +171,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		}
 		if (id == FRONT_RIGHT_TALON_ID)
 		{
-			frontRightTalon.set(ControlMode.Velocity, Robot.oi.GetManipY()*MOTOR_SETPOINT_PER_100MS);
+			frontRightTalon.set(ControlMode.Velocity, -Robot.oi.GetManipY()*MOTOR_SETPOINT_PER_100MS);
 		}
 	}
 	
@@ -170,13 +179,8 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	{
 		return talon.getMotorOutputVoltage();
 	}
-	public void periodic()
-	{
-		SmartDashboard.putNumber("Rear Left Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearLeftTalon));
-		SmartDashboard.putNumber("Rear Right Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearRightTalon));
-		SmartDashboard.putNumber("Front Left Speed", -Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.frontLeftTalon));
-		SmartDashboard.putNumber("Front Right Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.frontRightTalon));
-	}
+
+		
     public void initDefaultCommand() 
     {
     	setDefaultCommand(new DriveJ(orientation));

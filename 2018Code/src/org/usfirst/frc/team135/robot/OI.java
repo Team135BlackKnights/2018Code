@@ -67,7 +67,7 @@ public class OI implements RobotMap
 	{
 		return RIGHT.getTwist() * .5;
 	}
-	//test
+	
 	
 	public void ConfigureButtonMapping()
 	{
