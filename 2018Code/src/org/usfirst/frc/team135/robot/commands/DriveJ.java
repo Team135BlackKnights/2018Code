@@ -21,7 +21,7 @@ public class DriveJ extends Command {
     	requires(Robot.gyro);
     	this.Orientation = orientation;
     }
-    //test
+    
 
     // Called just before this Command runs the first time
     protected void initialize() {
