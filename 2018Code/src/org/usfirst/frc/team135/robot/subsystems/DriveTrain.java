@@ -139,6 +139,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		{
 			frontRightTalon.set(Robot.oi.GetManipY());
 		}
+		
 	}
 	
 	public void driveSingleMotorVelocity(int id)
