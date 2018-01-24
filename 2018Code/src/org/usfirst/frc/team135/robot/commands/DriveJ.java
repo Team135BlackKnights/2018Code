@@ -25,6 +25,7 @@ public class DriveJ extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.drivetrain.InitializeDriveTrain();
+    	Robot.gyro.ZeroGyro();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -35,8 +36,9 @@ public class DriveJ extends Command {
     	Robot.drivetrain.driveFieldOriented(Robot.oi.GetX(), Robot.oi.GetY(), Robot.oi.GetTwist(), Robot.gyro.getAngle());
     }
     else if (Orientation == "Robot")
-    {
+    { 
     	Robot.drivetrain.driveRobotOriented(Robot.oi.GetX(), Robot.oi.GetY(), Robot.oi.GetTwist());
+
     }
     }
 

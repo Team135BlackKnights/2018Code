@@ -25,7 +25,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	public WPI_TalonSRX frontRightTalon, frontLeftTalon, rearRightTalon, rearLeftTalon;
 	private MecanumDrive chassis;
 	
-	private static final int ENCODER_TICK_COUNT = 1024;
+	private static final int ENCODER_TICK_COUNT = 256;
 	private static final int ENCODER_QUAD_COUNT = (ENCODER_TICK_COUNT * 4);
 	private static final double MOTOR_SETPOINT = 1000; //revs per minute
 	private static final double MOTOR_SETPOINT_PER_100MS = (MOTOR_SETPOINT/60/10*ENCODER_QUAD_COUNT); 
@@ -36,14 +36,18 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	private double kP = 0; //proportionate constant
 	private double kI = 0; //integral constant
 	private double kD = 0; //derivative constant
-	private double kF = 0; //feed-forward constant
-	
+	private double kF; //feed-forward
 
-	
 	private String orientation;
 															
 	private DriveTrain()
 	{
+		
+		frontRightTalon = new WPI_TalonSRX(FRONT_RIGHT_TALON_ID);
+		frontLeftTalon = new WPI_TalonSRX(FRONT_LEFT_TALON_ID);
+		rearRightTalon = new WPI_TalonSRX(REAR_RIGHT_TALON_ID);
+		rearLeftTalon = new WPI_TalonSRX(REAR_LEFT_TALON_ID);
+
 		ConfigureTalons(frontRightTalon, FRONT_RIGHT_TALON_ID);
 		ConfigureTalons(frontLeftTalon, FRONT_LEFT_TALON_ID);
 		ConfigureTalons(rearRightTalon, REAR_RIGHT_TALON_ID);
@@ -56,7 +60,6 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		
 		
 		orientation = SmartDashboard.getString("Orientation (Robot/Field)", "Field");
-
 	}
 	
 	public void ConfigureTalons(WPI_TalonSRX talon, int talon_id)
@@ -167,7 +170,13 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	{
 		return talon.getMotorOutputVoltage();
 	}
-
+	public void periodic()
+	{
+		SmartDashboard.putNumber("Rear Left Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearLeftTalon));
+		SmartDashboard.putNumber("Rear Right Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearRightTalon));
+		SmartDashboard.putNumber("Front Left Speed", -Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.frontLeftTalon));
+		SmartDashboard.putNumber("Front Right Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.frontRightTalon));
+	}
     public void initDefaultCommand() 
     {
     	setDefaultCommand(new DriveJ(orientation));

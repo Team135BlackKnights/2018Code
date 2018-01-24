@@ -70,8 +70,8 @@ public class OI implements RobotMap
 	
 	public void ConfigureButtonMapping()
 	{
-		DRIVE_REAR_LEFT = new JoystickButton(MANIP, 4);
-		DRIVE_REAR_RIGHT = new JoystickButton(MANIP, 3);
+		DRIVE_REAR_RIGHT = new JoystickButton(MANIP, 4);
+		DRIVE_REAR_LEFT = new JoystickButton(MANIP, 3);
 		DRIVE_FRONT_LEFT = new JoystickButton(MANIP, 5);
 		DRIVE_FRONT_RIGHT = new JoystickButton(MANIP, 6);
 		assignButtons();

@@ -28,17 +28,13 @@ public class DriveMotor extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drivetrain.driveSingleMotorPower(id); //power control
-    	//Robot.drivetrain.driveSingleMotorVelocity(id);  //closed-loop velocity control
-		SmartDashboard.putNumber("Rear Left Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearLeftTalon));
-		SmartDashboard.putNumber("Rear Right Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearRightTalon));
-		SmartDashboard.putNumber("Front Left Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.frontLeftTalon));
-		SmartDashboard.putNumber("Front Right Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.frontRightTalon));
-		
-		SmartDashboard.putNumber("Rear Left Voltage", Robot.drivetrain.getTalonVoltage(Robot.drivetrain.rearLeftTalon));
+    	//Robot.drivetrain.driveSingleMotorPower(id); //power control
+    	Robot.drivetrain.driveSingleMotorVelocity(id);  //closed-loop velocity control
+
+		/*SmartDashboard.putNumber("Rear Left Voltage", Robot.drivetrain.getTalonVoltage(Robot.drivetrain.rearLeftTalon));
 		SmartDashboard.putNumber("Rear Right Speed", Robot.drivetrain.getTalonVoltage(Robot.drivetrain.rearRightTalon));
 		SmartDashboard.putNumber("Front Left Speed", Robot.drivetrain.getTalonVoltage(Robot.drivetrain.frontLeftTalon));
-		SmartDashboard.putNumber("Front Right Speed", Robot.drivetrain.getTalonVoltage(Robot.drivetrain.frontRightTalon));
+		SmartDashboard.putNumber("Front Right Speed", Robot.drivetrain.getTalonVoltage(Robot.drivetrain.frontRightTalon));*/
     }
 
     // Make this return true when this Command no longer needs to run execute()
