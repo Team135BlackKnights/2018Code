@@ -39,6 +39,7 @@ public class Robot extends TimedRobot {
 	public static OI oi;
 	public static Gyro gyro;
 	public static DriveTrain drivetrain;
+	//test
 
 	Command m_autonomousCommand;
 	Command getGameSpecificMessage;

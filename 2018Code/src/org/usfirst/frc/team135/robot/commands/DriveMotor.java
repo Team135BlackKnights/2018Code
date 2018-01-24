@@ -20,7 +20,7 @@ public class DriveMotor extends Command {
     	requires(Robot.drivetrain);
     	this.id = id;
     }
-
+//test
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.drivetrain.InitializeDriveTrain();
