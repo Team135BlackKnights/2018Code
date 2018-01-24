@@ -35,24 +35,19 @@ public class Gyro extends Subsystem {
 		return instance;
 	}
 	
-	
-	public double getRawAngle()
+	public void ZeroGyro()
 	{
-		return device.getAngle();
+		device.reset();
 	}
 	
-	public double getRawRate()
+	public double getAngle()
 	{
-		return device.getRate();
-	}
-	public double getCorrectedAngle()
-	{
-		return getRawAngle();
+		return device.getAngle(); //degrees
 	}
 	
-	public double getCorrectedRate()
+	public double getRate()
 	{
-		return device.getRate();
+		return device.getRate(); //degrees per second
 	}
 
     public void initDefaultCommand() {

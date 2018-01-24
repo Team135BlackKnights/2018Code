@@ -13,10 +13,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveJ extends Command {
 	
-    public DriveJ() 
+	private String Orientation;
+	
+    public DriveJ(String orientation) 
     {
     	requires(Robot.drivetrain);
     	requires(Robot.gyro);
+    	this.Orientation = orientation;
     }
 
     // Called just before this Command runs the first time
@@ -27,8 +30,14 @@ public class DriveJ extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	Robot.drivetrain.driveCartesianLocal(Robot.oi.GetX(), Robot.oi.GetY(), Robot.oi.GetTwist(),
-    									0);
+    if (Orientation == "Field")
+    {
+    	Robot.drivetrain.driveFieldOriented(Robot.oi.GetX(), Robot.oi.GetY(), Robot.oi.GetTwist(), Robot.gyro.getAngle());
+    }
+    else if (Orientation == "Robot")
+    {
+    	Robot.drivetrain.driveRobotOriented(Robot.oi.GetX(), Robot.oi.GetY(), Robot.oi.GetTwist());
+    }
     }
 
     // Make this return true when this Command no longer needs to run execute()
