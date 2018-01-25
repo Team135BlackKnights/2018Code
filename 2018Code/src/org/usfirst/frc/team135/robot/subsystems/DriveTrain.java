@@ -31,12 +31,17 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	
 	private static final int ENCODER_TICK_COUNT = 256;
 	private static final int ENCODER_QUAD_COUNT = (ENCODER_TICK_COUNT * 4);
-	private static final double MOTOR_SETPOINT = 1000; //revs per minute
-	private static final double MOTOR_SETPOINT_PER_100MS = (MOTOR_SETPOINT/60/10*ENCODER_QUAD_COUNT); 
+	private static final double MOTOR_SETPOINT_PER_100MS = 289; //NU/100 ms MAX SPEED for slowest motor
+	
+	//private static final double MOTOR_SETPOINT_PER_100MS = (MOTOR_SETPOINT/60/10*ENCODER_QUAD_COUNT); 
 															/*measures encoder ticks per 100ms
 															60 seconds per min  
 														    10 "100ms" per second
-														    4096 NU (native units) per revolution */
+														    256 NU (native units) per revolution
+														    for sp 1000 ~ 1706.666 NU/100ms 
+														    for sp 400 ~ 170.666 NU/100 ms
+														    max speed is 313 NU/100ms
+															*/
 	private double kP; 
 	private double kI;
 	private double kD;
@@ -50,7 +55,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		frontRightTalon = new WPI_TalonSRX(FRONT_RIGHT_TALON_ID);
 		frontLeftTalon = new WPI_TalonSRX(FRONT_LEFT_TALON_ID);
 		rearRightTalon = new WPI_TalonSRX(REAR_RIGHT_TALON_ID);
-		rearLeftTalon = new WPI_TalonSRX(REAR_LEFT_TALON_ID);
+		rearLeftTalon = new WPI_TalonSRX(REAR_LEFT_TALON_ID);		
 
 		ConfigureTalons(frontRightTalon, FRONT_RIGHT_TALON_ID);
 		ConfigureTalons(frontLeftTalon, FRONT_LEFT_TALON_ID);
@@ -62,14 +67,15 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	
 	public void ConfigureTalons(WPI_TalonSRX talon, int talon_id)
 	{
-		talon = new WPI_TalonSRX(talon_id);
+
 		talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
 		talon.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 10, 10);
 		talon.setSelectedSensorPosition(0, 0, 10);
-		talon.setSensorPhase(false); //make true is velocity readings do not correlate with spinning direction
 		
 		talon.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_100Ms, 10);
 		talon.configVelocityMeasurementWindow(64, 0);
+		
+		ConfigureEncoderDirection();
 	
 		kP = Preferences.getInstance().getDouble("P", 0);
 		kI = Preferences.getInstance().getDouble("I", 0);
@@ -81,13 +87,26 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		talon.config_kD(0, kD, 10);
 		talon.config_kF(0, kF, 10);
 		
-
 		InitializeDriveTrain();
+	}
+	
+	public void ConfigureEncoderDirection()
+	{
+		rearLeftTalon.setSensorPhase(false);
+		rearRightTalon.setSensorPhase(true);
+		frontLeftTalon.setSensorPhase(false);
+		frontRightTalon.setSensorPhase(true);
 	}
 	
 	public double returnPValue()
 	{
 		return kP;
+	}
+	
+	public double returnVelocity()
+	{
+		double value = frontRightTalon.getSelectedSensorVelocity(0);
+		return value;
 	}
 	
 	public void InitializeDriveTrain()
@@ -158,12 +177,12 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	{
 		if (id == REAR_LEFT_TALON_ID)
 		{
-			rearLeftTalon.set(ControlMode.Velocity, Robot.oi.GetManipY()*MOTOR_SETPOINT_PER_100MS); 
+			rearLeftTalon.set(ControlMode.Velocity, Robot.oi.GetManipY()*MOTOR_SETPOINT_PER_100MS);
 			//full throttle joystick so it returns value of 1 * setpoint = setpoint
 		}
 		if (id == REAR_RIGHT_TALON_ID)
 		{
-			rearRightTalon.set(ControlMode.Velocity, -Robot.oi.GetManipY()*MOTOR_SETPOINT_PER_100MS);
+			rearRightTalon.set(ControlMode.Velocity, Robot.oi.GetManipY()*MOTOR_SETPOINT_PER_100MS);
 		}
 		if (id == FRONT_LEFT_TALON_ID)
 		{
@@ -171,7 +190,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		}
 		if (id == FRONT_RIGHT_TALON_ID)
 		{
-			frontRightTalon.set(ControlMode.Velocity, -Robot.oi.GetManipY()*MOTOR_SETPOINT_PER_100MS);
+			frontRightTalon.set(ControlMode.Velocity, Robot.oi.GetManipY()*MOTOR_SETPOINT_PER_100MS);
 		}
 	}
 	
