@@ -9,23 +9,18 @@ package org.usfirst.frc.team135.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import org.usfirst.frc.team135.robot.Commons.*;
+import org.usfirst.frc.team135.robot.RobotMap.*;
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
-public class OI implements Commons
+public class OI implements RobotMap
 {
 	private static OI instance;
 	
-	private Joystick[] joysticks = new Joystick[3];
-	private JoystickButton[][] joystickButtons = new JoystickButton[3][12];
+private Joystick LEFT, RIGHT, MANIP;
 	
-	public static final int
-		LEFT = 0,
-		RIGHT = 1,
-		MANIP = 2;
 	
 	/*public static final int
 		BUTTON1 = 1,
@@ -42,37 +37,60 @@ public class OI implements Commons
 	
 	private OI()
 	{
-		for (int i = 0; i < 3; i++)
-		{
-			joysticks[i] = new Joystick(i);
-			
-			for (int j = 1; j <= 12; j++)
-			{
-				joystickButtons[i][j - 1] = new JoystickButton(joysticks[i], j);
-			}
-		}
+		LEFT = new Joystick(0);
+		RIGHT = new Joystick(1);
+		MANIP = new Joystick(2);
 		
 		assignButtons();
 	}
 	
-	public double GetY(int stick)
+	public double GetLeftY()
 	{
-		return joysticks[stick].getY();
+		return LEFT.getY();
 	}
 	
-	public double GetX(int stick)
+	public double GetLeftX()
 	{
-		return joysticks[stick].getX();
+		return LEFT.getX();
 	}
 	
-	public double GetTwist(int stick)
+	public double GetLeftTwist()
 	{
-		return joysticks[stick].getTwist();
+		return LEFT.getTwist();
+	}
+	public double GetRightY()
+	{
+		return RIGHT.getY();
+	}
+	
+	public double GetRightX()
+	{
+		return RIGHT.getX();
+	}
+	
+	public double GetRightTwist()
+	{
+		return RIGHT.getTwist();
+	}
+	
+	public double GetManipY()
+	{
+		return MANIP.getY();
+	}
+	
+	public double GetManipX()
+	{
+		return MANIP.getX();
+	}
+	
+	public double GetManipTwist()
+	{
+		return MANIP.getTwist();
 	}
 	
 	private void assignButtons()
 	{
 		
-	}
+	}	
 	
 }
