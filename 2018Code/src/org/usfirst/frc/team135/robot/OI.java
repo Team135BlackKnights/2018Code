@@ -53,14 +53,14 @@ public class OI implements RobotMap
 	{
 		return MANIP.getY();
 	}
-	public double GetY()
+	public double GetRightY()
 	{
 		return RIGHT.getY();
 	}
 	
-	public double GetX()
+	public double GetLeftX()
 	{
-		return RIGHT.getX();
+		return LEFT.getX();
 	}
 	
 	public double GetTwist()

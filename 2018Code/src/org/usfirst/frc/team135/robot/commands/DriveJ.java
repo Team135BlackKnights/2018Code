@@ -34,7 +34,7 @@ public class DriveJ extends Command {
     	
     if (Orientation == "Field")
     {
-    	Robot.drivetrain.driveFieldOriented(Robot.oi.GetX(), Robot.oi.GetY(), Robot.oi.GetTwist(), Robot.gyro.getAngle());
+    	Robot.drivetrain.driveFieldOriented(Robot.oi.GetLeftX(), Robot.oi.GetRightY(), Robot.oi.GetTwist(), Robot.gyro.getAngle());
 		SmartDashboard.putNumber("Rear Left Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearLeftTalon));
 		SmartDashboard.putNumber("Rear Right Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearRightTalon));
 		SmartDashboard.putNumber("Front Left Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.frontLeftTalon));
@@ -42,7 +42,7 @@ public class DriveJ extends Command {
     }
     else if (Orientation == "Robot")
     { 
-    	Robot.drivetrain.driveRobotOriented(Robot.oi.GetX(), Robot.oi.GetY(), Robot.oi.GetTwist());
+    	Robot.drivetrain.driveRobotOriented(Robot.oi.GetLeftX(), Robot.oi.GetRightY(), Robot.oi.GetTwist());
 		SmartDashboard.putNumber("Rear Left Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearLeftTalon));
 		SmartDashboard.putNumber("Rear Right Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearRightTalon));
 		SmartDashboard.putNumber("Front Left Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.frontLeftTalon));

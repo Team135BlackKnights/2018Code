@@ -66,7 +66,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	
 	public void ConfigureTalons(WPI_TalonSRX talon, int talon_id)
 	{
-
+		
 		talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
 		talon.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 10, 10);
 		talon.setSelectedSensorPosition(0, 0, 10);
