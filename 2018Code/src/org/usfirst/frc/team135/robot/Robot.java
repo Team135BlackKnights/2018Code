@@ -39,7 +39,7 @@ public class Robot extends TimedRobot {
 	public static OI oi;
 	public static Gyro gyro;
 	public static DriveTrain drivetrain;
-	
+	public static UltrasonicSensor sonar;
 
 	Command m_autonomousCommand;
 	Command getGameSpecificMessage;
@@ -53,6 +53,7 @@ public class Robot extends TimedRobot {
 		gyro = Gyro.getInstance();
 		drivetrain = DriveTrain.getInstance();
 		oi = OI.getInstance();	
+		sonar = sonar.getInstance();
 		
 		m_chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
