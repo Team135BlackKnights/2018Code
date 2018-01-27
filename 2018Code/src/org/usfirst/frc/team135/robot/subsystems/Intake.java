@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import org.usfirst.frc.team135.robot.commands.*;
+
 
 /**
  *
@@ -19,11 +21,9 @@ public class Intake extends Subsystem implements RobotMap{
 
 	private static WPI_VictorSPX rightWheel, leftWheel;
 	private static DoubleSolenoid claw;
-	private static DoubleSolenoid retraction;
+	public static DoubleSolenoid retraction;
 	private static Compressor compressor;
 	
-	boolean mandiblesRetracted;
-	boolean clawClosed;
 	boolean rightWheelInverted = true;
 	boolean leftWheelInverted = false;
 	
@@ -40,6 +40,13 @@ public class Intake extends Subsystem implements RobotMap{
 	
 	private Intake()
 	{
+		InitializeWheelMotors();
+		InitializePneumatics();
+
+	}
+	
+	public void InitializeWheelMotors()
+	{
 		rightWheel = new WPI_VictorSPX(RIGHT_WHEEL_VICTOR_ID);
 		leftWheel = new WPI_VictorSPX(LEFT_WHEEL_VICTOR_ID);
 		
@@ -47,31 +54,22 @@ public class Intake extends Subsystem implements RobotMap{
 		leftWheel.setInverted(leftWheelInverted);
 		rightWheel.setSafetyEnabled(false);
 		leftWheel.setSafetyEnabled(false);
-		
+	}
+	public void InitializePneumatics()
+	{
 		claw = new DoubleSolenoid(MANDIBLE_OPEN_CHANNEL, MANDIBLE_CLOSE_CHANNEL);
 		retraction = new DoubleSolenoid(RETRACT_IN_CHANNEL, RETRACT_OUT_CHANNEL);
 		
 		compressor = new Compressor(0);
 		compressor.setClosedLoopControl(true);
-		
-		clawClosed = false;
-		mandiblesRetracted = true;
+
 		claw.set(DoubleSolenoid.Value.kOff);
 		retraction.set(DoubleSolenoid.Value.kOff);
 	}
 
-	public void ActivateClaw()
+	public void ActivateClaw(DoubleSolenoid.Value value)
 	{
-		if (clawClosed)
-		{
-			claw.set(DoubleSolenoid.Value.kForward);
-			clawClosed = false;
-		}
-		else
-		{
-			claw.set(DoubleSolenoid.Value.kReverse);
-			clawClosed = true;
-		}
+		claw.set(value);
 	}
 	
 	public void DriveWheels(double power)
@@ -79,24 +77,20 @@ public class Intake extends Subsystem implements RobotMap{
 		rightWheel.set(power);
 		leftWheel.set(power);
 	}	
-	public void RetractMandibles()
+	public void MoveMandibles(DoubleSolenoid.Value value)
 	{
-		if (mandiblesRetracted)
-		{
-			retraction.set(DoubleSolenoid.Value.kForward);
-			mandiblesRetracted = false;
-		}
-		else
-		{
-			retraction.set(DoubleSolenoid.Value.kReverse);
-			mandiblesRetracted = true;
-		}
+		retraction.set(value);
+	}
+	public DoubleSolenoid.Value GetSolenoidPosition(DoubleSolenoid solenoid)
+	{
+		return solenoid.get();
 	}
 
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+    	setDefaultCommand(new DriveMandibleWheels());
     }
 }
 

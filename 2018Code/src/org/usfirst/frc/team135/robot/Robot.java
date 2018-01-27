@@ -15,6 +15,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team135.robot.commands.*;
 import org.usfirst.frc.team135.robot.subsystems.*;
 
+import org.usfirst.frc.team135.robot.subsystems.Intake;
+
+
+
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -25,7 +30,8 @@ import org.usfirst.frc.team135.robot.subsystems.*;
 public class Robot extends TimedRobot {
 	public static final ExampleSubsystem kExampleSubsystem
 			= new ExampleSubsystem();
-	private static OI oi;
+	public static OI oi;
+	public static Intake intake;
 
 	Command m_autonomousCommand;
 	Command getGameSpecificMessage;
@@ -36,7 +42,10 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotInit() {
+		intake = Intake.GetInstance();
+		
 		oi = OI.getInstance();
+
 		
 		m_chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());

@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.usfirst.frc.team135.robot.RobotMap.*;
 
+import org.usfirst.frc.team135.robot.commands.*;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -20,14 +22,10 @@ public class OI implements RobotMap
 	private static OI instance;
 	
 private Joystick LEFT, RIGHT, MANIP;
+
+private JoystickButton GRAB, RELEASE, RETRACT_MANDIBLES, EXTEND_MANDIBLES;
 	
-	
-	/*public static final int
-		BUTTON1 = 1,
-		BUTTON2 = 2,
-		ETC.
-	*/
-	
+
 	public static OI getInstance() {
 		if (instance == null) {
 			instance = new OI();
@@ -41,56 +39,81 @@ private Joystick LEFT, RIGHT, MANIP;
 		RIGHT = new Joystick(1);
 		MANIP = new Joystick(2);
 		
-		assignButtons();
+		ConfigureButtonMapping();
+	}
+	
+	public double SetThreshold(double value)
+	{
+		if (value <= .1 && value >= -.1)
+		{
+			return 0;
+		}
+		else
+		{
+			return value;
+		}
 	}
 	
 	public double GetLeftY()
 	{
-		return LEFT.getY();
+		return SetThreshold(LEFT.getY());
 	}
 	
 	public double GetLeftX()
 	{
-		return LEFT.getX();
+		return SetThreshold(LEFT.getX());
 	}
 	
 	public double GetLeftTwist()
 	{
-		return LEFT.getTwist();
+		return SetThreshold(LEFT.getTwist());
 	}
 	public double GetRightY()
 	{
-		return RIGHT.getY();
+		return SetThreshold(RIGHT.getY());
 	}
 	
 	public double GetRightX()
 	{
-		return RIGHT.getX();
+		return SetThreshold(RIGHT.getX());
 	}
 	
 	public double GetRightTwist()
 	{
-		return RIGHT.getTwist();
+		return SetThreshold(RIGHT.getTwist());
 	}
 	
 	public double GetManipY()
 	{
-		return MANIP.getY();
+		return SetThreshold(MANIP.getY());
 	}
 	
 	public double GetManipX()
 	{
-		return MANIP.getX();
+		return SetThreshold(MANIP.getX());
 	}
 	
 	public double GetManipTwist()
 	{
-		return MANIP.getTwist();
+		return SetThreshold(MANIP.getTwist());
 	}
 	
-	private void assignButtons()
+	void ConfigureButtonMapping()
 	{
+		GRAB = new JoystickButton(MANIP, 8);
+		RELEASE = new JoystickButton(MANIP, 9);
+		RETRACT_MANDIBLES = new JoystickButton(MANIP, 10);
+		EXTEND_MANDIBLES = new JoystickButton(MANIP, 11);
 		
+		AssignButtons();
+	}
+	private void AssignButtons()
+	{
+		GRAB.whenPressed(new GrabClaw());
+		RELEASE.whenPressed(new ReleaseClaw());
+		RETRACT_MANDIBLES.whenPressed(new RetractMandibles());
+		EXTEND_MANDIBLES.whenPressed(new ExtendMandibles());
+
 	}	
 	
 }
