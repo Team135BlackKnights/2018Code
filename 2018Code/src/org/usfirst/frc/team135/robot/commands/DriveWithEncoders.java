@@ -8,10 +8,16 @@ import org.usfirst.frc.team135.robot.*;
  */
 public class DriveWithEncoders extends Command {
 
-    public DriveWithEncoders() {
+	int FL,FR,BL,BR;
+	
+    public DriveWithEncoders(int fl, int fr, int bl, int br) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.drivetrain);
-       
+      
+       FL = fl;
+       FR = fr;
+       BL = bl;
+       BR = br;        
         
     }
 
@@ -23,14 +29,15 @@ public class DriveWithEncoders extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	EncoderDrive(256,256,256,256); //Forward
-    	EncoderDrive(0,256,0,256); //Forward Right
-    	EncoderDrive(256,-256,-256,256); //Right
-    	EncoderDrive(0,-256,-256,0); //BackRight
-    	EncoderDrive(-256,-256,-256,-256); //Back
-    	EncoderDrive(-256,0,0,-256); //BackLeft
-    	EncoderDrive(-256,256,256,-256); //Left
-    	EncoderDrive(0,256,256,0); //FrontLeft
+    	//EncoderDrive(256,256,256,256); //Forward
+    	//EncoderDrive(0,256,0,256); //Forward Right
+    	//EncoderDrive(256,-256,-256,256); //Right
+    	//EncoderDrive(0,-256,-256,0); //BackRight
+    	//EncoderDrive(-256,-256,-256,-256); //Back
+    	//EncoderDrive(-256,0,0,-256); //BackLeft
+    	//EncoderDrive(-256,256,256,-256); //Left
+    	//EncoderDrive(0,256,256,0); //FrontLeft
+    	EncoderDrive(FL, FR, BL, BR);
     	
     	
     }
@@ -48,7 +55,7 @@ public class DriveWithEncoders extends Command {
     	Robot.drivetrain.rearRightTalon.setSelectedSensorPosition(0, 0, 10);
     }
     
-    private void EncoderDrive(int FL, int FR, int BL, int BR,)
+    private void EncoderDrive(int FL, int FR, int BL, int BR)
     {
     	Robot.drivetrain.frontLeftTalon.setSelectedSensorPosition(FL, 0, 10);
     	Robot.drivetrain.frontRightTalon.setSelectedSensorPosition(FR, 0, 10);

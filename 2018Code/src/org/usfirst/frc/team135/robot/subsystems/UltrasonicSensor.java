@@ -9,11 +9,15 @@ import edu.wpi.first.wpilibj.*;
  */
 public class UltrasonicSensor extends Subsystem {
 
-    private static final int PING_PORT = 3;
-    private static final int ECHO_PORT = 4;
+    private static final int RIGHT_SONAR_PING_PORT = 3;
+    private static final int RIGHT_SONAR_ECHO_PORT = 4;
+    
+    private static final int BACK_SONAR_PING_PORT = 5;
+    private static final int BACK_SONAR_ECHO_PORT = 6;
     
     
-    private Ultrasonic sonar = new Ultrasonic(PING_PORT, ECHO_PORT);
+    private Ultrasonic rightSonar = new Ultrasonic(RIGHT_SONAR_PING_PORT, RIGHT_SONAR_ECHO_PORT);
+    private Ultrasonic backSonar = new Ultrasonic(BACK_SONAR_PING_PORT, BACK_SONAR_ECHO_PORT);
     private static UltrasonicSensor instance;
     
     
@@ -26,12 +30,19 @@ public class UltrasonicSensor extends Subsystem {
     	return instance;
     }
 
-    	public double GetSonarValue()
+    	public double GetRightSonarValue()
     	{
-    		double SonarDistance = sonar.getRangeInches();
-    		SmartDashboard.putNumber("SonarDistance: ",SonarDistance);
-    		return SonarDistance;
+    		double RightSonarDistance = rightSonar.getRangeInches();
+    		SmartDashboard.putNumber("Right Sonar Distance: ",RightSonarDistance);
+    		return RightSonarDistance;
     	}
+    	public double GetBackSonarValue()
+    	{
+    		double BackSonarDistance = backSonar.getRangeInches();
+    		SmartDashboard.putNumber("Back Sonar Distance: ", BackSonarDistance);
+    		return BackSonarDistance;
+    	}
+    	
     public void initDefaultCommand() {
         
     }
