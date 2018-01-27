@@ -15,9 +15,13 @@ public class UltrasonicSensor extends Subsystem {
     private static final int BACK_SONAR_PING_PORT = 5;
     private static final int BACK_SONAR_ECHO_PORT = 6;
     
+    private static final int LEFT_SONAR_PING_PORT = 7;
+    private static final int LEFT_SONAR_ECHO_PORT = 8;
+    
     
     private Ultrasonic rightSonar = new Ultrasonic(RIGHT_SONAR_PING_PORT, RIGHT_SONAR_ECHO_PORT);
     private Ultrasonic backSonar = new Ultrasonic(BACK_SONAR_PING_PORT, BACK_SONAR_ECHO_PORT);
+    private Ultrasonic leftSonar = new Ultrasonic(LEFT_SONAR_PING_PORT, LEFT_SONAR_ECHO_PORT);
     private static UltrasonicSensor instance;
     
     
@@ -41,6 +45,12 @@ public class UltrasonicSensor extends Subsystem {
     		double BackSonarDistance = backSonar.getRangeInches();
     		SmartDashboard.putNumber("Back Sonar Distance: ", BackSonarDistance);
     		return BackSonarDistance;
+    	}
+    	public double GetLeftSonarValue()
+    	{
+    		double LeftSonarDistance = leftSonar.getRangeInches();
+    		SmartDashboard.putNumber("Left Sonar Distance: ", LeftSonarDistance);
+    		return LeftSonarDistance;
     	}
     	
     public void initDefaultCommand() {
