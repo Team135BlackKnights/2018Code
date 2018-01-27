@@ -13,6 +13,7 @@ import org.usfirst.frc.team135.robot.Robot;
 import org.usfirst.frc.team135.robot.RobotMap;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -24,6 +25,14 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	private static DriveTrain instance;
 	public WPI_TalonSRX frontRightTalon, frontLeftTalon, rearRightTalon, rearLeftTalon;
 	private MecanumDrive chassis;
+	
+	private static final int FRONT_LEFT_ENCODER = FRONT_LEFT_TALON_ID;
+	private static final int FRONT_RIGHT_ENCODER = FRONT_RIGHT_TALON_ID;
+	private static final int REAR_LEFT_ENCODER = REAR_LEFT_TALON_ID;
+	private static final int REAR_RIGHT_ENCODER = REAR_RIGHT_TALON_ID;
+
+	
+	
 	
 	private static final int ENCODER_TICK_COUNT = 256;
 	private static final int ENCODER_QUAD_COUNT = (ENCODER_TICK_COUNT * 4);
@@ -60,6 +69,8 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		
 		
 		orientation = SmartDashboard.getString("Orientation (Robot/Field)", "Field");
+		
+		
 	}
 	
 	public void ConfigureTalons(WPI_TalonSRX talon, int talon_id)
@@ -77,7 +88,6 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		talon.config_kI(0, kI, 10);
 		talon.config_kD(0, kD, 10);
 		talon.config_kF(0, kF, 10);
-
 		InitializeDriveTrain();
 	}
 	
@@ -102,6 +112,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		return ((double)talon.getSelectedSensorPosition(0)) ;
 	}
 	
+	
 	public double getEncoderSpeed(WPI_TalonSRX talon)
 	{
 		return ((double)talon.getSelectedSensorVelocity(0));
@@ -110,7 +121,6 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	public void driveFieldOriented(double y, double x, double rotationalRate, double fieldOrientation)
 	{
 		chassis.driveCartesian(x, -y, rotationalRate, fieldOrientation);
-		
 	}
 	
 	public void driveRobotOriented(double x, double y, double rotationalRate)

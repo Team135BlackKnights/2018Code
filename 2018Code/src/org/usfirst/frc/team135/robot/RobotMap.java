@@ -10,13 +10,14 @@ package org.usfirst.frc.team135.robot;
 
 public interface RobotMap
 {
+	public static final int //TalonSRX Motor IDs
+	FRONT_LEFT_TALON_ID = 4,
+	FRONT_RIGHT_TALON_ID = 5,
+	REAR_LEFT_TALON_ID = 1,
+	REAR_RIGHT_TALON_ID = 2;
+	
+	
 
-	static final public int REAR_RIGHT_TALON_ID = 2;            //DriveTrainTalon IDs
-	static final public int FRONT_RIGHT_TALON_ID = 5;
-	static final public int REAR_LEFT_TALON_ID = 1;
-	static final public int FRONT_LEFT_TALON_ID = 4;
-	
-	
 }
 	
 
