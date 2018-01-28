@@ -49,25 +49,36 @@ public class OI implements RobotMap
 		ConfigureButtonMapping();
 	}
 	
+	public double SetThreshold(double value)
+	{
+		if ((value >= -0.15) && (value <= 0.15))
+		{
+			return 0;
+		}
+		else
+		{
+			return value;
+		}
+	}
+	
 	public double GetManipY()
 	{
-		return MANIP.getY();
+		return SetThreshold(MANIP.getY());
 	}
 	public double GetRightY()
 	{
-		return RIGHT.getY();
+		return SetThreshold(RIGHT.getY());
 	}
 	
 	public double GetLeftX()
 	{
-		return LEFT.getX();
+		return SetThreshold(LEFT.getX());
 	}
 	
 	public double GetTwist()
 	{
-		return RIGHT.getTwist() * .5;
-	}
-	
+		return SetThreshold(RIGHT.getTwist() * .5);
+	}	
 	
 	public void ConfigureButtonMapping()
 	{

@@ -18,6 +18,10 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
+import edu.wpi.first.wpilibj.drive.*;
+
+
+import edu.wpi.first.wpilibj.MotorSafetyHelper;
 
 /**
  *
@@ -32,19 +36,27 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	private static final int ENCODER_QUAD_COUNT = (ENCODER_TICK_COUNT * 4);
 	private static final double MOTOR_SETPOINT_PER_100MS = 289; //NU/100 ms MAX SPEED for slowest motor
 	
-	//private static final double MOTOR_SETPOINT_PER_100MS = (MOTOR_SETPOINT/60/10*ENCODER_QUAD_COUNT); 
-															/*measures encoder ticks per 100ms
-															60 seconds per min  
-														    10 "100ms" per second
-														    256 NU (native units) per revolution
-														    for sp 1000 ~ 1706.666 NU/100ms 
-														    for sp 400 ~ 170.666 NU/100 ms
-														    max speed is 313 NU/100ms
-															*/
-	private double kP; 
-	private double kI;
-	private double kD;
-	private double kF;
+	protected MotorSafetyHelper m_safetyHelper = new MotorSafetyHelper(chassis); //watchdog
+															
+	private double RearRightkP;  //PID constants for each of the drive talons
+	private double RearRightkI;
+	private double RearRightkD;
+	private double RearRightkF;
+	
+	private double RearLeftkP; 
+	private double RearLeftkI;
+	private double RearLeftkD;
+	private double RearLeftkF;
+	
+	private double FrontRightkP; 
+	private double FrontRightkI;
+	private double FrontRightkD;
+	private double FrontRightkF;
+	
+	private double FrontLeftkP; 
+	private double FrontLeftkI;
+	private double FrontLeftkD;
+	private double FrontLeftkF;
 
 	private String orientation;
 															
@@ -60,13 +72,13 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		ConfigureTalons(frontLeftTalon, FRONT_LEFT_TALON_ID);
 		ConfigureTalons(rearRightTalon, REAR_RIGHT_TALON_ID);
 		ConfigureTalons(rearLeftTalon, REAR_LEFT_TALON_ID);
-		
+	
 		orientation = Preferences.getInstance().getString("Orientation", "Robot");
 	}
 	
 	public void ConfigureTalons(WPI_TalonSRX talon, int talon_id)
 	{
-		
+		ConfigureEncoderDirection();
 		talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
 		talon.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 10, 10);
 		talon.setSelectedSensorPosition(0, 0, 10);
@@ -74,32 +86,15 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		talon.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_100Ms, 10);
 		talon.configVelocityMeasurementWindow(64, 0);
 		
-		ConfigureEncoderDirection();
-	
-		kP = Preferences.getInstance().getDouble("P", 0);
-		kI = Preferences.getInstance().getDouble("I", 0);
-		kD = Preferences.getInstance().getDouble("D", 0);
-		kF = Preferences.getInstance().getDouble("FeedForward", 0);
-		
-		talon.config_kP(0, kP, 10); //slot 0, value, timeoutMS
-		talon.config_kI(0, kI, 10);
-		talon.config_kD(0, kD, 10);
-		talon.config_kF(0, kF, 10);
-		
 		InitializeDriveTrain();
 	}
 	
 	public void ConfigureEncoderDirection()
 	{
-		rearLeftTalon.setSensorPhase(false);
+		rearLeftTalon.setSensorPhase(true);
 		rearRightTalon.setSensorPhase(true);
 		frontLeftTalon.setSensorPhase(false);
-		frontRightTalon.setSensorPhase(true);
-	}
-	
-	public double returnPValue()
-	{
-		return kP;
+		frontRightTalon.setSensorPhase(false);
 	}
 	
 	public double returnVelocity()
@@ -110,8 +105,49 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	
 	public void InitializeDriveTrain()
 	{
+		RearRightkP = Preferences.getInstance().getDouble("RearRightP", 0); //get PID constants from Dashboard
+		RearRightkI = Preferences.getInstance().getDouble("RearRightI", 0);
+		RearRightkD = Preferences.getInstance().getDouble("RearRightD", 0);
+		RearRightkF = Preferences.getInstance().getDouble("RearRightF", 0);
+		
+		RearLeftkP = Preferences.getInstance().getDouble("RearLeftP", 0);
+		RearLeftkI = Preferences.getInstance().getDouble("RearLeftI", 0);
+		RearLeftkD = Preferences.getInstance().getDouble("RearLeftD", 0);
+		RearLeftkF = Preferences.getInstance().getDouble("RearLeftF", 0);
+		
+		FrontRightkP = Preferences.getInstance().getDouble("FrontRightP", 0);
+		FrontRightkI = Preferences.getInstance().getDouble("FrontRightI", 0);
+		FrontRightkD = Preferences.getInstance().getDouble("FrontRightD", 0);
+		FrontRightkF = Preferences.getInstance().getDouble("FrontRightF", 0);
+		
+		FrontLeftkP = Preferences.getInstance().getDouble("FrontLeftP", 0);
+		FrontLeftkI = Preferences.getInstance().getDouble("FrontLeftI", 0);
+		FrontLeftkD = Preferences.getInstance().getDouble("FrontLeftD", 0);
+		FrontLeftkF = Preferences.getInstance().getDouble("FrontLeftF", 0);
+		
+		rearRightTalon.config_kP(0, RearRightkP, 10); //configure talons with PID constants
+		rearRightTalon.config_kI(0, RearRightkI, 10);
+		rearRightTalon.config_kD(0, RearRightkD, 10);
+		rearRightTalon.config_kF(0, RearRightkF, 10);
+		
+		frontRightTalon.config_kP(0, FrontRightkP, 10);
+		frontRightTalon.config_kI(0, FrontRightkI, 10);
+		frontRightTalon.config_kD(0, FrontRightkD, 10);
+		frontRightTalon.config_kF(0, FrontRightkF, 10);
+		
+		rearLeftTalon.config_kP(0, RearLeftkP, 10);
+		rearLeftTalon.config_kI(0, RearLeftkI, 10);
+		rearLeftTalon.config_kD(0, RearLeftkD, 10);
+		rearLeftTalon.config_kF(0, RearLeftkF, 10);
+		
+		frontLeftTalon.config_kP(0, FrontLeftkP, 10);
+		frontLeftTalon.config_kI(0, FrontLeftkI, 10);
+		frontLeftTalon.config_kD(0, FrontLeftkD, 10);
+		frontLeftTalon.config_kF(0, FrontLeftkF, 10);
+		
 		chassis = new MecanumDrive(frontLeftTalon, rearLeftTalon,
-								  frontRightTalon, rearRightTalon);
+								  frontRightTalon, rearRightTalon); //not really needed since we are doing speed-control
+
 		chassis.setDeadband(.15);
 		chassis.setSafetyEnabled(false);
 	}
@@ -136,13 +172,27 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	
 	public void driveFieldOriented(double y, double x, double rotationalRate, double fieldOrientation)
 	{
-		chassis.driveCartesian(x, -y, rotationalRate, fieldOrientation);
+		//chassis.driveCartesian(x, -y, rotationalRate, fieldOrientation);
 		
 	}
 	
 	public void driveRobotOriented(double x, double y, double rotationalRate)
 	{
-		chassis.driveCartesian(x, -y, rotationalRate);
+		Vector2d input = new Vector2d(x, -y);
+		
+		double rearLeftSpeed, rearRightSpeed, frontLeftSpeed, frontRightSpeed;
+		
+		rearLeftSpeed = (-input.x +input.y + rotationalRate) *MOTOR_SETPOINT_PER_100MS;
+		rearRightSpeed = (-input.x -input.y +rotationalRate)*MOTOR_SETPOINT_PER_100MS;
+		frontLeftSpeed = (input.x +input.y + rotationalRate)*MOTOR_SETPOINT_PER_100MS;
+		frontRightSpeed = (input.x -input.y +rotationalRate)*MOTOR_SETPOINT_PER_100MS;
+		
+		rearLeftTalon.set(ControlMode.Velocity, rearLeftSpeed);
+		rearRightTalon.set(ControlMode.Velocity, rearRightSpeed);
+		frontLeftTalon.set(ControlMode.Velocity, frontLeftSpeed);
+		frontRightTalon.set(ControlMode.Velocity, frontRightSpeed);
+		
+	    m_safetyHelper.feed(); //"watchdog.feed()"
 	}
 
 	
@@ -192,12 +242,6 @@ public class DriveTrain extends Subsystem implements RobotMap{
 			frontRightTalon.set(ControlMode.Velocity, Robot.oi.GetManipY()*MOTOR_SETPOINT_PER_100MS);
 		}
 	}
-	
-	public double getTalonVoltage(WPI_TalonSRX talon)
-	{
-		return talon.getMotorOutputVoltage();
-	}
-
 		
     public void initDefaultCommand() 
     {
