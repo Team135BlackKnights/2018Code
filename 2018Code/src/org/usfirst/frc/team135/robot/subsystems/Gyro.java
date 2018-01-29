@@ -12,13 +12,13 @@ public class Gyro extends Subsystem {
 	
 	private Timer timer;
 	
-	private ADXRS450_Gyro device;
+	private ADXRS450_Gyro gyro;
 	
 	private Gyro()
 	{
-		device = new ADXRS450_Gyro();
-		device.reset();
-		device.calibrate();
+		gyro = new ADXRS450_Gyro();
+		gyro.reset();
+		gyro.calibrate();
 		
 		timer = new Timer();
 		
@@ -37,17 +37,17 @@ public class Gyro extends Subsystem {
 	
 	public void ZeroGyro()
 	{
-		device.reset();
+		gyro.reset();
 	}
 	
 	public double getAngle()
 	{
-		return device.getAngle(); //degrees
+		return gyro.getAngle(); //degrees
 	}
 	
 	public double getRate()
 	{
-		return device.getRate(); //degrees per second
+		return gyro.getRate(); //degrees per second
 	}
 
     public void initDefaultCommand() {

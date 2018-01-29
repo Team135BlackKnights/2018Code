@@ -23,6 +23,9 @@ import edu.wpi.first.wpilibj.drive.*;
 
 
 import edu.wpi.first.wpilibj.MotorSafetyHelper;
+import edu.wpi.first.wpilibj.drive.RobotDriveBase;
+
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 /**
  *
@@ -38,12 +41,12 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	private static final double MOTOR_SETPOINT_PER_100MS = 289; //NU/100 ms MAX SPEED for slowest motor
 	
 	protected MotorSafetyHelper m_safetyHelper = new MotorSafetyHelper(chassis); //watchdog
-															
+	
 	private double RearRightkP;  //PID constants for each of the drive talons
 	private double RearRightkI;
 	private double RearRightkD;
 	private double RearRightkF;
-	
+
 	private double RearLeftkP; 
 	private double RearLeftkI;
 	private double RearLeftkD;
@@ -60,7 +63,9 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	private double FrontLeftkF;
 
 	private String orientation;
-															
+				
+
+	
 	private DriveTrain()
 	{
 		
@@ -73,6 +78,8 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		ConfigureTalons(frontLeftTalon, FRONT_LEFT_TALON_ID);
 		ConfigureTalons(rearRightTalon, REAR_RIGHT_TALON_ID);
 		ConfigureTalons(rearLeftTalon, REAR_LEFT_TALON_ID);
+		
+		InitializeDriveTrain();
 	
 		orientation = Preferences.getInstance().getString("Orientation", "Robot");
 	}
@@ -81,7 +88,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	{
 		ConfigureEncoderDirection();
 		
-		talon.setNeutralMode(NeutralMode.Coast);
+		talon.setNeutralMode(NeutralMode.Brake);
 		talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
 		talon.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 10, 10);
 		talon.setSelectedSensorPosition(0, 0, 10);
@@ -89,15 +96,15 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		talon.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_100Ms, 10);
 		talon.configVelocityMeasurementWindow(64, 0);
 		
-		InitializeDriveTrain();
+		//InitializeDriveTrain();
 	}
 	
 	public void ConfigureEncoderDirection()
 	{
-		rearLeftTalon.setSensorPhase(true);
-		rearRightTalon.setSensorPhase(true);
+		rearLeftTalon.setSensorPhase(false); //true
+		rearRightTalon.setSensorPhase(true); 
 		frontLeftTalon.setSensorPhase(false);
-		frontRightTalon.setSensorPhase(false);
+		frontRightTalon.setSensorPhase(true); //false
 	}
 	
 	public double returnVelocity()
@@ -151,7 +158,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		chassis = new MecanumDrive(frontLeftTalon, rearLeftTalon,
 								  frontRightTalon, rearRightTalon); //not really needed since we are doing speed-control
 
-		chassis.setDeadband(.15);
+		chassis.setDeadband(.10);
 		chassis.setSafetyEnabled(false);
 	}
 	public static DriveTrain getInstance()
@@ -184,20 +191,21 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		
 		double rearLeftSpeed, rearRightSpeed, frontLeftSpeed, frontRightSpeed, maxRightSpeed, maxLeftSpeed, maxSpeed;
 		
-		rearLeftSpeed = (-input.x +input.y + rotationalRate);
-		rearRightSpeed = (-input.x -input.y +rotationalRate);
-		frontLeftSpeed = (input.x +input.y + rotationalRate);
-		frontRightSpeed = (input.x -input.y +rotationalRate);
+		rearLeftSpeed = (-input.x +input.y + rotationalRate)*MOTOR_SETPOINT_PER_100MS;
+		rearRightSpeed = (-input.x -input.y +rotationalRate)*MOTOR_SETPOINT_PER_100MS;
+		frontLeftSpeed = (input.x +input.y + rotationalRate)*MOTOR_SETPOINT_PER_100MS;
+		frontRightSpeed = (input.x -input.y +rotationalRate)*MOTOR_SETPOINT_PER_100MS;
 		
-		maxLeftSpeed = java.lang.Math.max(rearLeftSpeed, rearRightSpeed);
-		maxRightSpeed = java.lang.Math.max(rearRightSpeed, frontRightSpeed);
+		//maxLeftSpeed = java.lang.Math.max(rearLeftSpeed, rearRightSpeed);
+		//maxRightSpeed = java.lang.Math.max(rearRightSpeed, frontRightSpeed);
 		
-		maxSpeed = java.lang.Math.max(maxLeftSpeed, maxRightSpeed); 
+		//maxSpeed = java.lang.Math.max(maxLeftSpeed, maxRightSpeed); 
 		
-		rearLeftSpeed = (rearLeftSpeed/maxLeftSpeed)*MOTOR_SETPOINT_PER_100MS;
-		rearRightSpeed = (rearRightSpeed/maxLeftSpeed)*MOTOR_SETPOINT_PER_100MS;
-		frontLeftSpeed = (frontLeftSpeed/maxRightSpeed)*MOTOR_SETPOINT_PER_100MS;
-		frontRightSpeed = (frontRightSpeed/maxRightSpeed)*MOTOR_SETPOINT_PER_100MS;
+		/*rearLeftSpeed = (rearLeftSpeed/maxLeftSpeed)*MOTOR_SETPOINT_PER_100MS;
+		rearRightSpeed = (rearRightSpeed/maxRightSpeed)*MOTOR_SETPOINT_PER_100MS;
+		
+		frontLeftSpeed = (frontLeftSpeed/maxLeftSpeed)*MOTOR_SETPOINT_PER_100MS;
+		frontRightSpeed = (frontRightSpeed/maxRightSpeed)*MOTOR_SETPOINT_PER_100MS;*/
 		
 		rearLeftTalon.set(ControlMode.Velocity, rearLeftSpeed);
 		rearRightTalon.set(ControlMode.Velocity, rearRightSpeed);
@@ -205,12 +213,6 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		frontRightTalon.set(ControlMode.Velocity, frontRightSpeed);
 		
 	    m_safetyHelper.feed(); //"watchdog.feed()"
-	}
-
-	
-	public void drivePolar(double magnitude, double angle, double rotationalRate)
-	{
-		chassis.drivePolar(magnitude, angle, rotationalRate);
 	}
 	
 	public void driveSingleMotorPower(int id)
@@ -230,8 +232,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		if (id == FRONT_RIGHT_TALON_ID)
 		{
 			frontRightTalon.set(-Robot.oi.GetManipY());
-		}
-		
+		}	
 	}
 	
 	public void driveSingleMotorVelocity(int id)
@@ -254,10 +255,10 @@ public class DriveTrain extends Subsystem implements RobotMap{
 			frontRightTalon.set(ControlMode.Velocity, Robot.oi.GetManipY()*MOTOR_SETPOINT_PER_100MS);
 		}
 	}
+
 		
     public void initDefaultCommand() 
     {
     	setDefaultCommand(new DriveJ(orientation));
-    }
-   
+    } 
 }

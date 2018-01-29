@@ -87,7 +87,6 @@ public class OI implements RobotMap
 		DRIVE_FRONT_LEFT = new JoystickButton(MANIP, 5);
 		DRIVE_FRONT_RIGHT = new JoystickButton(MANIP, 6);
 		assignButtons();
-		
 	}
 	
 	public void assignButtons()
