@@ -1,21 +1,22 @@
 package org.usfirst.frc.team135.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import org.usfirst.frc.team135.robot.*;
 import edu.wpi.first.wpilibj.*;
 
 /**
  *
  */
-public class MiddleAutoTest extends Command {
+public class MiddleAutoTest extends CommandGroup {
 
 	
-	private String Orientation;
-    public MiddleAutoTest(String orientation) {
+	//private String Orientation;
+    public MiddleAutoTest() {
         requires(Robot.drivetrain);
         
         
-    	this.Orientation = orientation;
+    	//this.Orientation = orientation;
 
         
     }
@@ -47,18 +48,18 @@ public class MiddleAutoTest extends Command {
 
     	private void SonarManager()
     	{
-    		if (Robot.sonar.GetRightSonarValue() >= 30 && Robot.sonar.GetBackSonarValue() <= 145) //Goes at 30 Degrees
+    		if (Robot.sonar.GetLeftSonarValue() >= 30 && Robot.sonar.GetFrontSonarValue() <= 145) //Goes at 30 Degrees
     		{
     			Robot.drivetrain.driveFieldOriented(1, Math.tan(30), 0, 0);
     		}
-    		else if (Robot.sonar.GetRightSonarValue() <= 30 && Robot.sonar.GetBackSonarValue() <= 145) //Continues going up
+    	/*	else if (Robot.sonar.GetLeftSonarValue() <= 30 && Robot.sonar.GetFrontSonarValue() <= 145) //Continues going up
     		{
     			Robot.drivetrain.driveFieldOriented(0, 1, 0, 0);
     		}
-    		else if (Robot.sonar.GetRightSonarValue() >= 30 && Robot.sonar.GetBackSonarValue() >= 145) //Continues going right
+    		else if (Robot.sonar.GetLeftSonarValue() >= 30 && Robot.sonar.GetFrontSonarValue() >= 145) //Continues going right
     		{
     			Robot.drivetrain.driveFieldOriented(1, 0, 0, 0);
-    		}
+    		}*/
     		else //Don't drive at all
     		{
     			Robot.drivetrain.driveFieldOriented(0, 0, 0, 0); 
@@ -66,9 +67,9 @@ public class MiddleAutoTest extends Command {
     	}
     	private void GoToSwitch()
     	{
-    		if (Robot.sonar.GetRightSonarValue() <= 51.75)
+    		if (Robot.sonar.GetFrontSonarValue() <= 20)
     		{
-    			Robot.drivetrain.driveFieldOriented(-1, 0, 0, 0);
+    			Robot.drivetrain.driveFieldOriented(0, 1, 0, 0);
     		}
     		else
     		{

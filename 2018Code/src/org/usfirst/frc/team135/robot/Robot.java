@@ -57,7 +57,7 @@ public class Robot extends TimedRobot {
 		sonar = sonar.getInstance();
 		
 		m_chooser.addDefault("Default Auto", new ExampleCommand());
-		m_chooser.addObject("Right Switch", new MiddleAutoTest());
+		m_chooser.addObject("Right Switch", new MiddleStation_RightSwitch());
 		SmartDashboard.putData("Auto mode", m_chooser);
 		
 	}
