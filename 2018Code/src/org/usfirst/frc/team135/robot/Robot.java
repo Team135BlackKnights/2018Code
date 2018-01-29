@@ -21,6 +21,7 @@ import org.usfirst.frc.team135.robot.commands.DriveStraight;
 import org.usfirst.frc.team135.robot.commands.ExampleCommand;
 import org.usfirst.frc.team135.robot.commands.GetGameSpecificMessage;
 import org.usfirst.frc.team135.robot.commands.SetSmartDashboardKeys;
+import org.usfirst.frc.team135.robot.commands.MiddleAutoTest;
 
 import org.usfirst.frc.team135.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team135.robot.subsystems.Gyro;
@@ -56,10 +57,8 @@ public class Robot extends TimedRobot {
 		sonar = sonar.getInstance();
 		
 		m_chooser.addDefault("Default Auto", new ExampleCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
+		m_chooser.addObject("Right Switch", new MiddleAutoTest());
 		SmartDashboard.putData("Auto mode", m_chooser);
-
-		
 		
 	}
 

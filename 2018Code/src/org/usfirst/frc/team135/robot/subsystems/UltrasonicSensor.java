@@ -17,6 +17,8 @@ public class UltrasonicSensor extends Subsystem {
     
     private static final int LEFT_SONAR_PING_PORT = 7;
     private static final int LEFT_SONAR_ECHO_PORT = 8;
+    // 2015: Front Trig 1 Echo 2
+    // 2015: Left Trig 6 Echo 5
     
     
     private Ultrasonic rightSonar = new Ultrasonic(RIGHT_SONAR_PING_PORT, RIGHT_SONAR_ECHO_PORT);
