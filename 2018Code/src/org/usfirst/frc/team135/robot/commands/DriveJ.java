@@ -18,7 +18,7 @@ public class DriveJ extends Command {
     public DriveJ(String orientation) 
     {
     	requires(Robot.drivetrain);
-    	requires(Robot.gyro);
+    //	requires(Robot.gyro);
     	this.Orientation = orientation;
     }
     
@@ -26,7 +26,7 @@ public class DriveJ extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.drivetrain.InitializeDriveTrain();
-    	Robot.gyro.ZeroGyro();
+    	//Robot.gyro.ZeroGyro();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -34,7 +34,7 @@ public class DriveJ extends Command {
     	
     if (Orientation == "Field")
     {
-    	Robot.drivetrain.driveFieldOriented(Robot.oi.GetLeftX(), Robot.oi.GetRightY(), Robot.oi.GetTwist(), Robot.gyro.getAngle());
+    	Robot.drivetrain.driveFieldOriented(Robot.oi.GetLeftX(), Robot.oi.GetRightY(), Robot.oi.GetTwist(), 0);
 		SmartDashboard.putNumber("Rear Left Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearLeftTalon));
 		SmartDashboard.putNumber("Rear Right Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearRightTalon));
 		SmartDashboard.putNumber("Front Left Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.frontLeftTalon));

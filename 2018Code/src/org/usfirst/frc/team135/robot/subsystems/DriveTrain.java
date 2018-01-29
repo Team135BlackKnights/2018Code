@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
+import java.util.*;
 /**
  *
  */
@@ -35,6 +36,9 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	private static DriveTrain instance;
 	public WPI_TalonSRX frontRightTalon, frontLeftTalon, rearRightTalon, rearLeftTalon;
 	private MecanumDrive chassis; 
+	
+	private ADXRS450_Gyro gyro;
+	private static final int angleSetPoint = 0;
 	
 	private static final int ENCODER_TICK_COUNT = 256;
 	private static final int ENCODER_QUAD_COUNT = (ENCODER_TICK_COUNT * 4);
@@ -63,11 +67,10 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	private double FrontLeftkF;
 
 	private String orientation;
-				
-
-	
+			
 	private DriveTrain()
 	{
+		gyro = new ADXRS450_Gyro();
 		
 		frontRightTalon = new WPI_TalonSRX(FRONT_RIGHT_TALON_ID);
 		frontLeftTalon = new WPI_TalonSRX(FRONT_LEFT_TALON_ID);
@@ -189,28 +192,24 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	{
 		Vector2d input = new Vector2d(x, -y);
 		
-		double rearLeftSpeed, rearRightSpeed, frontLeftSpeed, frontRightSpeed, maxRightSpeed, maxLeftSpeed, maxSpeed;
+		Double rearLeftSpeed, rearRightSpeed, frontLeftSpeed, frontRightSpeed, maxRightSpeed, maxLeftSpeed, maxSpeed;
 		
-		rearLeftSpeed = (-input.x +input.y + rotationalRate)*MOTOR_SETPOINT_PER_100MS;
-		rearRightSpeed = (-input.x -input.y +rotationalRate)*MOTOR_SETPOINT_PER_100MS;
-		frontLeftSpeed = (input.x +input.y + rotationalRate)*MOTOR_SETPOINT_PER_100MS;
-		frontRightSpeed = (input.x -input.y +rotationalRate)*MOTOR_SETPOINT_PER_100MS;
+		rearLeftSpeed = (-input.x +input.y + rotationalRate);
+		rearRightSpeed = (-input.x -input.y +rotationalRate);
+		frontLeftSpeed = (input.x +input.y + rotationalRate);
+		frontRightSpeed = (input.x -input.y +rotationalRate);
 		
-		//maxLeftSpeed = java.lang.Math.max(rearLeftSpeed, rearRightSpeed);
-		//maxRightSpeed = java.lang.Math.max(rearRightSpeed, frontRightSpeed);
+		normalize(frontLeftSpeed, rearRightSpeed, frontRightSpeed, rearRightSpeed);
 		
-		//maxSpeed = java.lang.Math.max(maxLeftSpeed, maxRightSpeed); 
-		
-		/*rearLeftSpeed = (rearLeftSpeed/maxLeftSpeed)*MOTOR_SETPOINT_PER_100MS;
-		rearRightSpeed = (rearRightSpeed/maxRightSpeed)*MOTOR_SETPOINT_PER_100MS;
-		
-		frontLeftSpeed = (frontLeftSpeed/maxLeftSpeed)*MOTOR_SETPOINT_PER_100MS;
-		frontRightSpeed = (frontRightSpeed/maxRightSpeed)*MOTOR_SETPOINT_PER_100MS;*/
-		
-		rearLeftTalon.set(ControlMode.Velocity, rearLeftSpeed);
+		/*rearLeftTalon.set(ControlMode.Velocity, rearLeftSpeed);
 		rearRightTalon.set(ControlMode.Velocity, rearRightSpeed);
 		frontLeftTalon.set(ControlMode.Velocity, frontLeftSpeed);
-		frontRightTalon.set(ControlMode.Velocity, frontRightSpeed);
+		frontRightTalon.set(ControlMode.Velocity, frontRightSpeed);*/
+	
+		rearLeftTalon.set(ControlMode.Velocity, rearLeftSpeed*MOTOR_SETPOINT_PER_100MS);
+		rearRightTalon.set(ControlMode.Velocity, rearRightSpeed*MOTOR_SETPOINT_PER_100MS);
+		frontLeftTalon.set(ControlMode.Velocity, frontLeftSpeed*MOTOR_SETPOINT_PER_100MS);
+		frontRightTalon.set(ControlMode.Velocity, frontRightSpeed*MOTOR_SETPOINT_PER_100MS);
 		
 	    m_safetyHelper.feed(); //"watchdog.feed()"
 	}
@@ -253,6 +252,28 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		if (id == FRONT_RIGHT_TALON_ID)
 		{
 			frontRightTalon.set(ControlMode.Velocity, Robot.oi.GetManipY()*MOTOR_SETPOINT_PER_100MS);
+		}
+	}
+	
+	private void normalize(Double FL, Double BL, Double FR, Double BR) 
+	{
+		double 
+		_FL = Math.abs(FL),
+		_BL = Math.abs(BL),
+		_FR = Math.abs(FR),
+		_BR = Math.abs(BR);
+	
+		//Use java collections to find the max rather than a loop. 
+		//Just pass a temporary arraylist for it to use
+		double maxMagnitude = Collections.max(Arrays.asList(new Double[] {_FL, _BL, _FR, _BR}));
+		
+		//In a normal situation speeds are between -1.0 and 1.0
+		if (maxMagnitude > 1.0) 
+		{
+			FL /= maxMagnitude;
+			BL /= maxMagnitude;
+			FR /= maxMagnitude;
+			BR /= maxMagnitude;
 		}
 	}
 

@@ -19,7 +19,7 @@ public class DriveStraight extends Command {
     public DriveStraight() 
     {
     	requires(Robot.drivetrain);
-    	requires(Robot.gyro);
+    
     	angleOut = new AngleOut();
     	//angleController = new PIDController(0.0, 0.0, 0.0, Robot.gyro.getPIDSource(), angleOut);
     }

@@ -23,7 +23,6 @@ import org.usfirst.frc.team135.robot.commands.GetGameSpecificMessage;
 import org.usfirst.frc.team135.robot.commands.SetSmartDashboardKeys;
 
 import org.usfirst.frc.team135.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team135.robot.subsystems.Gyro;
 import org.usfirst.frc.team135.robot.subsystems.ExampleSubsystem;
 
 /**
@@ -37,7 +36,7 @@ public class Robot extends TimedRobot {
 	public static final ExampleSubsystem kExampleSubsystem
 			= new ExampleSubsystem();
 	public static OI oi;
-	public static Gyro gyro;
+
 	public static DriveTrain drivetrain;
 	
 
@@ -50,7 +49,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotInit() {
-		gyro = Gyro.getInstance();
 		drivetrain = DriveTrain.getInstance();
 		
 		oi = OI.getInstance();	
