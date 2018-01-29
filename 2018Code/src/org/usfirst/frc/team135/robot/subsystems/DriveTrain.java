@@ -4,6 +4,7 @@ import org.usfirst.frc.team135.robot.commands.*;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -30,7 +31,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 
 	private static DriveTrain instance;
 	public WPI_TalonSRX frontRightTalon, frontLeftTalon, rearRightTalon, rearLeftTalon;
-	private MecanumDrive chassis;
+	private MecanumDrive chassis; 
 	
 	private static final int ENCODER_TICK_COUNT = 256;
 	private static final int ENCODER_QUAD_COUNT = (ENCODER_TICK_COUNT * 4);
@@ -79,6 +80,8 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	public void ConfigureTalons(WPI_TalonSRX talon, int talon_id)
 	{
 		ConfigureEncoderDirection();
+		
+		talon.setNeutralMode(NeutralMode.Coast);
 		talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
 		talon.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 10, 10);
 		talon.setSelectedSensorPosition(0, 0, 10);
@@ -172,20 +175,29 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	
 	public void driveFieldOriented(double y, double x, double rotationalRate, double fieldOrientation)
 	{
-		//chassis.driveCartesian(x, -y, rotationalRate, fieldOrientation);
-		
+		//chassis.driveCartesian(x, -y, rotationalRate, fieldOrientation);	
 	}
 	
 	public void driveRobotOriented(double x, double y, double rotationalRate)
 	{
 		Vector2d input = new Vector2d(x, -y);
 		
-		double rearLeftSpeed, rearRightSpeed, frontLeftSpeed, frontRightSpeed;
+		double rearLeftSpeed, rearRightSpeed, frontLeftSpeed, frontRightSpeed, maxRightSpeed, maxLeftSpeed, maxSpeed;
 		
-		rearLeftSpeed = (-input.x +input.y + rotationalRate) *MOTOR_SETPOINT_PER_100MS;
-		rearRightSpeed = (-input.x -input.y +rotationalRate)*MOTOR_SETPOINT_PER_100MS;
-		frontLeftSpeed = (input.x +input.y + rotationalRate)*MOTOR_SETPOINT_PER_100MS;
-		frontRightSpeed = (input.x -input.y +rotationalRate)*MOTOR_SETPOINT_PER_100MS;
+		rearLeftSpeed = (-input.x +input.y + rotationalRate);
+		rearRightSpeed = (-input.x -input.y +rotationalRate);
+		frontLeftSpeed = (input.x +input.y + rotationalRate);
+		frontRightSpeed = (input.x -input.y +rotationalRate);
+		
+		maxLeftSpeed = java.lang.Math.max(rearLeftSpeed, rearRightSpeed);
+		maxRightSpeed = java.lang.Math.max(rearRightSpeed, frontRightSpeed);
+		
+		maxSpeed = java.lang.Math.max(maxLeftSpeed, maxRightSpeed); 
+		
+		rearLeftSpeed = (rearLeftSpeed/maxLeftSpeed)*MOTOR_SETPOINT_PER_100MS;
+		rearRightSpeed = (rearRightSpeed/maxLeftSpeed)*MOTOR_SETPOINT_PER_100MS;
+		frontLeftSpeed = (frontLeftSpeed/maxRightSpeed)*MOTOR_SETPOINT_PER_100MS;
+		frontRightSpeed = (frontRightSpeed/maxRightSpeed)*MOTOR_SETPOINT_PER_100MS;
 		
 		rearLeftTalon.set(ControlMode.Velocity, rearLeftSpeed);
 		rearRightTalon.set(ControlMode.Velocity, rearRightSpeed);
