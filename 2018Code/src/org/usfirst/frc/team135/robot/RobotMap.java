@@ -10,5 +10,8 @@ package org.usfirst.frc.team135.robot;
 
 public interface RobotMap 
 {
+	public static final int HANG_VICTOR_ID = 3;
+	
+	public static final int HANG_SOLENOID_CHANNEL = 5;
 
 }

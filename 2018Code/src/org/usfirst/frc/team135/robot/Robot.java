@@ -26,6 +26,7 @@ public class Robot extends TimedRobot {
 	public static final ExampleSubsystem kExampleSubsystem
 			= new ExampleSubsystem();
 	private static OI oi;
+	public static Hang hang;
 
 	Command m_autonomousCommand;
 	Command getGameSpecificMessage;
@@ -36,14 +37,13 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotInit() {
-		oi = OI.getInstance();
+		hang = Hang.getInstance();
 		
+		
+		oi = OI.getInstance();
 		m_chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
-
-		
-		
 	}
 
 	/**
@@ -118,7 +118,6 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 	}
-
 	/**
 	 * This function is called periodically during test mode.
 	 */

@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.usfirst.frc.team135.robot.RobotMap.*;
 
+import org.usfirst.frc.team135.robot.commands.*;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -21,12 +23,7 @@ public class OI implements RobotMap
 	
 private Joystick LEFT, RIGHT, MANIP;
 	
-	
-	/*public static final int
-		BUTTON1 = 1,
-		BUTTON2 = 2,
-		ETC.
-	*/
+private JoystickButton DRIVE_HANG, DEPLOY_HANG;
 	
 	public static OI getInstance() {
 		if (instance == null) {
@@ -41,7 +38,7 @@ private Joystick LEFT, RIGHT, MANIP;
 		RIGHT = new Joystick(1);
 		MANIP = new Joystick(2);
 		
-		assignButtons();
+		ConfigureButtonMapping();
 	}
 	
 	public double GetLeftY()
@@ -88,9 +85,16 @@ private Joystick LEFT, RIGHT, MANIP;
 		return MANIP.getTwist();
 	}
 	
-	private void assignButtons()
+	private void ConfigureButtonMapping()
 	{
-		
+		DRIVE_HANG = new JoystickButton(MANIP, 1);
+		DEPLOY_HANG = new JoystickButton(MANIP, 2);
+		AssignButtons();
+	}
+	private void AssignButtons()
+	{
+		DRIVE_HANG.whileHeld(new DriveHangMotor());
+		DEPLOY_HANG.whenPressed(new DeployHang());
 	}	
 	
 }
