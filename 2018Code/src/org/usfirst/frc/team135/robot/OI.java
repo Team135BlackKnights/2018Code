@@ -63,11 +63,11 @@ public class OI implements RobotMap
 	
 	public double GetManipY()
 	{
-		return SetThreshold(MANIP.getY());
+		return -SetThreshold(MANIP.getY());
 	}
 	public double GetRightY()
 	{
-		return SetThreshold(RIGHT.getY());
+		return -SetThreshold(RIGHT.getY());
 	}
 	
 	public double GetLeftX()

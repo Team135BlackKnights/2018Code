@@ -1,6 +1,7 @@
 package org.usfirst.frc.team135.robot.subsystems;
 
 import org.usfirst.frc.team135.robot.commands.*;
+import org.usfirst.frc.team135.robot.extra.PIDOut;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -23,6 +24,7 @@ import edu.wpi.first.wpilibj.drive.*;
 
 
 import edu.wpi.first.wpilibj.MotorSafetyHelper;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
@@ -44,7 +46,11 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	private static final int ENCODER_QUAD_COUNT = (ENCODER_TICK_COUNT * 4);
 	private static final double MOTOR_SETPOINT_PER_100MS = 289; //NU/100 ms MAX SPEED for slowest motor
 	
-	protected MotorSafetyHelper m_safetyHelper = new MotorSafetyHelper(chassis); //watchdog
+	private MotorSafetyHelper m_safetyHelper = new MotorSafetyHelper(chassis); //watchdog
+	
+	private PIDController orientationHelper;
+	
+	private PIDOut buffer;
 	
 	private double RearRightkP;  //PID constants for each of the drive talons
 	private double RearRightkI;
@@ -65,6 +71,11 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	private double FrontLeftkI;
 	private double FrontLeftkD;
 	private double FrontLeftkF;
+	
+	private double
+		OrientationHelper_kP,
+		OrientationHelper_kI,
+		OrientationHelper_kD;
 
 	private String orientation;
 			
@@ -81,6 +92,9 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		ConfigureTalons(frontLeftTalon, FRONT_LEFT_TALON_ID);
 		ConfigureTalons(rearRightTalon, REAR_RIGHT_TALON_ID);
 		ConfigureTalons(rearLeftTalon, REAR_LEFT_TALON_ID);
+		
+		buffer = new PIDOut();
+		orientationHelper = new PIDController(0, 0, 0, gyro, buffer);
 		
 		InitializeDriveTrain();
 	
@@ -101,6 +115,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		
 		//InitializeDriveTrain();
 	}
+	
 	
 	public void ConfigureEncoderDirection()
 	{
@@ -137,6 +152,10 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		FrontLeftkI = Preferences.getInstance().getDouble("FrontLeftI", 0);
 		FrontLeftkD = Preferences.getInstance().getDouble("FrontLeftD", 0);
 		FrontLeftkF = Preferences.getInstance().getDouble("FrontLeftF", 0);
+		
+		OrientationHelper_kP = Preferences.getInstance().getDouble("OrientationHelper_kP", 0);
+		OrientationHelper_kI = Preferences.getInstance().getDouble("OrientationHelper_kI", 0);
+		OrientationHelper_kD = Preferences.getInstance().getDouble("OrientationHelper_kD", 0);
 		
 		rearRightTalon.config_kP(0, RearRightkP, 10); //configure talons with PID constants
 		rearRightTalon.config_kI(0, RearRightkI, 10);
@@ -190,14 +209,30 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	
 	public void driveRobotOriented(double x, double y, double rotationalRate)
 	{
-		Vector2d input = new Vector2d(x, -y);
+		Vector2d input = new Vector2d(x, y);
 		
 		Double rearLeftSpeed, rearRightSpeed, frontLeftSpeed, frontRightSpeed, maxRightSpeed, maxLeftSpeed, maxSpeed;
 		
-		rearLeftSpeed = (-input.x +input.y + rotationalRate);
-		rearRightSpeed = (-input.x -input.y +rotationalRate);
-		frontLeftSpeed = (input.x +input.y + rotationalRate);
-		frontRightSpeed = (input.x -input.y +rotationalRate);
+		if (Preferences.getInstance().getBoolean("Enable Orientation Helper", false))
+		{
+			/* Will be tested later.
+			if (Math.abs(rotationalRate) == 0 && !orientationHelper.isEnabled()) {
+				// PID controller will bias motors accordingly
+				orientationHelper.enable();
+				orientationHelper.setSetpoint(gyro.getAngle()); // See about using a navx in the future
+			} 
+			else if (Math.abs(rotationalRate) != 0 && orientationHelper.isEnabled()) {
+				orientationHelper.disable();
+			}
+			*/
+		}
+		
+		//Left get's dialed back on positive error and right get's dialed up
+		
+		rearLeftSpeed = (-input.x +input.y + rotationalRate) + buffer.output;
+		rearRightSpeed = (-input.x - input.y +rotationalRate) - buffer.output;
+		frontLeftSpeed = (input.x +input.y + rotationalRate) + buffer.output;
+		frontRightSpeed = (input.x - input.y +rotationalRate) - buffer.output;
 		
 		normalize(frontLeftSpeed, rearRightSpeed, frontRightSpeed, rearRightSpeed);
 		
@@ -206,10 +241,10 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		frontLeftTalon.set(ControlMode.Velocity, frontLeftSpeed);
 		frontRightTalon.set(ControlMode.Velocity, frontRightSpeed);*/
 	
-		rearLeftTalon.set(ControlMode.Velocity, rearLeftSpeed*MOTOR_SETPOINT_PER_100MS);
-		rearRightTalon.set(ControlMode.Velocity, rearRightSpeed*MOTOR_SETPOINT_PER_100MS);
-		frontLeftTalon.set(ControlMode.Velocity, frontLeftSpeed*MOTOR_SETPOINT_PER_100MS);
-		frontRightTalon.set(ControlMode.Velocity, frontRightSpeed*MOTOR_SETPOINT_PER_100MS);
+		rearLeftTalon.set(ControlMode.Velocity, rearLeftSpeed * MOTOR_SETPOINT_PER_100MS);
+		rearRightTalon.set(ControlMode.Velocity, rearRightSpeed * MOTOR_SETPOINT_PER_100MS);
+		frontLeftTalon.set(ControlMode.Velocity, frontLeftSpeed * MOTOR_SETPOINT_PER_100MS);
+		frontRightTalon.set(ControlMode.Velocity, frontRightSpeed * MOTOR_SETPOINT_PER_100MS);
 		
 	    m_safetyHelper.feed(); //"watchdog.feed()"
 	}
