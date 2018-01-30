@@ -105,9 +105,9 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	public void ConfigureEncoderDirection()
 	{
 		rearLeftTalon.setSensorPhase(false); //true
-		rearRightTalon.setSensorPhase(true); 
+		rearRightTalon.setSensorPhase(false); 
 		frontLeftTalon.setSensorPhase(false);
-		frontRightTalon.setSensorPhase(true); //false
+		frontRightTalon.setSensorPhase(false); //false
 	}
 	
 	public double returnVelocity()
