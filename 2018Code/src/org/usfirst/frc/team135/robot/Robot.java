@@ -25,7 +25,8 @@ import org.usfirst.frc.team135.robot.subsystems.*;
 public class Robot extends TimedRobot {
 	public static final ExampleSubsystem kExampleSubsystem
 			= new ExampleSubsystem();
-	private static OI oi;
+	public static OI oi;
+	public static Lift lift;
 
 	Command m_autonomousCommand;
 	Command getGameSpecificMessage;
@@ -36,6 +37,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotInit() {
+		lift = Lift.getInstance();
 		oi = OI.getInstance();
 		
 		m_chooser.addDefault("Default Auto", new ExampleCommand());
@@ -54,9 +56,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() 
 	{
-
+/*
 		getGameSpecificMessage.start();
-		setSmartDashboardKeys.start();
+		setSmartDashboardKeys.start();*/
 	}
 
 	@Override

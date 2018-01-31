@@ -10,6 +10,7 @@ package org.usfirst.frc.team135.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.usfirst.frc.team135.robot.RobotMap.*;
+import org.usfirst.frc.team135.robot.commands.RunLift;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -19,15 +20,11 @@ public class OI implements RobotMap
 {
 	private static OI instance;
 	
-private Joystick LEFT, RIGHT, MANIP;
+	private Joystick LEFT, RIGHT, MANIP;  
+
+	private JoystickButton LIFT_DOWN, LIFT_UP;
 	
-	
-	/*public static final int
-		BUTTON1 = 1,
-		BUTTON2 = 2,
-		ETC.
-	*/
-	
+ 
 	public static OI getInstance() {
 		if (instance == null) {
 			instance = new OI();
@@ -40,6 +37,9 @@ private Joystick LEFT, RIGHT, MANIP;
 		LEFT = new Joystick(0);
 		RIGHT = new Joystick(1);
 		MANIP = new Joystick(2);
+		
+		LIFT_DOWN = new JoystickButton(RIGHT, 4);
+		LIFT_UP = new JoystickButton(RIGHT, 6);
 		
 		assignButtons();
 	}
@@ -90,7 +90,8 @@ private Joystick LEFT, RIGHT, MANIP;
 	
 	private void assignButtons()
 	{
-		
+		LIFT_UP.whileHeld(new RunLift(true));
+		LIFT_DOWN.whileHeld(new RunLift(false));
 	}	
 	
 }

@@ -10,5 +10,10 @@ package org.usfirst.frc.team135.robot;
 
 public interface RobotMap 
 {
-
+	public interface LIFT
+	{
+		public static final int 
+			LIFT_MOTOR = 1;
+	}
+	
 }
