@@ -1,7 +1,7 @@
 package org.usfirst.frc.team135.robot.commands;
 
 import org.usfirst.frc.team135.robot.Robot;
-import org.usfirst.frc.team135.robot.extra.AngleOut;
+import org.usfirst.frc.team135.robot.extra.PIDOut;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
@@ -13,14 +13,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveStraight extends Command {
 
 	PIDController angleController;
-	AngleOut angleOut;
+	PIDOut angleOut;
 	private double timeout;
 	
     public DriveStraight() 
     {
     	requires(Robot.drivetrain);
     
-    	angleOut = new AngleOut();
+    	angleOut = new PIDOut();
     	//angleController = new PIDController(0.0, 0.0, 0.0, Robot.gyro.getPIDSource(), angleOut);
     }
 

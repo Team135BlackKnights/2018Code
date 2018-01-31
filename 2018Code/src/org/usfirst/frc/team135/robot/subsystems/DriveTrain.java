@@ -39,7 +39,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	public WPI_TalonSRX frontRightTalon, frontLeftTalon, rearRightTalon, rearLeftTalon;
 	private MecanumDrive chassis; 
 	
-	private ADXRS450_Gyro gyro;
+	public ADXRS450_Gyro gyro;
 	private static final int angleSetPoint = 0;
 	
 	private static final int ENCODER_TICK_COUNT = 256;
@@ -77,12 +77,14 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		OrientationHelper_kI,
 		OrientationHelper_kD;
 
-	private String orientation;
+	private boolean isFieldOriented = false;
 			
 	private DriveTrain()
-	{
+	{/*
 		gyro = new ADXRS450_Gyro();
-		
+		gyro.reset();
+		gyro.calibrate();
+	*/	
 		frontRightTalon = new WPI_TalonSRX(FRONT_RIGHT_TALON_ID);
 		frontLeftTalon = new WPI_TalonSRX(FRONT_LEFT_TALON_ID);
 		rearRightTalon = new WPI_TalonSRX(REAR_RIGHT_TALON_ID);
@@ -94,11 +96,11 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		ConfigureTalons(rearLeftTalon, REAR_LEFT_TALON_ID);
 		
 		buffer = new PIDOut();
-		orientationHelper = new PIDController(0, 0, 0, gyro, buffer);
+		//orientationHelper = new PIDController(0, 0, 0, gyro, buffer);
 		
 		InitializeDriveTrain();
 	
-		orientation = Preferences.getInstance().getString("Orientation", "Robot");
+		isFieldOriented = Preferences.getInstance().getBoolean("Is Field Oriented?", false);
 	}
 	
 	public void ConfigureTalons(WPI_TalonSRX talon, int talon_id)
@@ -202,20 +204,24 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		return ((double)talon.getSelectedSensorVelocity(0));
 	}
 	
-	public void driveFieldOriented(double y, double x, double rotationalRate, double fieldOrientation)
+	public void driveCartesian(double x, double y, double rotationalRate)
 	{
-		//chassis.driveCartesian(x, -y, rotationalRate, fieldOrientation);	
+		driveCartesian(x, y, rotationalRate, Robot.navx.getFusedAngle());
 	}
 	
-	public void driveRobotOriented(double x, double y, double rotationalRate)
+	public void driveCartesian(double x, double y, double rotationalRate, double orientation)
 	{
 		Vector2d input = new Vector2d(x, y);
 		
-		Double rearLeftSpeed, rearRightSpeed, frontLeftSpeed, frontRightSpeed, maxRightSpeed, maxLeftSpeed, maxSpeed;
+		input.rotate(orientation);
 		
+		//System.out.println(orientation);
+		
+		Double rearLeftSpeed, rearRightSpeed, frontLeftSpeed, frontRightSpeed, maxRightSpeed, maxLeftSpeed, maxSpeed;
+		/*
 		if (Preferences.getInstance().getBoolean("Enable Orientation Helper", false))
 		{
-			/* Will be tested later.
+			 Will be tested later.
 			if (Math.abs(rotationalRate) == 0 && !orientationHelper.isEnabled()) {
 				// PID controller will bias motors accordingly
 				orientationHelper.enable();
@@ -224,9 +230,9 @@ public class DriveTrain extends Subsystem implements RobotMap{
 			else if (Math.abs(rotationalRate) != 0 && orientationHelper.isEnabled()) {
 				orientationHelper.disable();
 			}
-			*/
+			
 		}
-		
+		*/
 		//Left get's dialed back on positive error and right get's dialed up
 		
 		rearLeftSpeed = (-input.x +input.y + rotationalRate) + buffer.output;
@@ -311,10 +317,10 @@ public class DriveTrain extends Subsystem implements RobotMap{
 			BR /= maxMagnitude;
 		}
 	}
-
+	
 		
     public void initDefaultCommand() 
     {
-    	setDefaultCommand(new DriveJ(orientation));
+    	setDefaultCommand(new DriveJ(isFieldOriented));
     } 
 }

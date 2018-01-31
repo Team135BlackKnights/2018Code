@@ -13,13 +13,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveJ extends Command {
 	
-	private String Orientation;
+	private boolean isFieldOriented;
 	
-    public DriveJ(String orientation) 
+    public DriveJ(boolean isFieldOriented) 
     {
     	requires(Robot.drivetrain);
     //	requires(Robot.gyro);
-    	this.Orientation = orientation;
+    	this.isFieldOriented = isFieldOriented;
     }
     
 
@@ -32,23 +32,20 @@ public class DriveJ extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    if (Orientation == "Field")
-    {
-    	Robot.drivetrain.driveFieldOriented(Robot.oi.GetLeftX(), Robot.oi.GetRightY(), Robot.oi.GetTwist(), 0);
-		SmartDashboard.putNumber("Rear Left Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearLeftTalon));
-		SmartDashboard.putNumber("Rear Right Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearRightTalon));
-		SmartDashboard.putNumber("Front Left Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.frontLeftTalon));
-		SmartDashboard.putNumber("Front Right Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.frontRightTalon));
-    }
-    else if (Orientation == "Robot")
-    { 
-    	Robot.drivetrain.driveRobotOriented(Robot.oi.GetLeftX(), Robot.oi.GetRightY(), Robot.oi.GetTwist());
-		SmartDashboard.putNumber("Rear Left Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearLeftTalon));
-		SmartDashboard.putNumber("Rear Right Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearRightTalon));
-		SmartDashboard.putNumber("Front Left Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.frontLeftTalon));
-		SmartDashboard.putNumber("Front Right Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.frontRightTalon));
+		if (isFieldOriented) 
+		{
+			Robot.drivetrain.driveCartesian(Robot.oi.GetRightX(), Robot.oi.GetRightY(), Robot.oi.GetTwist());
+		} 
+		else 
+		{
+			Robot.drivetrain.driveCartesian(Robot.oi.GetRightX(), Robot.oi.GetRightY(), Robot.oi.GetTwist(), 0);
+		}
 
-    }
+		SmartDashboard.putNumber("Rear Left Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearLeftTalon));
+		SmartDashboard.putNumber("Rear Right Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearRightTalon));
+		SmartDashboard.putNumber("Front Left Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.frontLeftTalon));
+		SmartDashboard.putNumber("Front Right Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.frontRightTalon));
+    
     }
 
     // Make this return true when this Command no longer needs to run execute()

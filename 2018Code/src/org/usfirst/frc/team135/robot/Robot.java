@@ -38,6 +38,7 @@ public class Robot extends TimedRobot {
 	public static OI oi;
 
 	public static DriveTrain drivetrain;
+	public static NavX navx;
 	
 
 	Command m_autonomousCommand;
@@ -50,6 +51,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		drivetrain = DriveTrain.getInstance();
+		navx = NavX.getInstance();
 		
 		oi = OI.getInstance();	
 		

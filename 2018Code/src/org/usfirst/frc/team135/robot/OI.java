@@ -70,6 +70,11 @@ public class OI implements RobotMap
 		return -SetThreshold(RIGHT.getY());
 	}
 	
+	public double GetRightX()
+	{
+		return SetThreshold(RIGHT.getX());
+	}
+	
 	public double GetLeftX()
 	{
 		return SetThreshold(LEFT.getX());
