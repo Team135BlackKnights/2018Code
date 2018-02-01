@@ -27,6 +27,7 @@ public class Robot extends TimedRobot {
 			= new ExampleSubsystem();
 	private static OI oi;
 	public static Hang hang;
+	public static DeployHang deployhang;
 
 	Command m_autonomousCommand;
 	Command getGameSpecificMessage;

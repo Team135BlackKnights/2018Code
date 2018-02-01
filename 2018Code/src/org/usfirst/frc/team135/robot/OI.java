@@ -38,6 +38,9 @@ private JoystickButton DRIVE_HANG, DEPLOY_HANG;
 		RIGHT = new Joystick(1);
 		MANIP = new Joystick(2);
 		
+		DRIVE_HANG = new JoystickButton(MANIP, 1);
+		DEPLOY_HANG = new JoystickButton(MANIP, 2);
+		
 		ConfigureButtonMapping();
 	}
 	

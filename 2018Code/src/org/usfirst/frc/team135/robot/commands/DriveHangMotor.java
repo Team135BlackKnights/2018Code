@@ -10,10 +10,9 @@ import org.usfirst.frc.team135.robot.subsystems.Hang;
  */
 public class DriveHangMotor extends Command {
 	
-	double HANG_MOTOR_POWER = 1;
+	double HANG_MOTOR_POWER = 0.5;
     public DriveHangMotor() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+        
     	requires(Robot.hang);
     }
 
