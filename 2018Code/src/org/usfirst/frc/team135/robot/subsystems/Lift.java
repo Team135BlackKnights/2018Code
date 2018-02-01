@@ -1,6 +1,9 @@
 package org.usfirst.frc.team135.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
@@ -16,12 +19,19 @@ public class Lift extends Subsystem implements RobotMap
 {
 	private static Lift instance;
 	
-	private VictorSPX liftMotor;
+	private TalonSRX liftMotor;
 	
 	private Lift()
 	{
-		liftMotor = new VictorSPX(LIFT.LIFT_MOTOR);
+		liftMotor = new TalonSRX(LIFT.LIFT_MOTOR);
 		liftMotor.setInverted(true);
+		liftMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
+		liftMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 10, 10);
+		liftMotor.setSelectedSensorPosition(0, 0, 10);
+		
+		liftMotor.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_100Ms, 10);
+		liftMotor.configVelocityMeasurementWindow(5, 10); //Might want to check this later
+		
 	}
 	
 	public static Lift getInstance()
@@ -34,6 +44,11 @@ public class Lift extends Subsystem implements RobotMap
 		return instance;
 	}
 	
+	public double getEncoderPosition()
+	{
+		return (double)liftMotor.getSelectedSensorPosition(0);
+	}
+	
 	public void set(double speed)
 	{
 		liftMotor.set(ControlMode.PercentOutput, speed);
@@ -42,6 +57,11 @@ public class Lift extends Subsystem implements RobotMap
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+    }
+    
+    public void periodic()
+    {
+    	System.out.println(getEncoderPosition());
     }
 }
 

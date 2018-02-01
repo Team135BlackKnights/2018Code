@@ -13,7 +13,7 @@ public interface RobotMap
 	public interface LIFT
 	{
 		public static final int 
-			LIFT_MOTOR = 1;
+			LIFT_MOTOR = 3;
 	}
 	
 }
