@@ -70,6 +70,19 @@ public class Lift extends Subsystem implements RobotMap
 
 	}
 	
+	public double getEncoderJerk()
+	{
+		double a1 = 0.0, a2 = 0.0;
+		Timer timer = new Timer();
+		a1 = getEncoderVelocity();
+		timer.start();
+		while (timer.get() < .1){}
+		a2 = getEncoderVelocity();
+		timer.stop();
+		
+		return ((a2 - a1) / (timer.get() * 1000));
+	}
+	
 	public double getEncoderVelocity()
 	{
 		return (double)liftMotor.getSelectedSensorVelocity(0);
@@ -82,7 +95,7 @@ public class Lift extends Subsystem implements RobotMap
 	
 	public void set(double speed)
 	{
-		liftMotor.set(ControlMode.PercentOutput, speed*0.5);
+		liftMotor.set(ControlMode.PercentOutput, speed);
 	}
 	
     public void initDefaultCommand() {
