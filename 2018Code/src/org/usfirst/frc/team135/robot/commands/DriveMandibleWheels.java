@@ -10,9 +10,10 @@ import org.usfirst.frc.team135.robot.subsystems.Intake;
  */
 public class DriveMandibleWheels extends Command {
 
-    public DriveMandibleWheels() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+	private int _power;
+    public DriveMandibleWheels(boolean isInward) {
+    	
+    	this._power = (isInward) ? 1 : -1;
     	requires(Robot.intake);
     }
 
@@ -23,7 +24,7 @@ public class DriveMandibleWheels extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.intake.DriveWheels(Robot.oi.GetManipY());
+    	Robot.intake.DriveWheels(this._power);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -39,5 +40,6 @@ public class DriveMandibleWheels extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }

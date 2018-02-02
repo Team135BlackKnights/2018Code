@@ -23,7 +23,13 @@ public class OI implements RobotMap
 	
 private Joystick LEFT, RIGHT, MANIP;
 
-private JoystickButton GRAB, RELEASE, RETRACT_MANDIBLES, EXTEND_MANDIBLES;
+private JoystickButton 
+	GRAB, 
+	RELEASE, 
+	RETRACT_MANDIBLES, 
+	EXTEND_MANDIBLES,
+	DRIVE_WHEELS_IN,
+	DRIVE_WHEELS_OUT;
 	
 
 	public static OI getInstance() {
@@ -100,10 +106,14 @@ private JoystickButton GRAB, RELEASE, RETRACT_MANDIBLES, EXTEND_MANDIBLES;
 	
 	void ConfigureButtonMapping()
 	{
+		DRIVE_WHEELS_IN = new JoystickButton(MANIP, 1);
+		DRIVE_WHEELS_OUT = new JoystickButton(MANIP, 2);
+		
+		RELEASE = new JoystickButton(MANIP, 7);
 		GRAB = new JoystickButton(MANIP, 8);
-		RELEASE = new JoystickButton(MANIP, 9);
-		RETRACT_MANDIBLES = new JoystickButton(MANIP, 10);
-		EXTEND_MANDIBLES = new JoystickButton(MANIP, 11);
+		
+		RETRACT_MANDIBLES = new JoystickButton(MANIP, 9);
+		EXTEND_MANDIBLES = new JoystickButton(MANIP, 10);
 		
 		AssignButtons();
 	}
@@ -113,6 +123,9 @@ private JoystickButton GRAB, RELEASE, RETRACT_MANDIBLES, EXTEND_MANDIBLES;
 		RELEASE.whenPressed(new ReleaseClaw());
 		RETRACT_MANDIBLES.whenPressed(new RetractMandibles());
 		EXTEND_MANDIBLES.whenPressed(new ExtendMandibles());
+		
+		DRIVE_WHEELS_IN.whileHeld(new DriveMandibleWheels(true));
+		DRIVE_WHEELS_OUT.whileHeld(new DriveMandibleWheels(false));
 
 	}	
 	
