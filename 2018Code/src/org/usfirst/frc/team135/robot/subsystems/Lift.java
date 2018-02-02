@@ -7,7 +7,9 @@ import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team135.robot.RobotMap;
 import org.usfirst.frc.team135.robot.RobotMap.*;
@@ -32,10 +34,10 @@ public class Lift extends Subsystem implements RobotMap
 		liftMotor.setSelectedSensorPosition(0, 0, 10);
 		
 		//Motors don't stop precisely where you want them to. Usually stop a bit later.
-		liftMotor.configForwardSoftLimitThreshold(1480, 10);
+		liftMotor.configForwardSoftLimitThreshold(1580, 10);
 		liftMotor.configForwardSoftLimitEnable(true, 10);
 		
-		liftMotor.configReverseSoftLimitThreshold(10, 10);
+		liftMotor.configReverseSoftLimitThreshold(-50, 10);
 		liftMotor.configReverseSoftLimitEnable(true, 10);
 		
 		liftMotor.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_100Ms, 10);
@@ -51,6 +53,26 @@ public class Lift extends Subsystem implements RobotMap
 		}
 		
 		return instance;
+	}
+	
+	public double getEncoderAcceleration()
+	{
+		double v1 = 0.0, v2 = 0.0;
+		Timer timer = new Timer();
+		v1 = getEncoderVelocity();
+		timer.start();
+		while (timer.get() < .2){}
+		v2 = getEncoderVelocity();
+		timer.stop();
+		
+		return ((v2 - v1) / timer.get());
+		
+
+	}
+	
+	public double getEncoderVelocity()
+	{
+		return (double)liftMotor.getSelectedSensorVelocity(0);
 	}
 	
 	public double getEncoderPosition()
@@ -70,6 +92,7 @@ public class Lift extends Subsystem implements RobotMap
     
     public void periodic()
     {
+    	SmartDashboard.putNumber("Lift Velocity", getEncoderAcceleration());
     	System.out.println(getEncoderPosition());
     }
 }
