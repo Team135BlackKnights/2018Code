@@ -25,9 +25,18 @@ public class Lift extends Subsystem implements RobotMap
 	{
 		liftMotor = new TalonSRX(LIFT.LIFT_MOTOR);
 		liftMotor.setInverted(true);
+		
+		liftMotor.setSensorPhase(true);
 		liftMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
 		liftMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 10, 10);
 		liftMotor.setSelectedSensorPosition(0, 0, 10);
+		
+		//Motors don't stop precisely where you want them to. Usually stop a bit later.
+		liftMotor.configForwardSoftLimitThreshold(1480, 10);
+		liftMotor.configForwardSoftLimitEnable(true, 10);
+		
+		liftMotor.configReverseSoftLimitThreshold(10, 10);
+		liftMotor.configReverseSoftLimitEnable(true, 10);
 		
 		liftMotor.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_100Ms, 10);
 		liftMotor.configVelocityMeasurementWindow(5, 10); //Might want to check this later
