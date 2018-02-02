@@ -41,7 +41,7 @@ public class Lift extends Subsystem implements RobotMap
 		liftMotor.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_100Ms, 10);
 		liftMotor.configVelocityMeasurementWindow(5, 10); //Might want to check this later
 		
-	}
+	} 	
 	
 	public static Lift getInstance()
 	{
@@ -60,7 +60,7 @@ public class Lift extends Subsystem implements RobotMap
 	
 	public void set(double speed)
 	{
-		liftMotor.set(ControlMode.PercentOutput, speed);
+		liftMotor.set(ControlMode.PercentOutput, speed*0.5);
 	}
 	
     public void initDefaultCommand() {
