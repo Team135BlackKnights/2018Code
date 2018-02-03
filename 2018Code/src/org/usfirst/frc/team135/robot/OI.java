@@ -70,48 +70,60 @@ public class OI implements RobotMap
 		assignButtons();
 	}
 	
+	private double deadband(double input)
+	{
+		if(Math.abs(input) < .05)
+		{
+			return 0;
+		}
+		else
+		{
+			return input;
+		}
+	}
+	
 	public double GetLeftY()
 	{
-		return LEFT.getY();
+		return deadband(LEFT.getY());
 	}
 	
 	public double GetLeftX()
 	{
-		return LEFT.getX();
+		return deadband(LEFT.getX());
 	}
 	
 	public double GetLeftTwist()
 	{
-		return LEFT.getTwist();
+		return deadband(LEFT.getTwist());
 	}
 	public double GetRightY()
 	{
-		return RIGHT.getY();
+		return deadband(RIGHT.getY());
 	}
 	
 	public double GetRightX()
 	{
-		return RIGHT.getX();
+		return deadband(RIGHT.getX());
 	}
 	
 	public double GetRightTwist()
 	{
-		return RIGHT.getTwist();
+		return deadband(RIGHT.getTwist());
 	}
 	
 	public double GetManipY()
 	{
-		return MANIP.getY();
+		return deadband(MANIP.getY());
 	}
 	
 	public double GetManipX()
 	{
-		return MANIP.getX();
+		return deadband(MANIP.getX());
 	}
 	
 	public double GetManipTwist()
 	{
-		return MANIP.getTwist();
+		return deadband(MANIP.getTwist());
 	}
 	
 	private void assignButtons()
