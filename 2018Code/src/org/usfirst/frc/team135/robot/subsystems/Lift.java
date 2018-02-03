@@ -35,10 +35,10 @@ public class Lift extends Subsystem implements RobotMap
 		
 		//Motors don't stop precisely where you want them to. Usually stop a bit later.
 		liftMotor.configForwardSoftLimitThreshold(1580, 10);
-		liftMotor.configForwardSoftLimitEnable(true, 10);
+		liftMotor.configForwardSoftLimitEnable(false, 10);
 		
 		liftMotor.configReverseSoftLimitThreshold(-25, 10);
-		liftMotor.configReverseSoftLimitEnable(true, 10);
+		liftMotor.configReverseSoftLimitEnable(false, 10);
 		
 		liftMotor.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_100Ms, 10);
 		liftMotor.configVelocityMeasurementWindow(5, 10); //Might want to check this later
@@ -93,10 +93,12 @@ public class Lift extends Subsystem implements RobotMap
 		return (double)liftMotor.getSelectedSensorPosition(0);
 	}
 	
-	public void set(double speed)
+	public void run(double speed)
 	{
 		liftMotor.set(ControlMode.PercentOutput, speed);
 	}
+	
+	
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -106,7 +108,7 @@ public class Lift extends Subsystem implements RobotMap
     public void periodic()
     {
     	//SmartDashboard.putNumber("Lift Velocity", getEncoderAcceleration());
-    	System.out.println(getEncoderPosition());
+    	//System.out.println(getEncoderPosition());
     }
 }
 

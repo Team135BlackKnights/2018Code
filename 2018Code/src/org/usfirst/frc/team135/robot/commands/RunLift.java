@@ -30,11 +30,11 @@ public class RunLift extends Command {
     	
     	if (runUp)
     	{
-    		Robot.lift.set(Preferences.getInstance().getDouble("Lift Up Speed", 0.0));
+    		Robot.lift.run(Preferences.getInstance().getDouble("Lift Up Speed", 0.0));
     	}
     	else
     	{
-    		Robot.lift.set(Preferences.getInstance().getDouble("Lift Down Speed", 0.0));
+    		Robot.lift.run(Preferences.getInstance().getDouble("Lift Down Speed", 0.0));
     	}
     	
     	
