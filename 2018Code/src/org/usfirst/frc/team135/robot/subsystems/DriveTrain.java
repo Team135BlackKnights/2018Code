@@ -1,6 +1,7 @@
 package org.usfirst.frc.team135.robot.subsystems;
 
 import org.usfirst.frc.team135.robot.commands.*;
+import org.usfirst.frc.team135.robot.util.NavX_wrapper;
 import org.usfirst.frc.team135.robot.util.PIDOut;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -40,6 +41,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	private MecanumDrive chassis; 
 	
 	public ADXRS450_Gyro gyro;
+	private NavX_wrapper navx;
 	private static final int angleSetPoint = 0;
 	
 	private static final int ENCODER_TICK_COUNT = 256;
@@ -96,7 +98,14 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		ConfigureTalons(rearLeftTalon, DRIVETRAIN.REAR_LEFT_TALON_ID);
 		
 		buffer = new PIDOut();
-		//orientationHelper = new PIDController(0, 0, 0, gyro, buffer);
+		navx = new NavX_wrapper(Robot.navx);
+		orientationHelper = new PIDController(.01, .00001, 0, navx, buffer);
+		orientationHelper.setInputRange(0, 360);
+		orientationHelper.setOutputRange(0, .1);
+		orientationHelper.setAbsoluteTolerance(.2);
+		orientationHelper.setContinuous();
+		
+		
 		
 		InitializeDriveTrain();
 	
@@ -211,6 +220,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	
 	public void driveCartesian(double x, double y, double rotationalRate, double orientation)
 	{
+		
 		Vector2d input = new Vector2d(x, y);
 		
 		input.rotate(orientation);
@@ -218,27 +228,27 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		//System.out.println(orientation);
 		
 		Double rearLeftSpeed, rearRightSpeed, frontLeftSpeed, frontRightSpeed, maxRightSpeed, maxLeftSpeed, maxSpeed;
-		/*
+		
 		if (Preferences.getInstance().getBoolean("Enable Orientation Helper", false))
 		{
-			 Will be tested later.
+			
 			if (Math.abs(rotationalRate) == 0 && !orientationHelper.isEnabled()) {
 				// PID controller will bias motors accordingly
 				orientationHelper.enable();
-				orientationHelper.setSetpoint(gyro.getAngle()); // See about using a navx in the future
+				orientationHelper.setSetpoint(Robot.navx.getFusedAngle()); // See about using a navx in the future
 			} 
 			else if (Math.abs(rotationalRate) != 0 && orientationHelper.isEnabled()) {
 				orientationHelper.disable();
 			}
 			
 		}
-		*/
+		
 		//Left get's dialed back on positive error and right get's dialed up
 		
-		rearLeftSpeed = (-input.x +input.y + rotationalRate) + buffer.output;
-		rearRightSpeed = (-input.x - input.y +rotationalRate) - buffer.output;
-		frontLeftSpeed = (input.x +input.y + rotationalRate) + buffer.output;
-		frontRightSpeed = (input.x - input.y +rotationalRate) - buffer.output;
+		rearLeftSpeed = (input.x +input.y + rotationalRate) + buffer.output;
+		rearRightSpeed = (input.x - input.y +rotationalRate) + buffer.output;
+		frontLeftSpeed = (-input.x +input.y + rotationalRate) + buffer.output;
+		frontRightSpeed = (-input.x - input.y +rotationalRate) + buffer.output;
 		
 		normalize(frontLeftSpeed, rearRightSpeed, frontRightSpeed, rearRightSpeed);
 		

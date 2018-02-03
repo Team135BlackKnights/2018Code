@@ -26,7 +26,7 @@ public class RunLift extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.println("Running lift at power: " + Preferences.getInstance().getDouble("Lift Speed", 0.0));
+    	//System.out.println("Running lift at power: " + Preferences.getInstance().getDouble("Lift Speed", 0.0));
     	
     	if (runUp)
     	{

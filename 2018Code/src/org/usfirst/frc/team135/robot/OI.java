@@ -50,14 +50,14 @@ public class OI implements RobotMap
 		RIGHT = new Joystick(1);
 		MANIP = new Joystick(2);
 		
-		LIFT_DOWN = new JoystickButton(RIGHT, 4);
-		LIFT_UP = new JoystickButton(RIGHT, 6);
-		
+		LIFT_DOWN = new JoystickButton(MANIP, 4);
+		LIFT_UP = new JoystickButton(MANIP, 6);
+		/*
 		DRIVE_REAR_RIGHT = new JoystickButton(MANIP, 4);
 		DRIVE_REAR_LEFT = new JoystickButton(MANIP, 3);
 		DRIVE_FRONT_LEFT = new JoystickButton(MANIP, 5);
 		DRIVE_FRONT_RIGHT = new JoystickButton(MANIP, 6);
-		
+		*/
 		DRIVE_WHEELS_IN = new JoystickButton(MANIP, 1);
 		DRIVE_WHEELS_OUT = new JoystickButton(MANIP, 2);
 		
@@ -98,7 +98,7 @@ public class OI implements RobotMap
 	}
 	public double GetRightY()
 	{
-		return deadband(RIGHT.getY());
+		return deadband(-RIGHT.getY());
 	}
 	
 	public double GetRightX()
@@ -108,7 +108,7 @@ public class OI implements RobotMap
 	
 	public double GetRightTwist()
 	{
-		return deadband(RIGHT.getTwist());
+		return deadband(RIGHT.getTwist() / 2);
 	}
 	
 	public double GetManipY()
@@ -128,10 +128,13 @@ public class OI implements RobotMap
 	
 	private void assignButtons()
 	{
+		/*
 		DRIVE_REAR_LEFT.whileHeld(new DriveMotor(DRIVETRAIN.REAR_LEFT_TALON_ID));
 		DRIVE_REAR_RIGHT.whileHeld(new DriveMotor(DRIVETRAIN.REAR_RIGHT_TALON_ID));
 		DRIVE_FRONT_LEFT.whileHeld(new DriveMotor(DRIVETRAIN.FRONT_LEFT_TALON_ID));
 		DRIVE_FRONT_RIGHT.whileHeld(new DriveMotor(DRIVETRAIN.FRONT_RIGHT_TALON_ID));
+		*/
+		
 		
 		GRAB.whenPressed(new GrabMandibles());
 		RELEASE.whenPressed(new ReleaseMandibles());
