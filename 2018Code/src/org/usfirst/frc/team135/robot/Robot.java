@@ -12,8 +12,13 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team135.robot.commands.*;
-import org.usfirst.frc.team135.robot.subsystems.*;
+
+import org.usfirst.frc.team135.robot.commands.GetGameSpecificMessage;
+import org.usfirst.frc.team135.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team135.robot.subsystems.ExampleSubsystem;
+//import org.usfirst.frc.team135.robot.subsystems.Gyro;
+//import org.usfirst.frc.team135.robot.subsystems.NavX;
+import org.usfirst.frc.team135.robot.subsystems.Sonar;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,27 +28,35 @@ import org.usfirst.frc.team135.robot.subsystems.*;
  * project.
  */
 public class Robot extends TimedRobot {
-	public static final ExampleSubsystem kExampleSubsystem
-			= new ExampleSubsystem();
-	private static OI oi;
+	public static final ExampleSubsystem kExampleSubsystem = new ExampleSubsystem();
+	public static DriveTrain drivetrain;
+	//public static NavX navx;
+	public static Sonar sonar;
+	//public static Gyro gyro;
+	public static OI oi;
+	Command autonomousCommand;
+	Command GetGameSpecificMessege;
+	SendableChooser<Command> chooser = new SendableChooser<>();
 
-	Command m_autonomousCommand;
-	Command getGameSpecificMessage;
-	Command setSmartDashboardKeys;
-	SendableChooser<Command> m_chooser = new SendableChooser<>();
-	
-	
-
+	/**
+	 * This function is run when the robot is first started up and should be
+	 * used for any initialization code.
+	 */
 	@Override
 	public void robotInit() {
+	
+		//gyro = Gyro.getInstance();
+		drivetrain = DriveTrain.getInstance();
 		oi = OI.getInstance();
+		//navx = NavX.getInstance();
 		
-		m_chooser.addDefault("Default Auto", new ExampleCommand());
+		//m_chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", m_chooser);
-
+		SmartDashboard.putData("Auto mode", chooser);
 		
-		
+		 chooser.addObject("Right Station", new GetGameSpecificMessage("RightStation"));
+		 chooser.addObject("Left Station", new GetGameSpecificMessage("LeftStation"));
+		 chooser.addObject("Middle Station", new GetGameSpecificMessage("MiddleStation"));
 	}
 
 	/**
@@ -52,11 +65,9 @@ public class Robot extends TimedRobot {
 	 * the robot is disabled.
 	 */
 	@Override
-	public void disabledInit() 
-	{
+	public void disabledInit() {
+		//getGyroBias.start();
 
-		getGameSpecificMessage.start();
-		setSmartDashboardKeys.start();
 	}
 
 	@Override
@@ -77,8 +88,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = m_chooser.getSelected();
-
+		autonomousCommand = chooser.getSelected();
+		autonomousCommand.start();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -87,8 +98,8 @@ public class Robot extends TimedRobot {
 		 */
 
 		// schedule the autonomous command (example)
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.start();
+		if (autonomousCommand != null) {
+			autonomousCommand.start();
 		}
 	}
 
@@ -106,8 +117,8 @@ public class Robot extends TimedRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.cancel();
+		if (autonomousCommand != null) {
+			autonomousCommand.cancel();
 		}
 	}
 
