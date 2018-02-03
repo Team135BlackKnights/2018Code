@@ -223,7 +223,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		
 		Vector2d input = new Vector2d(x, y);
 		
-		input.rotate(orientation);
+		input.rotate(-orientation);
 		
 		//System.out.println(orientation);
 		

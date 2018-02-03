@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team135.robot.RobotMap;
 import org.usfirst.frc.team135.robot.RobotMap.*;
+import org.usfirst.frc.team135.robot.commands.RunLift;
 
 /**
  *
@@ -86,8 +87,7 @@ public class Lift extends Subsystem implements RobotMap
 	}
 	
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+    	setDefaultCommand(new RunLift());
     }
     
     public void periodic()

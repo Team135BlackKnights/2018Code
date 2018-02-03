@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team135.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -47,6 +48,8 @@ public class Robot extends TimedRobot {
 		intake = Intake.GetInstance();
 		lift = Lift.getInstance();
 		oi = OI.getInstance();
+		
+		CameraServer.getInstance().startAutomaticCapture();
 		
 		m_chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());

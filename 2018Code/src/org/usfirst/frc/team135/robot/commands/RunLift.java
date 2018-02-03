@@ -9,14 +9,15 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class RunLift extends Command {
-
-	boolean runUp;
 	
-    public RunLift(boolean isUp) {
+	private double 
+		upPower = Preferences.getInstance().getDouble("Lift Up Speed", 0.0),
+		downPower = Preferences.getInstance().getDouble("Lift Down Speed", 0.0);
+	
+	
+    public RunLift() 
+    {
     	requires(Robot.lift);
-    	
-    	runUp = isUp;
-
     }
 
     // Called just before this Command runs the first time
@@ -28,14 +29,18 @@ public class RunLift extends Command {
     protected void execute() {
     	//System.out.println("Running lift at power: " + Preferences.getInstance().getDouble("Lift Speed", 0.0));
     	
-    	if (runUp)
+    	double joyValue = Robot.oi.GetManipY();
+    	if (joyValue > 0)
     	{
-    		Robot.lift.set(Preferences.getInstance().getDouble("Lift Up Speed", 0.0));
+    		joyValue *= Preferences.getInstance().getDouble("Lift Up Speed", 0.0);
     	}
     	else
     	{
-    		Robot.lift.set(Preferences.getInstance().getDouble("Lift Down Speed", 0.0));
+    		joyValue *= -Preferences.getInstance().getDouble("Lift Down Speed", 0.0);
     	}
+    	
+    	Robot.lift.set(joyValue);
+
     	
     	
     	

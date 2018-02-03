@@ -23,18 +23,19 @@ public class OI implements RobotMap
 	private Joystick LEFT, RIGHT, MANIP;  
 
 	private JoystickButton 
-		LIFT_DOWN, 
-		LIFT_UP,
+		//Unused
 		DRIVE_REAR_LEFT, 
 		DRIVE_REAR_RIGHT, 
 		DRIVE_FRONT_RIGHT, 
 		DRIVE_FRONT_LEFT,
-		GRAB, 
-		RELEASE, 
-		RETRACT_MANDIBLES, 
-		EXTEND_MANDIBLES,
-		DRIVE_WHEELS_IN,
-		DRIVE_WHEELS_OUT;
+		
+		
+		MANDIBLES_OPEN, 
+		MANDIBLES_CLOSE, 
+		MANDIBLES_UP, 
+		MANDIBLES_DOWN,
+		MANDIBLES_WHEELS_IN,
+		MANDIBLES_WHEELS_OUT;
 	
  
 	public static OI getInstance() {
@@ -50,29 +51,32 @@ public class OI implements RobotMap
 		RIGHT = new Joystick(1);
 		MANIP = new Joystick(2);
 		
+		/*
 		LIFT_DOWN = new JoystickButton(MANIP, 4);
 		LIFT_UP = new JoystickButton(MANIP, 6);
+		*/
+		
 		/*
 		DRIVE_REAR_RIGHT = new JoystickButton(MANIP, 4);
 		DRIVE_REAR_LEFT = new JoystickButton(MANIP, 3);
 		DRIVE_FRONT_LEFT = new JoystickButton(MANIP, 5);
 		DRIVE_FRONT_RIGHT = new JoystickButton(MANIP, 6);
 		*/
-		DRIVE_WHEELS_IN = new JoystickButton(MANIP, 1);
-		DRIVE_WHEELS_OUT = new JoystickButton(MANIP, 2);
+		MANDIBLES_WHEELS_IN = new JoystickButton(MANIP, 1);
+		MANDIBLES_WHEELS_OUT = new JoystickButton(MANIP, 2);
 		
-		RELEASE = new JoystickButton(MANIP, 7);
-		GRAB = new JoystickButton(MANIP, 8);
+		MANDIBLES_OPEN = new JoystickButton(MANIP, 6);
+		MANDIBLES_CLOSE = new JoystickButton(MANIP, 4);
 		
-		RETRACT_MANDIBLES = new JoystickButton(MANIP, 9);
-		EXTEND_MANDIBLES = new JoystickButton(MANIP, 10);
+		MANDIBLES_UP = new JoystickButton(MANIP, 5);
+		MANDIBLES_DOWN = new JoystickButton(MANIP, 3);
 		
 		assignButtons();
 	}
 	
 	private double deadband(double input)
 	{
-		if(Math.abs(input) < .05)
+		if(Math.abs(input) < .1)
 		{
 			return 0;
 		}
@@ -113,7 +117,7 @@ public class OI implements RobotMap
 	
 	public double GetManipY()
 	{
-		return deadband(MANIP.getY());
+		return deadband(-MANIP.getY());
 	}
 	
 	public double GetManipX()
@@ -136,16 +140,14 @@ public class OI implements RobotMap
 		*/
 		
 		
-		GRAB.whenPressed(new GrabMandibles());
-		RELEASE.whenPressed(new ReleaseMandibles());
-		RETRACT_MANDIBLES.whenPressed(new RetractMandibles());
-		EXTEND_MANDIBLES.whenPressed(new ExtendMandibles());
+		MANDIBLES_CLOSE.whenPressed(new GrabMandibles());
+		MANDIBLES_OPEN.whenPressed(new ReleaseMandibles());
+		MANDIBLES_UP.whenPressed(new RetractMandibles());
+		MANDIBLES_DOWN.whenPressed(new ExtendMandibles());
 		
-		DRIVE_WHEELS_IN.whileHeld(new DriveMandibleWheels(true));
-		DRIVE_WHEELS_OUT.whileHeld(new DriveMandibleWheels(false));
-		
-		LIFT_UP.whileHeld(new RunLift(true));
-		LIFT_DOWN.whileHeld(new RunLift(false));
+		MANDIBLES_WHEELS_IN.whileHeld(new DriveMandibleWheels(true));
+		MANDIBLES_WHEELS_OUT.whileHeld(new DriveMandibleWheels(false));
+	
 	}	
 	
 }
