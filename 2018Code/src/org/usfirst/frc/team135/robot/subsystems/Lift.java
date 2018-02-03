@@ -31,14 +31,14 @@ public class Lift extends Subsystem implements RobotMap
 		liftMotor.setSensorPhase(true);
 		liftMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
 		liftMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 10, 10);
-		liftMotor.setSelectedSensorPosition(0, 0, 10);
+		//liftMotor.setSelectedSensorPosition(0, 0, 10);
 		
 		//Motors don't stop precisely where you want them to. Usually stop a bit later.
 		liftMotor.configForwardSoftLimitThreshold(1580, 10);
-		liftMotor.configForwardSoftLimitEnable(false, 10);
+		liftMotor.configForwardSoftLimitEnable(true, 10);
 		
-		liftMotor.configReverseSoftLimitThreshold(-50, 10);
-		liftMotor.configReverseSoftLimitEnable(false, 10);
+		liftMotor.configReverseSoftLimitThreshold(-25, 10);
+		liftMotor.configReverseSoftLimitEnable(true, 10);
 		
 		liftMotor.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_100Ms, 10);
 		liftMotor.configVelocityMeasurementWindow(5, 10); //Might want to check this later
@@ -61,7 +61,7 @@ public class Lift extends Subsystem implements RobotMap
 		Timer timer = new Timer();
 		v1 = getEncoderVelocity();
 		timer.start();
-		while (timer.get() < .2){}
+		Timer.delay(.1);
 		v2 = getEncoderVelocity();
 		timer.stop();
 		
@@ -76,7 +76,7 @@ public class Lift extends Subsystem implements RobotMap
 		Timer timer = new Timer();
 		a1 = getEncoderVelocity();
 		timer.start();
-		while (timer.get() < .1){}
+		Timer.delay(.1);
 		a2 = getEncoderVelocity();
 		timer.stop();
 		
@@ -105,7 +105,7 @@ public class Lift extends Subsystem implements RobotMap
     
     public void periodic()
     {
-    	SmartDashboard.putNumber("Lift Velocity", getEncoderAcceleration());
+    	//SmartDashboard.putNumber("Lift Velocity", getEncoderAcceleration());
     	System.out.println(getEncoderPosition());
     }
 }
