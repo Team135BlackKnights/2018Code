@@ -25,8 +25,12 @@ import org.usfirst.frc.team135.robot.subsystems.*;
 public class Robot extends TimedRobot {
 	public static final ExampleSubsystem kExampleSubsystem
 			= new ExampleSubsystem();
+	
+	public static NavX navx;
 	public static OI oi;
+	public static DriveTrain drivetrain;
 	public static Lift lift;
+	public static Intake intake;
 
 	Command m_autonomousCommand;
 	Command getGameSpecificMessage;
@@ -37,6 +41,10 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotInit() {
+		//Order does matter.
+		navx = NavX.getInstance();
+		drivetrain = DriveTrain.getInstance();
+		intake = Intake.GetInstance();
 		lift = Lift.getInstance();
 		oi = OI.getInstance();
 		

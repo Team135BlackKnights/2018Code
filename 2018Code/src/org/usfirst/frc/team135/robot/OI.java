@@ -10,7 +10,7 @@ package org.usfirst.frc.team135.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.usfirst.frc.team135.robot.RobotMap.*;
-import org.usfirst.frc.team135.robot.commands.RunLift;
+import org.usfirst.frc.team135.robot.commands.*;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -22,7 +22,19 @@ public class OI implements RobotMap
 	
 	private Joystick LEFT, RIGHT, MANIP;  
 
-	private JoystickButton LIFT_DOWN, LIFT_UP;
+	private JoystickButton 
+		LIFT_DOWN, 
+		LIFT_UP,
+		DRIVE_REAR_LEFT, 
+		DRIVE_REAR_RIGHT, 
+		DRIVE_FRONT_RIGHT, 
+		DRIVE_FRONT_LEFT,
+		GRAB, 
+		RELEASE, 
+		RETRACT_MANDIBLES, 
+		EXTEND_MANDIBLES,
+		DRIVE_WHEELS_IN,
+		DRIVE_WHEELS_OUT;
 	
  
 	public static OI getInstance() {
@@ -40,6 +52,20 @@ public class OI implements RobotMap
 		
 		LIFT_DOWN = new JoystickButton(RIGHT, 4);
 		LIFT_UP = new JoystickButton(RIGHT, 6);
+		
+		DRIVE_REAR_RIGHT = new JoystickButton(MANIP, 4);
+		DRIVE_REAR_LEFT = new JoystickButton(MANIP, 3);
+		DRIVE_FRONT_LEFT = new JoystickButton(MANIP, 5);
+		DRIVE_FRONT_RIGHT = new JoystickButton(MANIP, 6);
+		
+		DRIVE_WHEELS_IN = new JoystickButton(MANIP, 1);
+		DRIVE_WHEELS_OUT = new JoystickButton(MANIP, 2);
+		
+		RELEASE = new JoystickButton(MANIP, 7);
+		GRAB = new JoystickButton(MANIP, 8);
+		
+		RETRACT_MANDIBLES = new JoystickButton(MANIP, 9);
+		EXTEND_MANDIBLES = new JoystickButton(MANIP, 10);
 		
 		assignButtons();
 	}
@@ -90,6 +116,19 @@ public class OI implements RobotMap
 	
 	private void assignButtons()
 	{
+		DRIVE_REAR_LEFT.whileHeld(new DriveMotor(DRIVETRAIN.REAR_LEFT_TALON_ID));
+		DRIVE_REAR_RIGHT.whileHeld(new DriveMotor(DRIVETRAIN.REAR_RIGHT_TALON_ID));
+		DRIVE_FRONT_LEFT.whileHeld(new DriveMotor(DRIVETRAIN.FRONT_LEFT_TALON_ID));
+		DRIVE_FRONT_RIGHT.whileHeld(new DriveMotor(DRIVETRAIN.FRONT_RIGHT_TALON_ID));
+		
+		GRAB.whenPressed(new GrabMandibles());
+		RELEASE.whenPressed(new ReleaseMandibles());
+		RETRACT_MANDIBLES.whenPressed(new RetractMandibles());
+		EXTEND_MANDIBLES.whenPressed(new ExtendMandibles());
+		
+		DRIVE_WHEELS_IN.whileHeld(new DriveMandibleWheels(true));
+		DRIVE_WHEELS_OUT.whileHeld(new DriveMandibleWheels(false));
+		
 		LIFT_UP.whileHeld(new RunLift(true));
 		LIFT_DOWN.whileHeld(new RunLift(false));
 	}	

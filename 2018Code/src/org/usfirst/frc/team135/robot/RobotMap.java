@@ -13,7 +13,27 @@ public interface RobotMap
 	public interface LIFT
 	{
 		public static final int 
-			LIFT_MOTOR = 3;
+			LIFT_MOTOR_ID = 3;
+	}
+	
+	public interface DRIVETRAIN
+	{
+		static final public int REAR_RIGHT_TALON_ID = 2;
+		static final public int FRONT_RIGHT_TALON_ID = 5;
+		static final public int REAR_LEFT_TALON_ID = 1;
+		static final public int FRONT_LEFT_TALON_ID = 4;
+	}
+	
+	public interface INTAKE
+	{
+		public static final int RIGHT_WHEEL_VICTOR_ID = 1;
+		public static final int LEFT_WHEEL_VICTOR_ID = 2;
+		
+		public static final int MANDIBLE_OPEN_CHANNEL = 0;
+		public static final int MANDIBLE_CLOSE_CHANNEL = 1;
+		
+		public static final int RETRACT_IN_CHANNEL = 2;
+		public static final int RETRACT_OUT_CHANNEL = 3;
 	}
 	
 }

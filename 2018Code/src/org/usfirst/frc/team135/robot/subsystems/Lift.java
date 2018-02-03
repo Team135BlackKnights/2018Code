@@ -25,7 +25,7 @@ public class Lift extends Subsystem implements RobotMap
 	
 	private Lift()
 	{
-		liftMotor = new TalonSRX(LIFT.LIFT_MOTOR);
+		liftMotor = new TalonSRX(LIFT.LIFT_MOTOR_ID);
 		liftMotor.setInverted(true);
 		
 		liftMotor.setSensorPhase(true);
