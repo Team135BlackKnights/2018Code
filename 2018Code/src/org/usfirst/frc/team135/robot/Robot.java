@@ -56,8 +56,8 @@ public class Robot extends TimedRobot {
 	public void disabledInit() 
 	{
 
-		getGameSpecificMessage.start();
-		setSmartDashboardKeys.start();
+		//getGameSpecificMessage.start();
+		//setSmartDashboardKeys.start();
 	}
 
 	@Override
