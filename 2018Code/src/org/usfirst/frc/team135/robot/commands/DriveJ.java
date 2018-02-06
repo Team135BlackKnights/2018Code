@@ -34,11 +34,11 @@ public class DriveJ extends Command {
     	
 		if (isFieldOriented) 
 		{
-			Robot.drivetrain.driveCartesian(-Robot.oi.GetRightX(), Robot.oi.GetRightY(), Robot.oi.GetRightTwist());
+			Robot.drivetrain.driveCartesian(-Robot.oi.GetRightX(), Robot.oi.GetRightY(), Robot.oi.GetLeftTwist());
 		} 
 		else 
 		{
-			Robot.drivetrain.driveCartesian(-Robot.oi.GetRightX(), Robot.oi.GetRightY(), Robot.oi.GetRightTwist(), 0);
+			Robot.drivetrain.driveCartesian(-Robot.oi.GetRightX(), Robot.oi.GetRightY(), Robot.oi.GetLeftTwist(), 0);
 		}
 
 		SmartDashboard.putNumber("Rear Left Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearLeftTalon));

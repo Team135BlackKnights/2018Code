@@ -42,17 +42,20 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	
 	public ADXRS450_Gyro gyro;
 	private NavX_wrapper navx;
-	private static final int angleSetPoint = 0;
+	private static final int angleSetPoint = 0; //Was thinking about using this but didn't.
 	
+	//Leftover stuff that we don't use.
 	private static final int ENCODER_TICK_COUNT = 256;
 	private static final int ENCODER_QUAD_COUNT = (ENCODER_TICK_COUNT * 4);
+	
 	private static final double MOTOR_SETPOINT_PER_100MS = 280; //NU/100 ms MAX SPEED for slowest motor
 	
 	private MotorSafetyHelper m_safetyHelper = new MotorSafetyHelper(chassis); //watchdog
 	
-	private PIDController orientationHelper;
+	private PIDController orientationHelper; //Orientation helper SHOULD helper you go straight
+											//But it doesn't work right now
 	
-	private PIDOut buffer;
+	private PIDOut buffer; //Stores the orientation helper's motor bias
 	
 	private double RearRightkP;  //PID constants for each of the drive talons
 	private double RearRightkI;
@@ -87,26 +90,30 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		gyro.reset();
 		gyro.calibrate();
 	*/	
+		//Instantiate each of our talons
 		frontRightTalon = new WPI_TalonSRX(DRIVETRAIN.FRONT_RIGHT_TALON_ID);
 		frontLeftTalon = new WPI_TalonSRX(DRIVETRAIN.FRONT_LEFT_TALON_ID);
 		rearRightTalon = new WPI_TalonSRX(DRIVETRAIN.REAR_RIGHT_TALON_ID);
 		rearLeftTalon = new WPI_TalonSRX(DRIVETRAIN.REAR_LEFT_TALON_ID);		
 
+		//Configure the talons.
 		ConfigureTalons(frontRightTalon, DRIVETRAIN.FRONT_RIGHT_TALON_ID);
 		ConfigureTalons(frontLeftTalon, DRIVETRAIN.FRONT_LEFT_TALON_ID);
 		ConfigureTalons(rearRightTalon, DRIVETRAIN.REAR_RIGHT_TALON_ID);
 		ConfigureTalons(rearLeftTalon, DRIVETRAIN.REAR_LEFT_TALON_ID);
 		
+		//Configure the orientation helper and it's output storage helper.
 		buffer = new PIDOut();
 		navx = new NavX_wrapper(Robot.navx);
+		
+		//Configure orientation helper.
 		orientationHelper = new PIDController(.01, .00001, 0, navx, buffer);
 		orientationHelper.setInputRange(0, 360);
 		orientationHelper.setOutputRange(0, .1);
 		orientationHelper.setAbsoluteTolerance(.2);
 		orientationHelper.setContinuous();
 		
-		
-		
+		//Get PIDF constants.
 		InitializeDriveTrain();
 	
 		isFieldOriented = Preferences.getInstance().getBoolean("Is Field Oriented?", false);
@@ -229,6 +236,15 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		
 		//System.out.println(orientation);
 		
+		if (input.x == 0 && input.y == 0)
+		{
+			rearLeftTalon.set(ControlMode.PercentOutput, 0);
+			rearRightTalon.set(ControlMode.PercentOutput, 0);
+			frontLeftTalon.set(ControlMode.PercentOutput, 0);
+			frontRightTalon.set(ControlMode.PercentOutput, 0);
+			return;
+		}
+		
 		Double rearLeftSpeed, rearRightSpeed, frontLeftSpeed, frontRightSpeed, maxRightSpeed, maxLeftSpeed, maxSpeed;
 		
 		if (Preferences.getInstance().getBoolean("Enable Orientation Helper", false))
@@ -247,11 +263,12 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		
 		//Left get's dialed back on positive error and right get's dialed up
 		
-		rearLeftSpeed = (-input.x + input.y + rotationalRate);
-		rearRightSpeed = (-input.x - input.y +rotationalRate);
-		frontLeftSpeed = (input.x + input.y + rotationalRate);
-		frontRightSpeed = (input.x - input.y +rotationalRate);
 		
+		rearLeftSpeed = (-input.x + input.y + rotationalRate);
+		rearRightSpeed = (-input.x - input.y + rotationalRate);
+		frontLeftSpeed = (input.x + input.y + rotationalRate);
+		frontRightSpeed = (input.x -input.y + rotationalRate);
+				
 		normalize(frontLeftSpeed, rearRightSpeed, frontRightSpeed, rearRightSpeed);
 		
 		/*rearLeftTalon.set(ControlMode.Velocity, rearLeftSpeed);
@@ -259,6 +276,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		frontLeftTalon.set(ControlMode.Velocity, frontLeftSpeed);
 		frontRightTalon.set(ControlMode.Velocity, frontRightSpeed);*/
 	
+		
 		rearLeftTalon.set(ControlMode.Velocity, rearLeftSpeed.doubleValue() * MOTOR_SETPOINT_PER_100MS);
 		rearRightTalon.set(ControlMode.Velocity, rearRightSpeed.doubleValue() * MOTOR_SETPOINT_PER_100MS);
 		frontLeftTalon.set(ControlMode.Velocity, frontLeftSpeed.doubleValue() * MOTOR_SETPOINT_PER_100MS);
