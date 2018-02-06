@@ -10,10 +10,17 @@ import org.usfirst.frc.team135.robot.subsystems.Hang;
  */
 public class DriveHangMotor extends Command {
 	
-	double HANG_MOTOR_POWER = 0.5;
-    public DriveHangMotor() {
+	double HANG_MOTOR_POWER = 1;
+	
+	
+    public DriveHangMotor(boolean isUp) {
         
     	requires(Robot.hang);
+    	if (!isUp)
+    	{
+    		HANG_MOTOR_POWER *= -1;
+    	}
+    	
     }
 
     // Called just before this Command runs the first time

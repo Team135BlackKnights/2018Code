@@ -41,22 +41,23 @@ public class Hang extends Subsystem implements RobotMap {
 	{
 		hangMotor = new WPI_VictorSPX(HANG_VICTOR_ID);
 		hangMotor.setInverted(false);
-		hangMotor.setSafetyEnabled(true);
-		
-		hangSolenoid = new Solenoid(HANG_SOLENOID_CHANNEL);
-		hangSolenoid.set(false);
 		hangMotor.setSafetyEnabled(false);
+		
+		//hangSolenoid = new Solenoid(HANG_SOLENOID_CHANNEL);
+		//hangSolenoid.set(false);
+		
 	}
 	
 	public void DriveHangMotor(double power)
 	{
 		hangMotor.set(power);
+		m_safetyHelper.feed();
 	}
 	
 	public void ActivateElectricSolenoid(boolean value)
 	{
-		hangSolenoid.set(value);
-		m_safetyHelper.feed();
+		//hangSolenoid.set(value);
+		
 	}
 
     public void initDefaultCommand() {

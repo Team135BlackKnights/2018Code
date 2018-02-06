@@ -23,7 +23,7 @@ public class OI implements RobotMap
 	
 private Joystick LEFT, RIGHT, MANIP;
 	
-private JoystickButton DRIVE_HANG, DEPLOY_HANG;
+private JoystickButton DRIVE_HANG_UP, DRIVE_HANG_DOWN, DEPLOY_HANG;
 	
 	public static OI getInstance() {
 		if (instance == null) {
@@ -38,7 +38,8 @@ private JoystickButton DRIVE_HANG, DEPLOY_HANG;
 		RIGHT = new Joystick(1);
 		MANIP = new Joystick(2);
 		
-		DRIVE_HANG = new JoystickButton(MANIP, 1);
+		DRIVE_HANG_DOWN = new JoystickButton(RIGHT, 7);
+		DRIVE_HANG_UP = new JoystickButton(RIGHT, 8);
 		DEPLOY_HANG = new JoystickButton(MANIP, 2);
 		
 		ConfigureButtonMapping();
@@ -90,13 +91,15 @@ private JoystickButton DRIVE_HANG, DEPLOY_HANG;
 	
 	private void ConfigureButtonMapping()
 	{
-		DRIVE_HANG = new JoystickButton(MANIP, 1);
+		DRIVE_HANG_DOWN = new JoystickButton(RIGHT, 7);
+		DRIVE_HANG_UP = new JoystickButton(RIGHT, 8);
 		DEPLOY_HANG = new JoystickButton(MANIP, 2);
 		AssignButtons();
 	}
 	private void AssignButtons()
 	{
-		DRIVE_HANG.whileHeld(new DriveHangMotor());
+		DRIVE_HANG_DOWN.whileHeld(new DriveHangMotor(false));
+		DRIVE_HANG_UP.whileHeld(new DriveHangMotor(true));
 		DEPLOY_HANG.whenPressed(new DeployHang());
 	}	
 	
