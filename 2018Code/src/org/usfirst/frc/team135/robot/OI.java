@@ -102,7 +102,7 @@ public class OI implements RobotMap
 	}
 	public double GetRightY()
 	{
-		return deadband(-RIGHT.getY());
+		return deadband(RIGHT.getY());
 	}
 	
 	public double GetRightX()
@@ -112,7 +112,7 @@ public class OI implements RobotMap
 	
 	public double GetRightTwist()
 	{
-		return deadband(RIGHT.getTwist() / 2);
+		return deadband(RIGHT.getTwist() / 3);
 	}
 	
 	public double GetManipY()

@@ -19,7 +19,7 @@ public class NavX extends Subsystem
 	
 	private NavX()
 	{
-		ahrs = new AHRS(SerialPort.Port.kUSB1);
+		ahrs = new AHRS(SerialPort.Port.kMXP);
 		ahrs.reset();
 		initAngle = ahrs.getFusedHeading();
 		//System.out.println(initAngle);

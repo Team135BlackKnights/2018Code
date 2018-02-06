@@ -46,7 +46,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	
 	private static final int ENCODER_TICK_COUNT = 256;
 	private static final int ENCODER_QUAD_COUNT = (ENCODER_TICK_COUNT * 4);
-	private static final double MOTOR_SETPOINT_PER_100MS = 289; //NU/100 ms MAX SPEED for slowest motor
+	private static final double MOTOR_SETPOINT_PER_100MS = 280; //NU/100 ms MAX SPEED for slowest motor
 	
 	private MotorSafetyHelper m_safetyHelper = new MotorSafetyHelper(chassis); //watchdog
 	
@@ -123,6 +123,8 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		
 		talon.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_100Ms, 10);
 		talon.configVelocityMeasurementWindow(64, 0);
+		//talon.configVoltageCompSaturation(12.0, 10);
+		//talon.enableVoltageCompensation(true);
 		
 		//InitializeDriveTrain();
 	}
@@ -223,7 +225,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		
 		Vector2d input = new Vector2d(x, y);
 		
-		input.rotate(-orientation);
+		input.rotate(orientation);
 		
 		//System.out.println(orientation);
 		
@@ -245,10 +247,10 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		
 		//Left get's dialed back on positive error and right get's dialed up
 		
-		rearLeftSpeed = (input.x +input.y + rotationalRate) + buffer.output;
-		rearRightSpeed = (input.x - input.y +rotationalRate) + buffer.output;
-		frontLeftSpeed = (-input.x +input.y + rotationalRate) + buffer.output;
-		frontRightSpeed = (-input.x - input.y +rotationalRate) + buffer.output;
+		rearLeftSpeed = (-input.x + input.y + rotationalRate);
+		rearRightSpeed = (-input.x - input.y +rotationalRate);
+		frontLeftSpeed = (input.x + input.y + rotationalRate);
+		frontRightSpeed = (input.x - input.y +rotationalRate);
 		
 		normalize(frontLeftSpeed, rearRightSpeed, frontRightSpeed, rearRightSpeed);
 		
@@ -257,10 +259,10 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		frontLeftTalon.set(ControlMode.Velocity, frontLeftSpeed);
 		frontRightTalon.set(ControlMode.Velocity, frontRightSpeed);*/
 	
-		rearLeftTalon.set(ControlMode.Velocity, rearLeftSpeed * MOTOR_SETPOINT_PER_100MS);
-		rearRightTalon.set(ControlMode.Velocity, rearRightSpeed * MOTOR_SETPOINT_PER_100MS);
-		frontLeftTalon.set(ControlMode.Velocity, frontLeftSpeed * MOTOR_SETPOINT_PER_100MS);
-		frontRightTalon.set(ControlMode.Velocity, frontRightSpeed * MOTOR_SETPOINT_PER_100MS);
+		rearLeftTalon.set(ControlMode.Velocity, rearLeftSpeed.doubleValue() * MOTOR_SETPOINT_PER_100MS);
+		rearRightTalon.set(ControlMode.Velocity, rearRightSpeed.doubleValue() * MOTOR_SETPOINT_PER_100MS);
+		frontLeftTalon.set(ControlMode.Velocity, frontLeftSpeed.doubleValue() * MOTOR_SETPOINT_PER_100MS);
+		frontRightTalon.set(ControlMode.Velocity, frontRightSpeed.doubleValue() * MOTOR_SETPOINT_PER_100MS);
 		
 	    m_safetyHelper.feed(); //"watchdog.feed()"
 	}
