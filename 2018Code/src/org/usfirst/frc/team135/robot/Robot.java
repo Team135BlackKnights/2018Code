@@ -51,7 +51,7 @@ public class Robot extends TimedRobot {
 		lift = Lift.getInstance();
 		oi = OI.getInstance();
 		
-		CameraServer.getInstance().startAutomaticCapture();
+		//CameraServer.getInstance().startAutomaticCapture();
 		
 		m_chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
