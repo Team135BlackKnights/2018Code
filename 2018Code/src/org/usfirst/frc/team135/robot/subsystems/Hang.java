@@ -3,7 +3,7 @@ package org.usfirst.frc.team135.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import org.usfirst.frc.team135.robot.RobotMap;
-import org.usfirst.frc.team135.robot.commands.*;
+import org.usfirst.frc.team135.robot.commands.teleop.*;
 
 /**
  *

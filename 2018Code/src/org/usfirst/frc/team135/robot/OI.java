@@ -10,7 +10,7 @@ package org.usfirst.frc.team135.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.usfirst.frc.team135.robot.RobotMap.*;
-import org.usfirst.frc.team135.robot.commands.*;
+import org.usfirst.frc.team135.robot.commands.teleop.*;
 
 /**
  * This class is the glue that binds the controls on the physical operator

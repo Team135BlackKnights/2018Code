@@ -1,6 +1,5 @@
 package org.usfirst.frc.team135.robot.subsystems;
 
-import org.usfirst.frc.team135.robot.commands.*;
 import org.usfirst.frc.team135.robot.util.NavX_wrapper;
 import org.usfirst.frc.team135.robot.util.PIDOut;
 
@@ -14,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.*;
 
 import org.usfirst.frc.team135.robot.Robot;
 import org.usfirst.frc.team135.robot.RobotMap;
+import org.usfirst.frc.team135.robot.commands.teleop.*;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;

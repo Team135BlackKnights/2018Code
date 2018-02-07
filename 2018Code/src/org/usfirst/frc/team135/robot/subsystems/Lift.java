@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team135.robot.RobotMap;
 import org.usfirst.frc.team135.robot.RobotMap.*;
-import org.usfirst.frc.team135.robot.commands.RunLift;
+import org.usfirst.frc.team135.robot.commands.teleop.RunLift;
 
 /**
  *
@@ -44,6 +44,10 @@ public class Lift extends Subsystem implements RobotMap
 		liftMotor.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_100Ms, 10);
 		liftMotor.configVelocityMeasurementWindow(5, 10); //Might want to check this later
 		
+		liftMotor.config_kP(0, 1, 10);
+		liftMotor.config_kI(0, .01, 10);
+		liftMotor.config_kD(0, 10, 10);
+		liftMotor.config_kF(0, 0, 10);
 	} 	
 	
 	public static Lift getInstance()
@@ -84,6 +88,10 @@ public class Lift extends Subsystem implements RobotMap
 		liftMotor.set(ControlMode.PercentOutput, speed);
 	}
 	
+	public void setToPosition(double position)
+	{	
+		liftMotor.set(ControlMode.MotionMagic, position);
+	}
     public void initDefaultCommand() {
     	setDefaultCommand(new RunLift());
     }

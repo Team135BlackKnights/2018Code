@@ -1,5 +1,4 @@
-
-package org.usfirst.frc.team135.robot.commands;
+package org.usfirst.frc.team135.robot.commands.teleop;
 
 import org.usfirst.frc.team135.robot.Robot;
 
@@ -9,9 +8,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ExtendMandibles extends Command {
+public class ReleaseMandibles extends Command {
 
-    public ExtendMandibles() {
+    public ReleaseMandibles() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.intake);
@@ -19,9 +18,7 @@ public class ExtendMandibles extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-
-    	Robot.intake.MoveMandibles(DoubleSolenoid.Value.kForward);
-
+    	Robot.intake.ActivateClaw(DoubleSolenoid.Value.kReverse);
     }
 
     // Called repeatedly when this Command is scheduled to run

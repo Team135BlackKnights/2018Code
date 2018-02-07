@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc.team135.robot.commands;
+package org.usfirst.frc.team135.robot.commands.teleop;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team135.robot.Robot;

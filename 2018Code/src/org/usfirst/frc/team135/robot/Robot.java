@@ -13,7 +13,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team135.robot.commands.*;
+
+import org.usfirst.frc.team135.robot.commands.teleop.*;
 import org.usfirst.frc.team135.robot.subsystems.*;
 
 /**
