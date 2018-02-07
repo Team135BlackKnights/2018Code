@@ -67,8 +67,6 @@ public class Lift extends Subsystem implements RobotMap
 		timer.stop();
 		
 		return ((v2 - v1) / timer.get());
-		
-
 	}
 	
 	public double getEncoderVelocity()
