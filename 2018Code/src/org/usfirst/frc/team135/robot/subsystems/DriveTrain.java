@@ -82,6 +82,12 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		OrientationHelper_kI,
 		OrientationHelper_kD;
 
+	private double
+		FrontLeftSetpoint = 0.0,
+		RearLeftSetpoint = 0.0,
+		FrontRightSetpoint = 0.0,
+		RearRightSetpoint = 0.0;
+	
 	private boolean isFieldOriented = false;
 			
 	private DriveTrain()
@@ -214,12 +220,47 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	
 	public double getEncoderCounts(WPI_TalonSRX talon)
 	{
-		return ((double)talon.getSelectedSensorPosition(0)) ;
+		double position = talon.getSelectedSensorPosition(0);
+		if (talon.getDeviceID() == DRIVETRAIN.FRONT_RIGHT_TALON_ID || talon.getDeviceID() == DRIVETRAIN.REAR_RIGHT_TALON_ID)
+		{
+			position *= -1;
+		}
+		return (position);
 	}
 	
 	public double getEncoderSpeed(WPI_TalonSRX talon)
 	{
-		return ((double)talon.getSelectedSensorVelocity(0));
+		double velocity = talon.getSelectedSensorVelocity(0);
+		if (talon.getDeviceID() == DRIVETRAIN.FRONT_RIGHT_TALON_ID || talon.getDeviceID() == DRIVETRAIN.REAR_RIGHT_TALON_ID)
+		{
+			velocity *= -1;
+		}
+		return (velocity);
+	}
+	
+	public double getEncoderSetpoint(WPI_TalonSRX talon)
+	{
+		if (talon.getDeviceID() == DRIVETRAIN.FRONT_LEFT_TALON_ID)
+		{
+			return FrontLeftSetpoint;
+		}
+		else if (talon.getDeviceID() == DRIVETRAIN.REAR_LEFT_TALON_ID)
+		{
+			return RearLeftSetpoint;
+		}
+		else if (talon.getDeviceID() == DRIVETRAIN.FRONT_RIGHT_TALON_ID)
+		{
+			return FrontRightSetpoint;
+		}
+		else if (talon.getDeviceID() == DRIVETRAIN.REAR_RIGHT_TALON_ID)
+		{
+			return RearRightSetpoint;
+		}
+		else
+		{
+			return 0;
+		}
+		
 	}
 	
 	public void driveCartesian(double x, double y, double rotationalRate)
@@ -267,11 +308,15 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		frontLeftTalon.set(ControlMode.Velocity, frontLeftSpeed);
 		frontRightTalon.set(ControlMode.Velocity, frontRightSpeed);*/
 	
+		RearLeftSetpoint = rearLeftSpeed;
+		RearRightSetpoint = rearRightSpeed;
+		FrontLeftSetpoint = frontLeftSpeed;
+		FrontRightSetpoint = frontRightSpeed;
 		
-		rearLeftTalon.set(ControlMode.Velocity, rearLeftSpeed.doubleValue() * MOTOR_SETPOINT_PER_100MS);
-		rearRightTalon.set(ControlMode.Velocity, rearRightSpeed.doubleValue() * MOTOR_SETPOINT_PER_100MS);
-		frontLeftTalon.set(ControlMode.Velocity, frontLeftSpeed.doubleValue() * MOTOR_SETPOINT_PER_100MS);
-		frontRightTalon.set(ControlMode.Velocity, frontRightSpeed.doubleValue() * MOTOR_SETPOINT_PER_100MS);
+		rearLeftTalon.set(ControlMode.Velocity, rearLeftSpeed * MOTOR_SETPOINT_PER_100MS);
+		rearRightTalon.set(ControlMode.Velocity, rearRightSpeed * MOTOR_SETPOINT_PER_100MS);
+		frontLeftTalon.set(ControlMode.Velocity, frontLeftSpeed * MOTOR_SETPOINT_PER_100MS);
+		frontRightTalon.set(ControlMode.Velocity, frontRightSpeed * MOTOR_SETPOINT_PER_100MS);
 		
 	    m_safetyHelper.feed(); //"watchdog.feed()"
 	}

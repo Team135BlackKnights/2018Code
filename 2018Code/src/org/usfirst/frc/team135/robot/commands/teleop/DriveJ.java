@@ -45,7 +45,12 @@ public class DriveJ extends Command {
 		SmartDashboard.putNumber("Rear Right Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearRightTalon));
 		SmartDashboard.putNumber("Front Left Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.frontLeftTalon));
 		SmartDashboard.putNumber("Front Right Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.frontRightTalon));
-    
+    hjuygtfd
+		SmartDashboard.putNumber("Rear Left Setpoint", Robot.drivetrain.getEncoderSetpoint(Robot.drivetrain.rearLeftTalon));
+		SmartDashboard.putNumber("Rear Right Setpoint", Robot.drivetrain.getEncoderSetpoint(Robot.drivetrain.rearRightTalon));
+		SmartDashboard.putNumber("Front Left Setpoint", Robot.drivetrain.getEncoderSetpoint(Robot.drivetrain.frontLeftTalon));
+		SmartDashboard.putNumber("Front Right Setpoint", Robot.drivetrain.getEncoderSetpoint(Robot.drivetrain.frontRightTalon));
+		
     }
 
     // Make this return true when this Command no longer needs to run execute()

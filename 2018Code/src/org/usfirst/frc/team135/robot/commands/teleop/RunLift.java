@@ -10,10 +10,6 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class RunLift extends Command {
 	
-	private double 
-		upPower = Preferences.getInstance().getDouble("Lift Up Speed", 0.0),
-		downPower = Preferences.getInstance().getDouble("Lift Down Speed", 0.0);
-	
 	
     public RunLift() 
     {

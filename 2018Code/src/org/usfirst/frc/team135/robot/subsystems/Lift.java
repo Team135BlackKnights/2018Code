@@ -22,6 +22,8 @@ public class Lift extends Subsystem implements RobotMap
 {
 	private static Lift instance;
 	
+	private double setPoint = 0.0;
+	
 	private TalonSRX liftMotor;
 	
 	private Lift()
@@ -91,6 +93,7 @@ public class Lift extends Subsystem implements RobotMap
 	public void setToPosition(double position)
 	{	
 		liftMotor.set(ControlMode.MotionMagic, position);
+		setPoint = position;
 	}
     public void initDefaultCommand() {
     	setDefaultCommand(new RunLift());
@@ -98,7 +101,8 @@ public class Lift extends Subsystem implements RobotMap
     
     public void periodic()
     {
-    	//SmartDashboard.putNumber("Lift Velocity", getEncoderAcceleration());
+    	SmartDashboard.putNumber("Lift Position", getEncoderPosition());
+    	SmartDashboard.putNumber("Lift Setpoint", setPoint);
     	//System.out.println(getEncoderPosition());
     }
 }
