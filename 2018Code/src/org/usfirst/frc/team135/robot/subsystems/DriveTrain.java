@@ -232,18 +232,9 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		
 		Vector2d input = new Vector2d(x, y);
 		
-		input.rotate(orientation);
+		input.rotate(-orientation);
 		
 		//System.out.println(orientation);
-		
-		if (input.x == 0 && input.y == 0)
-		{
-			rearLeftTalon.set(ControlMode.PercentOutput, 0);
-			rearRightTalon.set(ControlMode.PercentOutput, 0);
-			frontLeftTalon.set(ControlMode.PercentOutput, 0);
-			frontRightTalon.set(ControlMode.PercentOutput, 0);
-			return;
-		}
 		
 		Double rearLeftSpeed, rearRightSpeed, frontLeftSpeed, frontRightSpeed, maxRightSpeed, maxLeftSpeed, maxSpeed;
 		
@@ -264,10 +255,10 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		//Left get's dialed back on positive error and right get's dialed up
 		
 		
-		rearLeftSpeed = (-input.x + input.y + rotationalRate);
-		rearRightSpeed = (-input.x - input.y + rotationalRate);
-		frontLeftSpeed = (input.x + input.y + rotationalRate);
-		frontRightSpeed = (input.x -input.y + rotationalRate);
+		rearLeftSpeed = (input.x + input.y + rotationalRate);
+		rearRightSpeed = (input.x - input.y + rotationalRate);
+		frontLeftSpeed = (-input.x + input.y + rotationalRate);
+		frontRightSpeed = (-input.x -input.y + rotationalRate);
 				
 		normalize(frontLeftSpeed, rearRightSpeed, frontRightSpeed, rearRightSpeed);
 		

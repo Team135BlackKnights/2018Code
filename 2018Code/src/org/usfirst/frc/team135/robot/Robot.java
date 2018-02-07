@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
 	public static DriveTrain drivetrain;
 	public static Lift lift;
 	public static Intake intake;
-
+	public static Hang hang;
 	Command m_autonomousCommand;
 	Command getGameSpecificMessage;
 	Command setSmartDashboardKeys;
@@ -43,6 +43,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		//Order does matter.
+		hang = Hang.getInstance();
 		navx = NavX.getInstance();
 		drivetrain = DriveTrain.getInstance();
 		intake = Intake.GetInstance();

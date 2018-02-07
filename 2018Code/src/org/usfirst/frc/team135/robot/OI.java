@@ -35,7 +35,9 @@ public class OI implements RobotMap
 		MANDIBLES_UP, 
 		MANDIBLES_DOWN,
 		MANDIBLES_WHEELS_IN,
-		MANDIBLES_WHEELS_OUT;
+		MANDIBLES_WHEELS_OUT,
+		DRIVE_HANG_FORWARD,
+		DRIVE_HANG_BACKWARD;
 	
  
 	public static OI getInstance() {
@@ -71,7 +73,10 @@ public class OI implements RobotMap
 		MANDIBLES_UP = new JoystickButton(MANIP, 5);
 		MANDIBLES_DOWN = new JoystickButton(MANIP, 3);
 		
-		assignButtons();
+		DRIVE_HANG_FORWARD = new JoystickButton(RIGHT, 1);
+		DRIVE_HANG_BACKWARD = new JoystickButton(RIGHT, 2);
+
+		AssignButtons();
 	}
 	
 	private double deadband(double input)
@@ -98,11 +103,11 @@ public class OI implements RobotMap
 	
 	public double GetLeftTwist()
 	{
-		return deadband(LEFT.getTwist());
+		return deadband(LEFT.getTwist() / 2);
 	}
 	public double GetRightY()
 	{
-		return deadband(RIGHT.getY());
+		return deadband(-RIGHT.getY());
 	}
 	
 	public double GetRightX()
@@ -130,7 +135,7 @@ public class OI implements RobotMap
 		return deadband(MANIP.getTwist());
 	}
 	
-	private void assignButtons()
+	private void AssignButtons()
 	{
 		/*
 		DRIVE_REAR_LEFT.whileHeld(new DriveMotor(DRIVETRAIN.REAR_LEFT_TALON_ID));
@@ -138,7 +143,6 @@ public class OI implements RobotMap
 		DRIVE_FRONT_LEFT.whileHeld(new DriveMotor(DRIVETRAIN.FRONT_LEFT_TALON_ID));
 		DRIVE_FRONT_RIGHT.whileHeld(new DriveMotor(DRIVETRAIN.FRONT_RIGHT_TALON_ID));
 		*/
-		
 		
 		MANDIBLES_CLOSE.whenPressed(new GrabMandibles());
 		MANDIBLES_OPEN.whenPressed(new ReleaseMandibles());
@@ -148,6 +152,9 @@ public class OI implements RobotMap
 		MANDIBLES_WHEELS_IN.whileHeld(new DriveMandibleWheels(true));
 		MANDIBLES_WHEELS_OUT.whileHeld(new DriveMandibleWheels(false));
 	
+		DRIVE_HANG_FORWARD.whileHeld(new DriveHang(.75));
+		DRIVE_HANG_BACKWARD.whileHeld(new DriveHang(-.75));
+
 	}	
 	
 }

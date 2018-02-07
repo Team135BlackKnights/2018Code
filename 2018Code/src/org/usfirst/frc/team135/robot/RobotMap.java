@@ -36,4 +36,11 @@ public interface RobotMap
 		public static final int RETRACT_OUT_CHANNEL = 3;
 	}
 	
+	public interface HANG
+	{
+		public static final int HANG_1_VICTOR_ID = 3;
+		public static final int HANG_2_VICTOR_ID = 4;
+
+	}
+	
 }
