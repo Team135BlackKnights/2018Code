@@ -1,9 +1,11 @@
 package org.usfirst.frc.team135.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import org.usfirst.frc.team135.robot.RobotMap;
 import org.usfirst.frc.team135.robot.commands.teleop.*;
+
 
 /**
  *
@@ -17,6 +19,8 @@ public class Hang extends Subsystem implements RobotMap {
 	WPI_VictorSPX hangMotor1;
 	WPI_VictorSPX hangMotor2;
 	
+	Solenoid hangSolenoid; 
+	
 	public static Hang getInstance()
 	{
 		if (instance == null)
@@ -29,6 +33,7 @@ public class Hang extends Subsystem implements RobotMap {
 	private Hang()
 	{
 		InitializeHangMotors();
+		InitializeHangSolenoid();
 	}
 	public void InitializeHangMotors()
 	{
@@ -41,10 +46,21 @@ public class Hang extends Subsystem implements RobotMap {
 		hangMotor2.setSafetyEnabled(false);
 	}
 	
+	public void InitializeHangSolenoid()
+	{
+		hangSolenoid = new Solenoid(4);
+		hangSolenoid.set(false);
+	}
+	
 	public void RunHangMotor(double power)
 	{
 		hangMotor1.set(power);
-		hangMotor2.set(power);
+		hangMotor2.set(power);	
+	}
+	
+	public void setRelease(boolean isReleased)
+	{
+		hangSolenoid.set(isReleased);
 	}
     public void initDefaultCommand() {
     	

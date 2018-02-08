@@ -32,11 +32,11 @@ public interface RobotMap
 		
 		public static final int MANDIBLE_OPEN_CHANNEL = 0;
 		public static final int MANDIBLE_CLOSE_CHANNEL = 1;
-		
+
 		public static final int RETRACT_IN_CHANNEL = 2;
 		public static final int RETRACT_OUT_CHANNEL = 3;
 	}
-	
+	 
 	public interface HANG
 	{
 		public static final int HANG_1_VICTOR_ID = 3;

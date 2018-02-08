@@ -362,6 +362,14 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		}
 	}
 	
+	public void stopMotors()
+	{
+		rearLeftTalon.set(ControlMode.PercentOutput, 0);
+		rearRightTalon.set(ControlMode.PercentOutput, 0);
+		frontLeftTalon.set(ControlMode.PercentOutput, 0);
+		frontRightTalon.set(ControlMode.PercentOutput, 0);
+	}
+	
 	private void normalize(Double FL, Double BL, Double FR, Double BR) 
 	{
 		double 
