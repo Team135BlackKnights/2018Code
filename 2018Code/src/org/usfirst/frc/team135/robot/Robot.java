@@ -29,11 +29,13 @@ public class Robot extends TimedRobot {
 			= new ExampleSubsystem();
 	
 	public static NavX navx;
+	public static UltrasonicSensor ultrasonic;
 	public static OI oi;
 	public static DriveTrain drivetrain;
 	public static Lift lift;
 	public static Intake intake;
 	public static Hang hang;
+	public static Canifier canifier;
 	Command m_autonomousCommand;
 	Command getGameSpecificMessage;
 	Command setSmartDashboardKeys;
@@ -44,9 +46,12 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		//Order does matter.
-		hang = Hang.getInstance();
+		
 		navx = NavX.getInstance();
+		canifier = Canifier.getInstance();
+		ultrasonic = UltrasonicSensor.getInstance();
 		drivetrain = DriveTrain.getInstance();
+		hang = Hang.getInstance();
 		intake = Intake.GetInstance();
 		lift = Lift.getInstance();
 		oi = OI.getInstance();
