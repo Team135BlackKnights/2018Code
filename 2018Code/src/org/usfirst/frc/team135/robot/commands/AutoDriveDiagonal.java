@@ -28,14 +28,14 @@ private Timer timer;
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-		//set motors equal to .5 speed
+		//set motors equal to .5 speed 
     	//set timer value (How does this become generalized if the value differs for each path?) 
     	if (distance == RobotMap.midLeftSwitch) {
     		
     		timer.start();
     		while (Robot.sonar.GetRightSonarValue() >RobotMap.midLeftSwitch && timer.get() < 5 && DriverStation.getInstance().isAutonomous()) 
     		{
-    			Robot.drivetrain.driveCartesian(-1, Math.tan(angle), 0, 0, false); 
+    			Robot.drivetrain.driveCartesian(-1, Math.tan(Math.toRadians(angle)), 0, 0, false); 
     		}
     		timer.stop();
     		timer.reset();
@@ -51,7 +51,7 @@ private Timer timer;
     		timer.start();
     		while (Robot.sonar.GetRightSonarValue() >RobotMap.midRightSwitch && timer.get() < 5 && DriverStation.getInstance().isAutonomous()) //change value when we know that we need for each path
     		{
-    			Robot.drivetrain.driveCartesian(1, Math.tan(angle), 0, 0, false); 
+    			Robot.drivetrain.driveCartesian(1, Math.tan(Math.toRadians(angle)), 0, 0, false); 
     		}
     		timer.stop();
     		timer.reset();

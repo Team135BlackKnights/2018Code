@@ -46,6 +46,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 	
 		//gyro = Gyro.getInstance();
+		sonar = Sonar.getInstance();
 		drivetrain = DriveTrain.getInstance();
 		oi = OI.getInstance();
 		//navx = NavX.getInstance();
