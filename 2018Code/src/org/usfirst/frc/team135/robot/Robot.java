@@ -67,11 +67,9 @@ public class Robot extends TimedRobot {
 		m_chooser.addObject("Middle Position", new MiddlePosition());
 		m_chooser.addObject("Right Position", new RightPosition());
 		SmartDashboard.putData("Auto mode", m_chooser);
-		
-		
-
-		
-		
+		SmartDashboard.putBoolean("Try to go for Scale?", false);
+		SmartDashboard.putBoolean("Try to go for Switch?", false);
+		SmartDashboard.putBoolean("Tiebreak with: Switch (Check)/Scale (Uncheck)", false);
 	}
 
 	/**
