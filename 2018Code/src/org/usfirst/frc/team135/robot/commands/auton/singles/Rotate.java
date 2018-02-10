@@ -12,23 +12,26 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class Rotate extends Command {
 
-	private double rotationZ;
-	private boolean done = false;
-	/*
-	PIDController angleController;
-	PIDOut buffer;
+	private double rotationalAngle;
+	private PIDController angleZController;
 	NavX_wrapper navx;
-	*/
+	private PIDOut bufRotationZ;
 	
-    public Rotate(double rotationZ) {
-    	requires(Robot.drivetrain);
-    	/*
-    	setpoint = angle;
 
-    	buffer = new PIDOut();
+	
+    public Rotate(double rotationalAngle) {
+    	requires(Robot.drivetrain);
+    	this.rotationalAngle = rotationalAngle;
+
+    	bufRotationZ = new PIDOut();
     	navx = new NavX_wrapper(Robot.navx);
-    	angleController = new PIDController(.005, .00005, .05, navx, buffer);
-    	*/
+    	angleZController = new PIDController(.005, .00005, .05, navx, bufRotationZ);
+    	
+    	angleZController.setInputRange(0, 360);
+    	angleZController.setContinuous();
+    	angleZController.setOutputRange(-.2, .2);
+    	angleZController.setAbsoluteTolerance(3);
+    	
     	
     	//initAngleController();
 
@@ -46,28 +49,32 @@ public class Rotate extends Command {
     */
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.drivetrain.driveCartesian(0, 0, rotationZ);
+    	angleZController.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drivetrain.driveCartesian(0, 0, buffer.output);
-    	done = true;
+    	while(angleZController.getError() < 1)
+    	{
+    		Robot.drivetrain.driveCartesian(0, 0, bufRotationZ.output);
+    	}
+
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return done;
+        return (angleZController.getError() < 1);
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.drivetrain.stopMotors();
     	
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.drivetrain.stopMotors();
+    	end();
     }
 }

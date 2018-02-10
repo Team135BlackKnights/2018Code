@@ -28,6 +28,8 @@ public class Lift extends Subsystem implements RobotMap
 	
 	private Lift()
 	{
+		Timer timer = new Timer();
+		
 		liftMotor = new TalonSRX(LIFT.LIFT_MOTOR_ID);
 		liftMotor.setInverted(true);
 		
@@ -50,6 +52,12 @@ public class Lift extends Subsystem implements RobotMap
 		liftMotor.config_kI(0, .01, 10);
 		liftMotor.config_kD(0, 10, 10);
 		liftMotor.config_kF(0, 0, 10);
+		
+		timer.start();
+		while(timer.get() < 1 && Math.abs(getEncoderVelocity()) == 0 )
+		{
+			set(-0.5);
+		}
 	} 	
 	
 	public static Lift getInstance()
@@ -88,6 +96,11 @@ public class Lift extends Subsystem implements RobotMap
 	public void set(double speed)
 	{
 		liftMotor.set(ControlMode.PercentOutput, speed);
+	}
+	
+	public void stopMotor()
+	{
+		set(0);
 	}
 	
 	public void setToPosition(double position)

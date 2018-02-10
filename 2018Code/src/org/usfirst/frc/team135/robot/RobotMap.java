@@ -10,6 +10,20 @@ package org.usfirst.frc.team135.robot;
 
 public interface RobotMap 
 {
+	public interface FIELD
+	{
+		public static final float //All measurements are in inches
+			AUTO_LINE = 135,	
+			SCALE_X = 42.5f,
+			SCALE_Y = 327,
+			SIDE_SWITCH_X = 54.5f,
+			SIDE_SWITCH_Y = 165,
+			MID_SWITCH_X = 47.25f,
+			MID_SWITCH_Y = 143.5f;
+			
+		
+	}
+	
 	public interface CANIFIER
 	{
 		public static final int ID = 0;
@@ -19,6 +33,12 @@ public interface RobotMap
 	{
 		public static final int 
 			LIFT_MOTOR_ID = 3;
+		
+		public static final double
+			LOW_POSITION = 0,
+			SWITCH_POSITION = 0,
+			SCALE_POSITION = 0;
+			
 	}
 	
 	public interface DRIVETRAIN

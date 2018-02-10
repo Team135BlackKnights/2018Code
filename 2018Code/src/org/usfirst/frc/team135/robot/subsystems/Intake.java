@@ -63,8 +63,8 @@ public class Intake extends Subsystem implements RobotMap{
 		compressor = new Compressor(0);
 		compressor.setClosedLoopControl(true);
 
-		claw.set(DoubleSolenoid.Value.kOff);
-		retraction.set(DoubleSolenoid.Value.kOff);
+		claw.set(DoubleSolenoid.Value.kForward);
+		retraction.set(DoubleSolenoid.Value.kReverse);
 	}
 
 	public void ActivateClaw(DoubleSolenoid.Value value)
