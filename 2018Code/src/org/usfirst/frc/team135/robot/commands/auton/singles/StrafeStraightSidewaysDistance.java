@@ -1,31 +1,32 @@
 package org.usfirst.frc.team135.robot.commands.auton.singles;
 
 import org.usfirst.frc.team135.robot.Robot;
+import org.usfirst.frc.team135.robot.RobotMap.FIELD;
 import org.usfirst.frc.team135.robot.util.*;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class DriveStraightDistance extends Command {
+public class StrafeStraightSidewaysDistance extends Command {
 
 	private double distance, drivingAngle, rotationalAngle;
-	private PIDController xController, yController, angleZController;
-	private PIDOut bufX, bufY, bufRotationZ;
+	public Ultrasonic sonar;
+	private PIDController angleZController;
+	private PIDOut bufRotationZ;
 	private NavX_wrapper navx;
-	private Lidar_wrapper lidar;
+	private	Timer timer = new Timer();
+	private int pos_stability = 0;
+	private boolean done = false;
+
 	
-	
-	private boolean isDone = false;
-	
-	private double xMultiplier, yMultiplier;
-	
-    public DriveStraightDistance(double distance, double drivingAngle, double rotationalAngle) {
+    public StrafeStraightSidewaysDistance(double distance, boolean moveRight) {
     	requires(Robot.drivetrain);
     	
     	this.distance = distance;
@@ -35,65 +36,61 @@ public class DriveStraightDistance extends Command {
     	//initBuffers();
     	
     	navx = new NavX_wrapper(Robot.navx);
-    	lidar = new Lidar_wrapper(Robot.canifier);
+
     	
-    	bufX = new PIDOut();
-    	bufY = new PIDOut();
     	bufRotationZ = new PIDOut();
-    	
-    	xController = new PIDController(1.0, .01, 10, Robot.ultrasonic.rightSonar, bufX);
-    	yController = new PIDController(1.0, .01, 10, Robot.ultrasonic.backSonar, bufY);
     	
     	angleZController = new PIDController(.05, .0005, .5, navx, bufRotationZ);
     	
     	angleZController.setInputRange(0, 360);
     	angleZController.setContinuous();
     	angleZController.setOutputRange(-.2, .2);
-    	angleZController.setAbsoluteTolerance(1);
+    	angleZController.setAbsoluteTolerance(.5);
     	
-    	xController.setAbsoluteTolerance(2.0);
-    	xController.setOutputRange(-1, 1);
-    	
-    	yController.setAbsoluteTolerance(2.0);
-    	yController.setOutputRange(-1, 1);
-    	
+    	sonar = (moveRight) ? Robot.ultrasonic.rightSonar : Robot.ultrasonic.leftSonar;
+
+
     }
     
 
     // Called just before this Command runs the first time
     protected void initialize()
     {
-    	xController.enable();
-    	yController.enable();
     	angleZController.enable();
+    	timer.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() 
     {
-    	Timer timer = new Timer();
-    	timer.start();
-    	
-    	while (DriverStation.getInstance().isAutonomous() && timer.get() < 8)
+ 
+    	  		
+    	if((sonar.getRangeInches() < FIELD.SIDE_SWITCH_X || sonar.getRangeInches() < FIELD.SIDE_SWITCH_X + 30) && timer.get() < 3)
     	{
-    		
-    		if(xController.getError() < 2 && yController.getError() < 2 && angleZController.getError() < 2)
+    		pos_stability = 0;
+    		Robot.drivetrain.driveCartesian(.5, 0, bufRotationZ.output);
+    	}
+    	else
+    	{
+    		if (pos_stability < 5)
     		{
-    			Robot.drivetrain.driveCartesian(bufX.output, bufY.output, bufRotationZ.output);
+    			pos_stability++;
+    			return;
     		}
     		else
     		{
-    			break;
+    			timer.stop();
+    			timer.reset();
+    			done = true;
     		}
+    		
     	}
     	
-    	timer.stop();
-    	timer.reset();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (xController.getError() < 2 && yController.getError() < 2 && angleZController.getError() < 2);
+        return done;
     }
 
     // Called once after isFinished returns true

@@ -26,7 +26,7 @@ public interface RobotMap
 	
 	public interface CANIFIER
 	{
-		public static final int ID = 0;
+		public static final int ID = 1;
 	}
 	
 	public interface LIFT

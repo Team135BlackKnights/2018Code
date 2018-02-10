@@ -1,75 +1,92 @@
 package org.usfirst.frc.team135.robot.commands.auton.singles;
 
 import org.usfirst.frc.team135.robot.Robot;
+import org.usfirst.frc.team135.robot.util.Lidar_wrapper;
 import org.usfirst.frc.team135.robot.util.NavX_wrapper;
 import org.usfirst.frc.team135.robot.util.PIDOut;
 
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class Rotate extends Command {
+public class DriveStraightForwardDistance extends Command {
 
-	private double rotationalAngle;
-	private PIDController angleZController;
-	NavX_wrapper navx;
-	private PIDOut bufRotationZ;
+	private double distance;
+	private PIDController yController, angleZController;
+	private PIDOut bufY, bufRotationZ;
+	private NavX_wrapper navx;
 	
-
+	private int pos_stability;
+	private boolean done = false;
 	
-    public Rotate(double rotationalAngle) {
-    	requires(Robot.drivetrain);
-    	this.rotationalAngle = rotationalAngle;
-
-    	bufRotationZ = new PIDOut();
+	Timer timer;
+	
+    public DriveStraightForwardDistance( double distance) {
+    	this.distance = distance;
+    	
     	navx = new NavX_wrapper(Robot.navx);
-    	angleZController = new PIDController(.005, .00005, .05, navx, bufRotationZ);
+    	
+    	bufRotationZ = new PIDOut();
+    	
+    	
+    	angleZController = new PIDController(.03, .0003, 0, navx, bufRotationZ);
     	
     	angleZController.setInputRange(0, 360);
     	angleZController.setContinuous();
     	angleZController.setOutputRange(-.2, .2);
     	angleZController.setAbsoluteTolerance(.5);
+    	angleZController.setSetpoint(0);
     	
     	
-    	//initAngleController();
+    	timer = new Timer();
+    	
+    }
 
-    }
-    
-    /*
-    private void initAngleController()
-    {
-    	angleController.setAbsoluteTolerance(.2);
-    	angleController.setOutputRange(-.4, .4);
-    	angleController.setInputRange(0, 360);
-    	angleController.setContinuous(true);
-    	angleController.setSetpoint(setpoint);
-    }
-    */
     // Called just before this Command runs the first time
     protected void initialize() {
     	angleZController.enable();
+    	yController.enable();
+    	timer.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	while(angleZController.getError() > .5)
+    	
+    	if ((Robot.canifier.ReadLidarInches() < distance || Robot.canifier.ReadLidarInches() > distance + 30) && timer.get() < 3)
     	{
-    		Robot.drivetrain.driveCartesian(0, 0, bufRotationZ.output);
+    		pos_stability = 0;
+    		Robot.drivetrain.driveCartesian(0, -.5, bufRotationZ.output);
     	}
+    	else
+    	{
+    		if(pos_stability < 5)
+    		{
+    			pos_stability++;
+    			return;
+    		}
+    		else
+    		{
+        		timer.stop();
+        		timer.reset();
+        		done = true;
+    		}
 
+    	}
+    	
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (angleZController.getError() > .5);
+        return done;
     }
 
     // Called once after isFinished returns true
     protected void end() {
     	Robot.drivetrain.stopMotors();
-    	
     }
 
     // Called when another command which requires one or more of the same

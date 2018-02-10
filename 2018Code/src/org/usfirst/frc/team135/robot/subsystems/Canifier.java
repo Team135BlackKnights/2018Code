@@ -66,7 +66,7 @@ public class Canifier extends Subsystem implements RobotMap{
 		return dutyCycleAndPeriods[pwmCh.value][0];   
 	}
 	
-	public double ReadLIDARCM()
+	public double ReadLidarCM()
 	{
 		double reading = getMeasuredPulseWidths(Lidar)/10;
 		Timer.delay(.035); //ms wait time
@@ -74,6 +74,10 @@ public class Canifier extends Subsystem implements RobotMap{
 		
 	}
 	
+	public double ReadLidarInches()
+	{
+		return (ReadLidarCM() / 2.54);
+	}
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         
@@ -81,6 +85,6 @@ public class Canifier extends Subsystem implements RobotMap{
     
     public void periodic()
     {		
-    	 System.out.println(ReadLIDARCM());
+    	 System.out.println(ReadLidarInches());
     }
 }

@@ -15,7 +15,7 @@ public class MidToSwitch extends CommandGroup {
 
     public MidToSwitch(boolean switchIsRight) {
     	addParallel(new SetLiftPosition(LIFT.SWITCH_POSITION));
-    	addParallel(new DriveStraightDistance(FIELD.SWITCH_X, FIELD.SWITCH_Y, 0));
+    	addParallel(new DriveStraightDistance(FIELD.MID_SWITCH_X, FIELD.MID_SWITCH_Y, 0));
     	addSequential(new ReleaseMandibles());
     }
 }

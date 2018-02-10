@@ -52,12 +52,14 @@ public class Lift extends Subsystem implements RobotMap
 		liftMotor.config_kI(0, .01, 10);
 		liftMotor.config_kD(0, 10, 10);
 		liftMotor.config_kF(0, 0, 10);
-		
+		/*
 		timer.start();
 		while(timer.get() < 1 && Math.abs(getEncoderVelocity()) == 0 )
 		{
-			set(-0.5);
+			set(1.0);
+			setToPosition(LIFT.LOW_POSITION);
 		}
+		*/
 	} 	
 	
 	public static Lift getInstance()
