@@ -16,7 +16,7 @@ public class SideToScale extends CommandGroup implements RobotMap {
 
     public SideToScale() {
     	addParallel(new SetLiftPosition(LIFT.SCALE_POSITION));
-    	addParallel(new DriveStraightDistance(FIELD.SCALE_X, FIELD.SCALE_Y, 0));
+    	//addParallel(new DriveStraightDistance(FIELD.SCALE_X, FIELD.SCALE_Y, 0));
     	addSequential(new DriveMandibleWheels(false)); //false is outward
 
     }

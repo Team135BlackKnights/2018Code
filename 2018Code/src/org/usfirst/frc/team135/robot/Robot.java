@@ -14,6 +14,9 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team135.robot.commands.auton.entrypoints.LeftPosition;
+import org.usfirst.frc.team135.robot.commands.auton.entrypoints.MiddlePosition;
+import org.usfirst.frc.team135.robot.commands.auton.entrypoints.RightPosition;
 import org.usfirst.frc.team135.robot.commands.auton.groups.ToAutoline;
 import org.usfirst.frc.team135.robot.commands.teleop.*;
 import org.usfirst.frc.team135.robot.subsystems.*;
@@ -60,8 +63,12 @@ public class Robot extends TimedRobot {
 		CameraServer.getInstance().startAutomaticCapture();
 		
 		m_chooser.addDefault("Autoline", new ToAutoline());
-		// chooser.addObject("My Auto", new MyAutoCommand());
+		m_chooser.addObject("Left Position", new LeftPosition());
+		m_chooser.addObject("Middle Position", new MiddlePosition());
+		m_chooser.addObject("Right Position", new RightPosition());
 		SmartDashboard.putData("Auto mode", m_chooser);
+		
+		
 
 		
 		
@@ -99,6 +106,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		m_autonomousCommand = new ToAutoline();
+		//m_chooser.getSelected().start();
+		
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand

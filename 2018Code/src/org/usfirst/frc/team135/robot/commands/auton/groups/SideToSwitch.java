@@ -17,7 +17,7 @@ public class SideToSwitch extends CommandGroup implements RobotMap {
     public SideToSwitch() 
     {
     	addParallel(new SetLiftPosition(LIFT.SWITCH_POSITION));
-    	addParallel(new DriveStraightDistance(FIELD.SIDE_SWITCH_X, FIELD.SIDE_SWITCH_Y, 0));
+    	//addParallel(new DriveStraightDistance(FIELD.SIDE_SWITCH_X, FIELD.SIDE_SWITCH_Y, 0));
     	addSequential(new ReleaseMandibles());
     	
     }
