@@ -26,14 +26,16 @@ public class Lift extends Subsystem implements RobotMap
 	
 	private TalonSRX liftMotor;
 	
+	private boolean isPositionInitialized = false;
+	
 	private Lift()
 	{
-		Timer timer = new Timer();
+		
 		
 		liftMotor = new TalonSRX(LIFT.LIFT_MOTOR_ID);
-		liftMotor.setInverted(true);
+		liftMotor.setInverted(false);
 		
-		liftMotor.setSensorPhase(true);
+		liftMotor.setSensorPhase(false);
 		liftMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
 		liftMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 10, 10);
 		liftMotor.setSelectedSensorPosition(0, 0, 10);
@@ -48,18 +50,13 @@ public class Lift extends Subsystem implements RobotMap
 		liftMotor.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_100Ms, 10);
 		liftMotor.configVelocityMeasurementWindow(5, 10); //Might want to check this later
 		
-		liftMotor.config_kP(0, 1, 10);
-		liftMotor.config_kI(0, .01, 10);
-		liftMotor.config_kD(0, 10, 10);
+		liftMotor.config_kP(0, 2, 10);
+		liftMotor.config_kI(0, .0002, 10);
+		liftMotor.config_kD(0, 20, 10);
 		liftMotor.config_kF(0, 0, 10);
-		/*
-		timer.start();
-		while(timer.get() < 1 && Math.abs(getEncoderVelocity()) == 0 )
-		{
-			set(1.0);
-			setToPosition(LIFT.LOW_POSITION);
-		}
-		*/
+		
+
+		
 	} 	
 	
 	public static Lift getInstance()
@@ -70,6 +67,25 @@ public class Lift extends Subsystem implements RobotMap
 		}
 		
 		return instance;
+	}
+	
+	public void initPosition()
+	{
+		if (!isPositionInitialized)
+		{
+			Timer timer = new Timer();
+			timer.start();
+			do
+			{
+				//System.out.println(getEncoderVelocity());
+				set(1.0);
+				
+			}while (timer.get() < 5);
+			timer.stop();
+			timer.reset();
+			isPositionInitialized = true;
+		}
+		
 	}
 	
 	public double getEncoderAcceleration()
@@ -107,8 +123,17 @@ public class Lift extends Subsystem implements RobotMap
 	
 	public void setToPosition(double position)
 	{	
-		liftMotor.set(ControlMode.MotionMagic, position);
-		setPoint = position;
+		//liftMotor.set(ControlMode.MotionMagic, position);
+		//setPoint = position;
+		Timer timer = new Timer();
+		timer.start();
+		while (getEncoderPosition() < position && timer.get() < 5)
+		{
+
+			set(1.0);
+		}
+		timer.stop();
+		timer.reset();
 	}
     public void initDefaultCommand() {
     	setDefaultCommand(new RunLift());

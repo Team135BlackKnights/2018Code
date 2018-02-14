@@ -17,7 +17,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team135.robot.commands.auton.entrypoints.LeftPosition;
 import org.usfirst.frc.team135.robot.commands.auton.entrypoints.MiddlePosition;
 import org.usfirst.frc.team135.robot.commands.auton.entrypoints.RightPosition;
-import org.usfirst.frc.team135.robot.commands.auton.groups.ToAutoline;
+import org.usfirst.frc.team135.robot.commands.auton.groups.SideToAutoline;
+import org.usfirst.frc.team135.robot.commands.auton.groups.SideToSwitch;
 import org.usfirst.frc.team135.robot.commands.teleop.*;
 import org.usfirst.frc.team135.robot.subsystems.*;
 
@@ -41,8 +42,7 @@ public class Robot extends TimedRobot {
 	public static Hang hang;
 	public static Canifier canifier;
 	Command m_autonomousCommand;
-	Command getGameSpecificMessage;
-	Command setSmartDashboardKeys;
+	Command resetHang;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 	
 	
@@ -56,13 +56,15 @@ public class Robot extends TimedRobot {
 		ultrasonic = UltrasonicSensor.getInstance();
 		drivetrain = DriveTrain.getInstance();
 		hang = Hang.getInstance();
-		intake = Intake.GetInstance();
 		lift = Lift.getInstance();
+		intake = Intake.GetInstance();
 		oi = OI.getInstance();
+		
 		
 		CameraServer.getInstance().startAutomaticCapture();
 		
-		m_chooser.addDefault("Autoline", new ToAutoline());
+		
+		m_chooser.addDefault("Autoline", new SideToAutoline());
 		m_chooser.addObject("Left Position", new LeftPosition());
 		m_chooser.addObject("Middle Position", new MiddlePosition());
 		m_chooser.addObject("Right Position", new RightPosition());
@@ -80,6 +82,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() 
 	{
+		//resetHang = new ResetHang();
+		//resetHang.start();
 /*
 		getGameSpecificMessage.start();
 		setSmartDashboardKeys.start();*/
@@ -103,7 +107,9 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = new ToAutoline();
+		m_autonomousCommand = new SideToSwitch();
+
+		
 		//m_chooser.getSelected().start();
 		
 		/*
@@ -136,6 +142,8 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
+		
+
 	}
 
 	/**

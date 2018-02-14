@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class NavX extends Subsystem
 {
 	private static NavX instance;
-	private Float initAngle = null;
+	public float initAngle = 0.0f;
 	private AHRS ahrs;
 	
 	@Override
@@ -37,7 +37,7 @@ public class NavX extends Subsystem
 	public float getFusedAngle()
 	{
 
-		return (ahrs.getFusedHeading());
+		return (ahrs.getFusedHeading() - initAngle);
 	}
 	
 	public void periodic()

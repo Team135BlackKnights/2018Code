@@ -68,9 +68,14 @@ public class Canifier extends Subsystem implements RobotMap{
 	
 	public double ReadLidarCM()
 	{
-		double reading = getMeasuredPulseWidths(Lidar)/10;
-		Timer.delay(.035); //ms wait time
-		return reading;
+		double readings = 0.0;
+		for(int i = 1; i <= 5; i++)
+		{
+			 readings += getMeasuredPulseWidths(Lidar)/10;
+			 Timer.delay(.001);
+		}
+		
+		return (readings / 5);
 		
 	}
 	
@@ -85,6 +90,6 @@ public class Canifier extends Subsystem implements RobotMap{
     
     public void periodic()
     {		
-    	 System.out.println(ReadLidarInches());
+    	System.out.println("Lidar: " + ReadLidarInches());
     }
 }

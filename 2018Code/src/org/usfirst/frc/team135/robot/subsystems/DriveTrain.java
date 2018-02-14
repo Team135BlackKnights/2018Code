@@ -16,6 +16,7 @@ import org.usfirst.frc.team135.robot.RobotMap;
 import org.usfirst.frc.team135.robot.commands.teleop.*;
 
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,7 +31,9 @@ import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 /**
  *
  */
@@ -113,9 +116,9 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		navx = new NavX_wrapper(Robot.navx);
 		
 		//Configure orientation helper.
-		orientationHelper = new PIDController(.01, .00001, 0, navx, buffer);
+		orientationHelper = new PIDController(.0028, .00001, .05, navx, buffer);
 		orientationHelper.setInputRange(0, 360);
-		orientationHelper.setOutputRange(0, .1);
+		orientationHelper.setOutputRange(-.1, .1);
 		orientationHelper.setAbsoluteTolerance(.2);
 		orientationHelper.setContinuous();
 		
@@ -136,7 +139,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		
 		talon.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_100Ms, 10);
 		talon.configVelocityMeasurementWindow(64, 0);
-		//talon.configVoltageCompSaturation(12.0, 10);
+		//talon.configVoltageCompSaturation(10, 10);
 		//talon.enableVoltageCompensation(true);
 		
 		//InitializeDriveTrain();
@@ -236,6 +239,11 @@ public class DriveTrain extends Subsystem implements RobotMap{
 			velocity *= -1;
 		}
 		return (velocity);
+	}
+	
+	public double getRepresenativeEncoderSpeed()
+	{
+		return ((frontRightTalon.getSelectedSensorVelocity(0) + rearLeftTalon.getSelectedSensorVelocity(0)) / 2);
 	}
 	
 	public double getEncoderSetpoint(WPI_TalonSRX talon)
@@ -364,10 +372,20 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	
 	public void stopMotors()
 	{
-		rearLeftTalon.set(ControlMode.PercentOutput, 0);
-		rearRightTalon.set(ControlMode.PercentOutput, 0);
-		frontLeftTalon.set(ControlMode.PercentOutput, 0);
-		frontRightTalon.set(ControlMode.PercentOutput, 0);
+		orientationHelper.setSetpoint(Robot.navx.getFusedAngle());
+		orientationHelper.enable();
+		Timer timer = new Timer();
+		timer.start();
+		while((Math.abs(getRepresenativeEncoderSpeed()) > 0 || orientationHelper.getError() > .2) && timer.get() < 1)
+		{
+			rearLeftTalon.set(ControlMode.Velocity, 0 + buffer.output);
+			rearRightTalon.set(ControlMode.Velocity, 0 + buffer.output);
+			frontLeftTalon.set(ControlMode.Velocity, 0 + buffer.output);
+			frontRightTalon.set(ControlMode.Velocity, 0 + buffer.output);
+		}
+
+		orientationHelper.disable();
+		
 	}
 	
 	private void normalize(Double FL, Double BL, Double FR, Double BR) 

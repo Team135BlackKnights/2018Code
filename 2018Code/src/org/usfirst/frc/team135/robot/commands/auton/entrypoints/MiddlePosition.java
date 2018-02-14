@@ -9,6 +9,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class MiddlePosition extends CommandGroup {
 
     public MiddlePosition() {
-    	System.out.println(DriverStation.getInstance().getGameSpecificMessage())
+    	System.out.println(DriverStation.getInstance().getGameSpecificMessage());
     }
 }

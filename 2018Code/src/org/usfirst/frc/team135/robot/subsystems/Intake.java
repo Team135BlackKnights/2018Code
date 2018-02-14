@@ -28,6 +28,8 @@ public class Intake extends Subsystem implements RobotMap{
 	boolean rightWheelInverted = false;
 	boolean leftWheelInverted = true;
 	
+	private boolean isPositionInitialized = false;
+	
 	static private Intake instance;
 	
 	public static Intake GetInstance()
@@ -61,11 +63,11 @@ public class Intake extends Subsystem implements RobotMap{
 		claw = new DoubleSolenoid(INTAKE.MANDIBLE_OPEN_CHANNEL, INTAKE.MANDIBLE_CLOSE_CHANNEL);
 		retraction = new DoubleSolenoid(INTAKE.RETRACT_IN_CHANNEL, INTAKE.RETRACT_OUT_CHANNEL);
 		
-		compressor = new Compressor(0);
-		compressor.setClosedLoopControl(true);
-
 		claw.set(DoubleSolenoid.Value.kForward);
 		retraction.set(DoubleSolenoid.Value.kReverse);
+		
+		compressor = new Compressor(0);
+		compressor.setClosedLoopControl(true);
 	}
 
 	public void ActivateClaw(DoubleSolenoid.Value value)

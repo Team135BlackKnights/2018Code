@@ -77,7 +77,7 @@ public class OI implements RobotMap
 		DRIVE_HANG_FORWARD = new JoystickButton(RIGHT, 1);
 		DRIVE_HANG_BACKWARD = new JoystickButton(RIGHT, 2);
 		
-		RELEASE_HANG = new JoystickButton(RIGHT, 8);
+		RELEASE_HANG = new JoystickButton(RIGHT, 7);
 		AssignButtons();
 	}
 	
@@ -157,7 +157,7 @@ public class OI implements RobotMap
 		DRIVE_HANG_FORWARD.whileHeld(new DriveHang(.75));
 		DRIVE_HANG_BACKWARD.whileHeld(new DriveHang(-.75));
 		
-		RELEASE_HANG.whenPressed(new DeployHang());
+		RELEASE_HANG.whenPressed(new ToggleHangState());
 	}	
 	
 }

@@ -1,4 +1,5 @@
 /*----------------------------------------------------------------------------*/
+
 /* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
@@ -10,12 +11,20 @@ package org.usfirst.frc.team135.robot;
 
 public interface RobotMap 
 {
+	public interface SENSORS
+	{
+		public static final int
+			FRONT = 0,
+			LEFT = 1,
+			RIGHT = 2,
+			REAR = 3;
+	}
 	public interface FIELD
 	{
 		public static final float //All measurements are in inches
 			AUTO_LINE = 135,	
 			SCALE_X = 42.5f,
-			SCALE_Y = 327,
+			SCALE_Y = 248,
 			SIDE_SWITCH_X = 54.5f,
 			SIDE_SWITCH_Y = 165,
 			MID_SWITCH_X = 47.25f,
@@ -36,8 +45,8 @@ public interface RobotMap
 		
 		public static final double
 			LOW_POSITION = 0,
-			SWITCH_POSITION = 0,
-			SCALE_POSITION = 0;
+			SWITCH_POSITION = 500,
+			SCALE_POSITION = 1310;
 			
 	}
 	

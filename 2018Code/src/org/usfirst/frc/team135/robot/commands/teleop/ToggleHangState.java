@@ -1,3 +1,4 @@
+
 package org.usfirst.frc.team135.robot.commands.teleop;
 
 import org.usfirst.frc.team135.robot.Robot;
@@ -7,26 +8,30 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class DeployHang extends Command {
+public class ToggleHangState extends Command {
 
-    public DeployHang() {
+	
+    public ToggleHangState() {
     	requires(Robot.hang);
+    
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.hang.setRelease(true);
 
-    	
+ 
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
+    protected void execute() {   	
+
+    	System.out.println("I caught you.");
+    	Robot.hang.toggleState();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

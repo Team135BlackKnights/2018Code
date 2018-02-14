@@ -6,7 +6,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import org.usfirst.frc.team135.robot.RobotMap;
 import org.usfirst.frc.team135.robot.commands.teleop.*;
 
-
 /**
  *
  */
@@ -20,6 +19,8 @@ public class Hang extends Subsystem implements RobotMap {
 	WPI_VictorSPX hangMotor2;
 	
 	Solenoid hangSolenoid; 
+	
+	public boolean state = true;
 	
 	public static Hang getInstance()
 	{
@@ -58,9 +59,12 @@ public class Hang extends Subsystem implements RobotMap {
 		hangMotor2.set(power);	
 	}
 	
-	public void setRelease(boolean isReleased)
+	public void toggleState()
 	{
-		hangSolenoid.set(isReleased);
+		System.out.println(state);
+		state = !state;
+		hangSolenoid.set(state);
+		
 	}
     public void initDefaultCommand() {
     	
