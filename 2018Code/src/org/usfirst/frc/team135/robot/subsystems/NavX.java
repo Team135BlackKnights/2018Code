@@ -37,7 +37,7 @@ public class NavX extends Subsystem
 	public float getFusedAngle()
 	{
 
-		return (ahrs.getFusedHeading() - initAngle);
+		return (ahrs.getFusedHeading() + initAngle);
 	}
 	
 	public void periodic()

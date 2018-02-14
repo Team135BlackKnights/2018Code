@@ -1,7 +1,7 @@
 package org.usfirst.frc.team135.robot.commands.auton.singles;
 
 import org.usfirst.frc.team135.robot.Robot;
-import org.usfirst.frc.team135.robot.util.FunctionManager;
+import org.usfirst.frc.team135.robot.RobotMap.SENSORS;
 import org.usfirst.frc.team135.robot.util.FunctionalDoubleManager;
 import org.usfirst.frc.team135.robot.util.Lidar_wrapper;
 import org.usfirst.frc.team135.robot.util.NavX_wrapper;
@@ -27,19 +27,24 @@ public class DriveStraightForwardDistance extends Command {
 	private boolean done_strafing = false;
 	private boolean done = false;
 	
+	private double speed;
+	
 	Timer timer;
 	
-	private FunctionalDoubleManager functionManager;
+	private FunctionalDoubleManager[] sensors = new FunctionalDoubleManager[4];
 	
-    public DriveStraightForwardDistance(double distanceX, double distanceY, double timeout) {
+    public DriveStraightForwardDistance(double distanceX, double distanceY, double speed, double timeout) {
     	this.distanceY = distanceY;
     	this.distanceX = distanceX;
+    	this.speed = speed;
     	
     	navx = new NavX_wrapper(Robot.navx);
     	
     	bufRotationZ = new PIDOut();
     	
-    	functionManager = () -> return Robot.canifier.ReadLidarInches();
+    	sensors[SENSORS.REAR.ordinal()] = () -> Robot.canifier.ReadRearLidarInches();
+    	sensors[SENSORS.LEFT.ordinal()] = () -> Robot.ultrasonic.GetLeftSonarValue();
+    	sensors[SENSORS.RIGHT.ordinal()] = () -> Robot.ultrasonic.GetRightSonarValue();
     	
     	angleZController = new PIDController(.03, .0003, 0, navx, bufRotationZ);
     	
@@ -63,13 +68,13 @@ public class DriveStraightForwardDistance extends Command {
     protected void initialize() {
     	angleZController.enable();
     	timer.start();
-    	double strafing = 0.0;
+    	double strafing = 0.0, driving = 0.0;
     	
     	
     	while(timer.get() < timeout)
     	{
     		
-    		if (Robot.canifier.ReadLidarInches() > 20 && Math.abs(sonar.getRangeInches() - distanceX) > 1 && !done_strafing)
+    		if (sensors[SENSORS.REAR.ordinal()].get() > 20 && Math.abs(sonar.getRangeInches() - distanceX) > 1 && !done_strafing)
         	{
     			if (sonar.getRangeInches() < distanceX)
     			{
@@ -84,11 +89,11 @@ public class DriveStraightForwardDistance extends Command {
         	}
         	else
         	{
-        		System.out.println("Stopping sideways at: " + Robot.canifier.ReadLidarInches());
+        		System.out.println("Stopping sideways at: " + sensors[SENSORS.REAR.ordinal()].get());
         		
         		for(int pos_stability = 1; pos_stability <= 8; )
         		{
-        			if (Math.abs(Robot.canifier.ReadLidarInches()) >= distanceY - 100 && timer.get() < 3.5)
+        			if (Math.abs(sensors[SENSORS.REAR.ordinal()].get()) >= distanceY - 100 && timer.get() < 3.5)
         			{
         				pos_stability++;
         				Timer.delay(.001);
@@ -101,7 +106,7 @@ public class DriveStraightForwardDistance extends Command {
         			
         			if (pos_stability == 8)
         			{
-        				System.out.println("Confirmed sideways stop at: " + Robot.canifier.ReadLidarInches());
+        				System.out.println("Confirmed sideways stop at: " + sensors[SENSORS.REAR.ordinal()].get());
                 		
                 		strafing = 0.0;
                 		done_strafing = true;
@@ -111,18 +116,18 @@ public class DriveStraightForwardDistance extends Command {
         	}
     		
     		
-        	if (Robot.canifier.ReadLidarInches() < distanceY - 82)
+        	if (sensors[SENSORS.REAR.ordinal()].get() < distanceY - 82)
         	{
-        		System.out.println("Running at lidar: " + Robot.canifier.ReadLidarInches());
+        		System.out.println("Running at lidar: " + sensors[SENSORS.REAR.ordinal()].get());
         		System.out.println("Running at sonar: " + sonar.getRangeInches());
         		Robot.drivetrain.driveCartesian(strafing, -1, bufRotationZ.output);
         	}
         	else
         	{
-        		System.out.println("Stopping forward at: " + Robot.canifier.ReadLidarInches());
+        		System.out.println("Stopping forward at: " + sensors[SENSORS.REAR.ordinal()].get());
         		for(int pos_stability = 1; pos_stability <= 8; )
         		{
-        			if (Math.abs(Robot.canifier.ReadLidarInches()) >= distanceY - 100 && timer.get() < 3.5)
+        			if (Math.abs(sensors[SENSORS.REAR.ordinal()].get()) >= distanceY - 100 && timer.get() < 3.5)
         			{
         				pos_stability++;
         				Timer.delay(.001);
@@ -135,7 +140,7 @@ public class DriveStraightForwardDistance extends Command {
         			
         			if (pos_stability == 8)
         			{
-        				System.out.println("Confirmed stop at: " + Robot.canifier.ReadLidarInches());
+        				System.out.println("Confirmed stop at: " + sensors[SENSORS.REAR.ordinal()].get());
                 		done = true;
                 		
                 		return;
@@ -143,7 +148,7 @@ public class DriveStraightForwardDistance extends Command {
         		}     	
         	}
         	
-        	Robot.drivetrain.driveCartesian(strafing * speed, driving * speed, );
+        	Robot.drivetrain.driveCartesian(strafing * speed, driving * speed, bufRotationZ.output);
     	}
     }
 

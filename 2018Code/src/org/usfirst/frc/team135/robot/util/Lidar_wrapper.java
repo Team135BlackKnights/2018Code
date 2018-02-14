@@ -9,11 +9,11 @@ public class Lidar_wrapper implements PIDSource
 {
 
 	PIDSourceType type = PIDSourceType.kDisplacement;
-	Canifier device;
+	FunctionalDoubleManager lidar;
 	
-	public Lidar_wrapper(Canifier canifier)
+	public Lidar_wrapper(FunctionalDoubleManager lidar)
 	{
-		device = canifier;
+		this.lidar = lidar;
 	}
 	
 	@Override
@@ -31,7 +31,7 @@ public class Lidar_wrapper implements PIDSource
 	@Override
 	public double pidGet() {
 		// TODO Auto-generated method stub
-		return device.ReadLidarInches();
+		return lidar.get();
 	}
 	
 }

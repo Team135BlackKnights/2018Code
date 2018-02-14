@@ -11,13 +11,50 @@ package org.usfirst.frc.team135.robot;
 
 public interface RobotMap 
 {
-	public interface SENSORS
+	public enum SENSORS
 	{
-		public static final int
-			FRONT = 0,
-			LEFT = 1,
-			RIGHT = 2,
-			REAR = 3;
+		FRONT(0),
+		RIGHT(1),
+		REAR(2),
+		LEFT(3);
+		
+	
+		private int num;
+		
+		private SENSORS(int num)
+		{
+			this.num = num;
+		}
+		
+		public int getFieldBased()
+		{
+			return this.num;
+		}
+		
+		public static void rotate(int times, boolean clockwise)
+		{
+			//Will perform a 90 degree rotation to the sensor positions j times
+			int direction = (clockwise ? 1 : -1);
+			
+			for (int j = 0; j < times; j++)
+			{
+				for (int i = 0; i < SENSORS.values().length; i++)
+				{
+					if ((SENSORS.values()[i].num += direction) < 3 && (SENSORS.values()[i].num += direction) > 0)
+					{
+						SENSORS.values()[i].num += direction;
+					}
+					else if ((SENSORS.values()[i].num += direction) == 3 && direction == 1)
+					{
+						SENSORS.values()[i].num = 0;
+					}
+					else if ((SENSORS.values()[i].num += direction) == 0 && direction == -1)
+					{
+						SENSORS.values()[i].num = 3;
+					}
+				}
+			}
+		}
 	}
 	public interface FIELD
 	{

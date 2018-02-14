@@ -1,5 +1,7 @@
 package org.usfirst.frc.team135.robot.commands.auton.entrypoints;
 
+import org.usfirst.frc.team135.robot.Robot;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,6 +22,8 @@ public class LeftPosition extends CommandGroup {
     	String msg = DriverStation.getInstance().getGameSpecificMessage();
     	int switchPosition = getSwitchPosition(msg);
     	int scalePosition = getScalePosition(msg);
+    	
+    	Robot.navx.initAngle = 180;
     	if (switchPosition == INVALID || scalePosition == INVALID)
     	{
     		//no point in running anything but autoline if we don't know where anything is

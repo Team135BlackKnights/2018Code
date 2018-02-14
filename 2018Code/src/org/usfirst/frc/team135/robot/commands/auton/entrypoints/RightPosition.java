@@ -1,5 +1,8 @@
 package org.usfirst.frc.team135.robot.commands.auton.entrypoints;
 
+import org.usfirst.frc.team135.robot.commands.auton.groups.MidToSwitch;
+import org.usfirst.frc.team135.robot.commands.auton.groups.SideToSwitch;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,6 +28,7 @@ public class RightPosition extends CommandGroup {
     	
     	if (SmartDashboard.getBoolean("Try to go for Switch?", true) && !SmartDashboard.getBoolean("Try to go for Scale?", false))
     	{
+    		addSequential(new SideToSwitch());
     		//Go for switch only
     		if (switchPosition == CLOSE)
     		{

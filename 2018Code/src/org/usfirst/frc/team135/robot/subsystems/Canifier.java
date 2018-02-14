@@ -25,7 +25,7 @@ public class Canifier extends Subsystem implements RobotMap{
 	static public CANifier canifier;
 	
 
-	CANifier.PWMChannel Lidar = CANifier.PWMChannel.PWMChannel0;	
+	CANifier.PWMChannel rearLidar = CANifier.PWMChannel.PWMChannel0;	
     double[][] dutyCycleAndPeriods = new double[][] { new double[] { 0, 0 }, new double[] { 0, 0 }, new double[] { 0, 0 }, new double[] { 0, 0 } };
 
     
@@ -66,12 +66,12 @@ public class Canifier extends Subsystem implements RobotMap{
 		return dutyCycleAndPeriods[pwmCh.value][0];   
 	}
 	
-	public double ReadLidarCM()
+	public double ReadRearLidarCM()
 	{
 		double readings = 0.0;
 		for(int i = 1; i <= 5; i++)
 		{
-			 readings += getMeasuredPulseWidths(Lidar)/10;
+			 readings += getMeasuredPulseWidths(rearLidar)/10;
 			 Timer.delay(.001);
 		}
 		
@@ -79,9 +79,9 @@ public class Canifier extends Subsystem implements RobotMap{
 		
 	}
 	
-	public double ReadLidarInches()
+	public double ReadRearLidarInches()
 	{
-		return (ReadLidarCM() / 2.54);
+		return (ReadRearLidarCM() / 2.54);
 	}
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -90,6 +90,6 @@ public class Canifier extends Subsystem implements RobotMap{
     
     public void periodic()
     {		
-    	System.out.println("Lidar: " + ReadLidarInches());
+    	System.out.println("Lidar: " + ReadRearLidarInches());
     }
 }
