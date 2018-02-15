@@ -1,6 +1,8 @@
 package org.usfirst.frc.team135.robot.commands.auton.entrypoints;
 
 import org.usfirst.frc.team135.robot.Robot;
+import org.usfirst.frc.team135.robot.commands.auton.groups.SideToNearScale;
+import org.usfirst.frc.team135.robot.commands.auton.groups.SideToNearSwitch;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -35,7 +37,9 @@ public class LeftPosition extends CommandGroup {
     		//Go for switch only
     		if (switchPosition == CLOSE)
     		{
-    			//3 cube
+    			//3 cube eventually
+    			addSequential(new SideToNearSwitch());
+    			
     		}
     		else
     		{
@@ -48,6 +52,7 @@ public class LeftPosition extends CommandGroup {
     		if (scalePosition == CLOSE)
     		{
     			//2 cube
+    			addSequential(new SideToNearScale());
     		}
     		else
     		{

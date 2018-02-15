@@ -1,5 +1,6 @@
 package org.usfirst.frc.team135.robot.commands.auton.groups;
 
+import org.usfirst.frc.team135.robot.Robot;
 import org.usfirst.frc.team135.robot.RobotMap;
 import org.usfirst.frc.team135.robot.RobotMap.*;
 import org.usfirst.frc.team135.robot.commands.auton.singles.DriveStraightForwardDistance;
@@ -14,23 +15,21 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class SideToSwitch extends CommandGroup implements RobotMap {
+public class SideToNearSwitch extends CommandGroup implements RobotMap {
 
 	private boolean done = false;
-    public SideToSwitch() 
+    public SideToNearSwitch() 
     {
-    	if (!done)
-    	{
-    		
-        	addParallel(new DriveStraightForwardDistance(FIELD.SIDE_SWITCH_X, FIELD.SIDE_SWITCH_Y, 2.0));
-        	//addParallel(new SetLiftPosition(LIFT.SWITCH_POSITION));
-        	//addSequential(new ExtendMandibles());
-        	//addSequential(new StrafeStraightSidewaysDistance(FIELD.SIDE_SWITCH_X, false));    
-        	//addSequential(new ReleaseMandibles());
-    	}
-    	
-    	done = true;
-    
+     	
+       	addParallel(new DriveStraightForwardDistance(
+       			FIELD.SIDE_SWITCH_X, () -> Robot.ultrasonic.GetLeftSonarValue(),
+       			FIELD.SIDE_SWITCH_Y,  () -> Robot.canifier.ReadRearLidarInches(),
+       			1.0, 2.0));
+       	//addParallel(new SetLiftPosition(LIFT.SWITCH_POSITION));
+       	//addSequential(new ExtendMandibles());
+       	//addSequential(new StrafeStraightSidewaysDistance(FIELD.SIDE_SWITCH_X, false));    
+       	//addSequential(new ReleaseMandibles());
+
     	
     }
 }

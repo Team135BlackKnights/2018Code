@@ -18,7 +18,7 @@ import org.usfirst.frc.team135.robot.commands.auton.entrypoints.LeftPosition;
 import org.usfirst.frc.team135.robot.commands.auton.entrypoints.MiddlePosition;
 import org.usfirst.frc.team135.robot.commands.auton.entrypoints.RightPosition;
 import org.usfirst.frc.team135.robot.commands.auton.groups.SideToAutoline;
-import org.usfirst.frc.team135.robot.commands.auton.groups.SideToSwitch;
+import org.usfirst.frc.team135.robot.commands.auton.groups.SideToNearSwitch;
 import org.usfirst.frc.team135.robot.commands.teleop.*;
 import org.usfirst.frc.team135.robot.subsystems.*;
 
@@ -107,7 +107,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = new SideToSwitch();
+		m_autonomousCommand = new SideToNearSwitch();
 
 		
 		//m_chooser.getSelected().start();

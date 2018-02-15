@@ -11,6 +11,23 @@ package org.usfirst.frc.team135.robot;
 
 public interface RobotMap 
 {
+	public interface RETURNS
+	{
+		public static final int STRAFE_DRIVE_INVALID = -2;
+	}
+	
+	public interface DIRECTION
+	{
+		public static final int
+			FORWARD = 1,
+			BACKWARD = -1,
+			RIGHT = 1,
+			LEFT = -1,
+			CLOCKWISE = 1,
+			COUNTERCLOCKWISE = -1,
+			NEUTRAL = 0;
+	}
+/*
 	public enum SENSORS
 	{
 		FRONT(0),
@@ -31,10 +48,9 @@ public interface RobotMap
 			return this.num;
 		}
 		
-		public static void rotate(int times, boolean clockwise)
+		public static void rotate(int times, int direction)
 		{
 			//Will perform a 90 degree rotation to the sensor positions j times
-			int direction = (clockwise ? 1 : -1);
 			
 			for (int j = 0; j < times; j++)
 			{
@@ -56,10 +72,13 @@ public interface RobotMap
 			}
 		}
 	}
+	
+	*/
 	public interface FIELD
 	{
 		public static final float //All measurements are in inches
-			AUTO_LINE = 135,	
+			AUTO_LINE = 135,
+			WALL_SLANT_END = 20,
 			SCALE_X = 42.5f,
 			SCALE_Y = 248,
 			SIDE_SWITCH_X = 54.5f,
