@@ -54,6 +54,8 @@ public class Lift extends Subsystem implements RobotMap
 		liftMotor.config_kI(0, .0002, 10);
 		liftMotor.config_kD(0, 20, 10);
 		liftMotor.config_kF(0, 0, 10);
+		liftMotor.configMotionCruiseVelocity(100, 10);
+		liftMotor.configMotionAcceleration(500, 10);
 		
 
 		
@@ -124,16 +126,18 @@ public class Lift extends Subsystem implements RobotMap
 	public void setToPosition(double position)
 	{	
 		//liftMotor.set(ControlMode.MotionMagic, position);
-		//setPoint = position;
 		Timer timer = new Timer();
+		
 		timer.start();
-		while (getEncoderPosition() < position && timer.get() < 5)
+		while(getEncoderPosition() < position && timer.get() < 2)
 		{
-
 			set(1.0);
 		}
+		
 		timer.stop();
 		timer.reset();
+		
+		setPoint = position;
 	}
     public void initDefaultCommand() {
     	setDefaultCommand(new RunLift());
@@ -143,6 +147,8 @@ public class Lift extends Subsystem implements RobotMap
     {
     	SmartDashboard.putNumber("Lift Position", getEncoderPosition());
     	SmartDashboard.putNumber("Lift Setpoint", setPoint);
+    	SmartDashboard.putNumber("Lift Velocity", getEncoderVelocity());
+    	SmartDashboard.putNumber("Lift Acceleration", getEncoderAcceleration());
     	//System.out.println(getEncoderPosition());
     }
 }

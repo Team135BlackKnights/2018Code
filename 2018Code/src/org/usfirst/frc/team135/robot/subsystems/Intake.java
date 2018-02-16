@@ -63,7 +63,7 @@ public class Intake extends Subsystem implements RobotMap{
 		claw = new DoubleSolenoid(INTAKE.MANDIBLE_OPEN_CHANNEL, INTAKE.MANDIBLE_CLOSE_CHANNEL);
 		retraction = new DoubleSolenoid(INTAKE.RETRACT_IN_CHANNEL, INTAKE.RETRACT_OUT_CHANNEL);
 		
-		claw.set(DoubleSolenoid.Value.kForward);
+		claw.set(DoubleSolenoid.Value.kReverse);
 		retraction.set(DoubleSolenoid.Value.kReverse);
 		
 		compressor = new Compressor(0);

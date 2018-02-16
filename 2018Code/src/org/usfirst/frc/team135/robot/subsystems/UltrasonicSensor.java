@@ -41,19 +41,19 @@ public class UltrasonicSensor extends Subsystem {
     	leftSonar.setAutomaticMode(true);
     	backSonar.setAutomaticMode(true);
     }
-    	public double GetRightSonarValue()
+    	public double getRightSonarValue()
     	{
     		double RightSonarDistance = rightSonar.getRangeInches();
     		SmartDashboard.putNumber("Right Sonar Distance: ",RightSonarDistance);
     		return RightSonarDistance;
     	}
-    	public double GetLeftSonarValue()
+    	public double getLeftSonarValue()
     	{
     		double LeftSonarDistance = leftSonar.getRangeInches();
     		SmartDashboard.putNumber("Left Sonar Distance: ", LeftSonarDistance);
     		return LeftSonarDistance;
     	}
-    	public double GetBackSonarValue()
+    	public double getBackSonarValue()
     	{
     		double BackSonarDistance = backSonar.getRangeInches();
     		SmartDashboard.putNumber("Back Sonar Distance: ", BackSonarDistance);
@@ -66,7 +66,8 @@ public class UltrasonicSensor extends Subsystem {
     
     public void periodic()
     {
-    	System.out.println("Sonar: " + GetLeftSonarValue() + ", " + GetRightSonarValue());
+    	getLeftSonarValue();
+    	//System.out.println("Sonar: " + GetLeftSonarValue() + ", " + GetRightSonarValue());
     }
 
 }

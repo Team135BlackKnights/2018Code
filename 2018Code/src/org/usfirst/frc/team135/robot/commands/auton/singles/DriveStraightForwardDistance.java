@@ -4,7 +4,6 @@ import org.usfirst.frc.team135.robot.Robot;
 import org.usfirst.frc.team135.robot.RobotMap.DIRECTION;
 import org.usfirst.frc.team135.robot.RobotMap.FIELD;
 import org.usfirst.frc.team135.robot.RobotMap.RETURNS;
-import org.usfirst.frc.team135.robot.RobotMap.SENSORS;
 import org.usfirst.frc.team135.robot.util.FunctionalDoubleManager;
 import org.usfirst.frc.team135.robot.util.Lidar_wrapper;
 import org.usfirst.frc.team135.robot.util.NavX_wrapper;
@@ -30,27 +29,34 @@ public class DriveStraightForwardDistance extends Command {
 	private boolean done_strafing = false;
 	private boolean done_driving = false;
 	
+	private boolean yEnabled = false, xEnabled = false;
 	
-	private double speed;
+	
+	private double xSpeed, ySpeed;
 	
 	Timer timer;
 	
 	private FunctionalDoubleManager xSensor;
 	private FunctionalDoubleManager ySensor;
 	
-    public DriveStraightForwardDistance(double distanceX, FunctionalDoubleManager xSensor,
-    		double distanceY,  FunctionalDoubleManager ySensor,
-    		double speed, double timeout) 
+    public DriveStraightForwardDistance(double distanceX, double xSpeed, FunctionalDoubleManager xSensor, boolean xEnabled,
+    		double distanceY, double ySpeed, FunctionalDoubleManager ySensor, boolean yEnabled, 
+    		double timeout) 
     {
     	this.distanceY = distanceY;
     	this.distanceX = distanceX;
-    	this.speed = speed;
+    	this.xSpeed = xSpeed;
+    	this.ySpeed = ySpeed;
     	this.xSensor = xSensor;
     	this.ySensor = ySensor;	
+    	this.xEnabled = xEnabled;
+    	this.yEnabled = yEnabled;
     	
     	navx = new NavX_wrapper(Robot.navx);
     	bufRotationZ = new PIDOut();
-    	angleZController = new PIDController(.03, .0003, 0, navx, bufRotationZ);
+    	angleZController = new PIDController(.01, .0001
+    			, 0, navx, bufRotationZ);
+    	initAngleController();
     
     	
     	
@@ -65,7 +71,7 @@ public class DriveStraightForwardDistance extends Command {
     	angleZController.setContinuous();
     	angleZController.setOutputRange(DIRECTION.COUNTERCLOCKWISE * .2, DIRECTION.CLOCKWISE * .2);
     	angleZController.setAbsoluteTolerance(.5);
-    	angleZController.setSetpoint((Robot.navx.getFusedAngle() + Robot.navx.getFusedAngle()) / 2);
+    	angleZController.setSetpoint(Robot.navx.getFusedAngle());
     }
 
 	// Called just before this Command runs the first time
@@ -87,24 +93,29 @@ public class DriveStraightForwardDistance extends Command {
         		return;
         	}
         	
-        	Robot.drivetrain.driveCartesian(strafing_direction * speed, driving_direction * speed, bufRotationZ.output);
+        	Robot.drivetrain.driveCartesian(strafing_direction * xSpeed, driving_direction * ySpeed, 0 * bufRotationZ.output);
     	}
     }
     
     private int determineDrive()
     {
-       	if (Math.abs(ySensor.get() - distanceY) <= 82 && !done_driving)
+       	if (Math.abs(ySensor.get() - distanceY) >= 82 && !done_driving && yEnabled)
     	{
     		System.out.println("Running at lidar: " + ySensor.get());
-    		System.out.println("Running at sonar: " + sonar.getRangeInches());
+    		System.out.println("Running at sonar: " + xSensor.get());
     		return checkDriveDirection();
     	}
     	else
     	{
     		System.out.println("Stopping forward at: " + ySensor.get());
+    		if (!yEnabled)
+    		{
+    			return 0;
+    		}
+    		
     		for(int pos_stability = 1; pos_stability <= 8; )
     		{
-    			if (Math.abs(ySensor.get()) - distanceY >= -100)
+    			if (Math.abs(ySensor.get() - distanceY) <= 82)
     			{
     				pos_stability++;
     				Timer.delay(.001);
@@ -124,7 +135,7 @@ public class DriveStraightForwardDistance extends Command {
     
     private int checkDriveDirection()
     {
-    	if (xSensor.get() < distanceY)
+    	if (ySensor.get() < distanceY)
 		{
 			return 1;
 		}
@@ -138,7 +149,7 @@ public class DriveStraightForwardDistance extends Command {
     {
     	if (xSensor.get() > FIELD.WALL_SLANT_END
 				&& !done_strafing
-				&& Math.abs(sonar.getRangeInches() - distanceX) > 1)
+				&& Math.abs(xSensor.get() - distanceX) >= 5 && xEnabled) 
     	{
     		return checkStrafeDirection();
     	}
@@ -146,9 +157,14 @@ public class DriveStraightForwardDistance extends Command {
     	{
     		System.out.println("Checking if I should stop sideways at: " + xSensor.get());
     		
+    		if (!xEnabled)
+    		{
+    			return 0;
+    		}
+    		
     		for(int pos_stability = 1; pos_stability <= 8; )
     		{
-    			if (Math.abs(sonar.getRangeInches() - distanceX) < 1)
+    			if (Math.abs(xSensor.get() - distanceX) < 5)
     			{
     				pos_stability++;
     				Timer.delay(.001);

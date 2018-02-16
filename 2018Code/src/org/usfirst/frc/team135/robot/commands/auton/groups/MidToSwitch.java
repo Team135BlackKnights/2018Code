@@ -19,11 +19,32 @@ public class MidToSwitch extends CommandGroup {
 		TIMEOUT = 2.5;
 	
     public MidToSwitch(boolean switchIsRight) {
-    	addParallel(new SetLiftPosition(LIFT.SWITCH_POSITION));
-    	addParallel(new DriveStraightForwardDistance(
-    			FIELD.MID_SWITCH_X, () -> Robot.canifier.ReadRearLidarInches(),
-    			FIELD.MID_SWITCH_Y, () -> Robot.ultrasonic.GetLeftSonarValue(),
-    			SPEED, TIMEOUT));
+    	
+    	Robot.navx.initAngle = 90;
+    	
+    	if(switchIsRight)
+    	{
+        	addSequential(new DriveStraightForwardDistance(
+        			FIELD.MID_SWITCH_X, 1.0, () -> Robot.canifier.getRearLidarInches(), true,
+        			FIELD.MID_SWITCH_Y, 1.0,  () -> Robot.ultrasonic.getLeftSonarValue(), false,
+        			TIMEOUT));
+    	}
+    	else
+    	{
+        	addSequential(new DriveStraightForwardDistance(
+        			-FIELD.MID_SWITCH_X, 1.0, () -> Robot.canifier.getRearLidarInches(), true,
+        			FIELD.MID_SWITCH_Y, 1.0,  () -> Robot.ultrasonic.getLeftSonarValue(), false,
+        			TIMEOUT));    		
+    	}
+
+    	
+    	addSequential(new DriveStraightForwardDistance(
+    			FIELD.MID_SWITCH_X, 1.0, () -> Robot.canifier.getRearLidarInches(), false,
+    			FIELD.MID_SWITCH_Y, 1.0,  () -> Robot.ultrasonic.getLeftSonarValue(), true,
+    			TIMEOUT));
+    	
     	addSequential(new ReleaseMandibles());
+    	
+    	addSequential(new SetLiftPosition(LIFT.SWITCH_POSITION));
     }
 }
