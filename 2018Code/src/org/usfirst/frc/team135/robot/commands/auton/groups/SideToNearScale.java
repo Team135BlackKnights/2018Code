@@ -1,28 +1,22 @@
 package org.usfirst.frc.team135.robot.commands.auton.groups;
 
+import org.usfirst.frc.team135.robot.RobotMap;
+import org.usfirst.frc.team135.robot.RobotMap.*;
+import org.usfirst.frc.team135.robot.commands.auton.singles.SetLiftPosition;
+import org.usfirst.frc.team135.robot.commands.teleop.DriveMandibleWheels;
+import org.usfirst.frc.team135.robot.commands.teleop.ReleaseMandibles;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class SideToNearScale extends CommandGroup {
+public class SideToNearScale extends CommandGroup implements RobotMap {
 
     public SideToNearScale() {
-        // Add Commands here:
-        // e.g. addSequential(new Command1());
-        //      addSequential(new Command2());
-        // these will run in order.
+    	addParallel(new SetLiftPosition(LIFT.SCALE_POSITION));
+    	//addParallel(new DriveStraightDistance(FIELD.SCALE_X, FIELD.SCALE_Y, 0));
+    	addSequential(new DriveMandibleWheels(false)); //false is outward
 
-        // To run multiple commands at the same time,
-        // use addParallel()
-        // e.g. addParallel(new Command1());
-        //      addSequential(new Command2());
-        // Command1 and Command2 will run in parallel.
-
-        // A command group will require all of the subsystems that each member
-        // would require.
-        // e.g. if Command1 requires chassis, and Command2 requires arm,
-        // a CommandGroup containing them would require both the chassis and the
-        // arm.
     }
 }
