@@ -25,7 +25,8 @@ public class Canifier extends Subsystem implements RobotMap{
 	static public CANifier canifier;
 	
 
-	CANifier.PWMChannel Lidar = CANifier.PWMChannel.PWMChannel0;	
+	CANifier.PWMChannel rearLidar = CANifier.PWMChannel.PWMChannel0;
+	CANifier.PWMChannel frontLidar = CANifier.PWMChannel.PWMChannel1;
     double[][] dutyCycleAndPeriods = new double[][] { new double[] { 0, 0 }, new double[] { 0, 0 }, new double[] { 0, 0 }, new double[] { 0, 0 } };
 
     
@@ -53,8 +54,8 @@ public class Canifier extends Subsystem implements RobotMap{
 	public double getMeasuredPulseWidths(CANifier.PWMChannel pwmCh)
 	{
         canifier.getPWMInput(CANifier.PWMChannel.PWMChannel0, dutyCycleAndPeriods[0]);  //reads from all the PWM Channels
-       /* canifier.getPWMInput(CANifier.PWMChannel.PWMChannel1, dutyCycleAndPeriods[1]);
-        canifier.getPWMInput(CANifier.PWMChannel.PWMChannel2, dutyCycleAndPeriods[2]);
+        canifier.getPWMInput(CANifier.PWMChannel.PWMChannel1, dutyCycleAndPeriods[1]);
+        /*canifier.getPWMInput(CANifier.PWMChannel.PWMChannel2, dutyCycleAndPeriods[2]);
         canifier.getPWMInput(CANifier.PWMChannel.PWMChannel3, dutyCycleAndPeriods[3]); 
         
         ByteBuffer data = ByteBuffer.allocate(4);                              //sends CAN data
@@ -66,14 +67,41 @@ public class Canifier extends Subsystem implements RobotMap{
 		return dutyCycleAndPeriods[pwmCh.value][0];   
 	}
 	
-	public double ReadLIDARCM()
+	public double getFrontLidarCM()
 	{
-		double reading = getMeasuredPulseWidths(Lidar)/10;
-		Timer.delay(.035); //ms wait time
-		return reading;
+		double readings = 0.0;
+		for(int i = 1; i <= 5; i++)
+		{
+			 readings += getMeasuredPulseWidths(rearLidar)/10;
+			 Timer.delay(.001);
+		}
+		
+		return (readings / 5);
 		
 	}
 	
+	public double getRearLidarCM()
+	{
+		double readings = 0.0;
+		for(int i = 1; i <= 5; i++)
+		{
+			 readings += getMeasuredPulseWidths(frontLidar)/10;
+			 Timer.delay(.001);
+		}
+		
+		return (readings / 5);
+	}
+	
+	public double getRearLidarInches()
+	{
+		return (getRearLidarCM() / 2.54);
+	}
+	
+	public double getFrontLidarInches()
+	{
+		return (getFrontLidarCM() / 2.54);
+	}
+
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         
@@ -81,6 +109,6 @@ public class Canifier extends Subsystem implements RobotMap{
     
     public void periodic()
     {		
-    	 System.out.println(ReadLIDARCM());
+    	//System.out.println("Lidar: " + getRearLidarInches() + ", " + getFrontLidarInches());
     }
 }
