@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team135.robot.commands.auton.entrypoints.LeftPosition;
+import org.usfirst.frc.team135.robot.commands.auton.entrypoints.MiddlePosition;
 import org.usfirst.frc.team135.robot.commands.auton.entrypoints.RightPosition;
 import org.usfirst.frc.team135.robot.commands.auton.groups.SideToAutoline;
 import org.usfirst.frc.team135.robot.commands.teleop.*;
