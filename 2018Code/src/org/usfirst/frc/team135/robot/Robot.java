@@ -69,9 +69,10 @@ public class Robot extends TimedRobot {
 		m_chooser.addObject("Middle Position", new MiddlePosition());
 		m_chooser.addObject("Right Position", new RightPosition());
 		SmartDashboard.putData("Auto mode", m_chooser);
-		SmartDashboard.putBoolean("Try to go for Scale?", false);
-		SmartDashboard.putBoolean("Try to go for Switch?", false);
-		SmartDashboard.putBoolean("Tiebreak with: Switch (Check)/Scale (Uncheck)", false);
+		
+		SmartDashboard.setPersistent("Try to go for Scale?");
+		SmartDashboard.setPersistent("Try to go for Switch?");
+		SmartDashboard.setPersistent("Prefer Switch or Scale?");
 	}
 
 	/**
@@ -107,10 +108,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = new SideToNearSwitch();
-
-		
-		//m_chooser.getSelected().start();
+		//m_autonomousCommand = new SideToNearSwitch();
+		m_chooser.getSelected().start();
 		
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -120,9 +119,9 @@ public class Robot extends TimedRobot {
 		 */
 
 		// schedule the autonomous command (example)
-		if (m_autonomousCommand != null) {
+		/*if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
-		}
+		}*/
 	}
 
 	/**

@@ -3,6 +3,7 @@ package org.usfirst.frc.team135.robot.commands.auton.entrypoints;
 import org.usfirst.frc.team135.robot.Robot;
 import org.usfirst.frc.team135.robot.commands.auton.groups.MidToSwitch;
 import org.usfirst.frc.team135.robot.commands.auton.groups.SideToNearSwitch;
+import org.usfirst.frc.team135.robot.commands.auton.singles.InitializeAngle;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -21,6 +22,9 @@ public class RightPosition extends CommandGroup {
     	String msg = DriverStation.getInstance().getGameSpecificMessage();
     	int switchPosition = getSwitchPosition(msg);
     	int scalePosition = getScalePosition(msg);
+    	
+    	addSequential(new InitializeAngle(180));
+    	
     	if (switchPosition == INVALID || scalePosition == INVALID)
     	{
     		//no point in running anything but autoline if we don't know where anything is
@@ -29,7 +33,7 @@ public class RightPosition extends CommandGroup {
     	
     	if (SmartDashboard.getBoolean("Try to go for Switch?", true) && !SmartDashboard.getBoolean("Try to go for Scale?", false))
     	{
-    		Robot.navx.initAngle = 180;
+    		
     		addSequential(new SideToNearSwitch());
     		//Go for switch only
     		if (switchPosition == CLOSE)

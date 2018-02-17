@@ -67,7 +67,7 @@ public class UltrasonicSensor extends Subsystem {
     public void periodic()
     {
     	getLeftSonarValue();
-    	//System.out.println("Sonar: " + GetLeftSonarValue() + ", " + GetRightSonarValue());
+    	//System.out.println("Sonar: " + getLeftSonarValue() + ", " + getRightSonarValue());
     }
 
 }

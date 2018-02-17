@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.DriverStation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -116,7 +117,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		navx = new NavX_wrapper(Robot.navx);
 		
 		//Configure orientation helper.
-		orientationHelper = new PIDController(.0028, .00001, .05, navx, buffer);
+		orientationHelper = new PIDController(.01, 0.0001, .1, navx, buffer);
 		orientationHelper.setInputRange(0, 360);
 		orientationHelper.setOutputRange(-.1, .1);
 		orientationHelper.setAbsoluteTolerance(.2);
@@ -287,7 +288,8 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		
 		Double rearLeftSpeed, rearRightSpeed, frontLeftSpeed, frontRightSpeed, maxRightSpeed, maxLeftSpeed, maxSpeed;
 		
-		if (Preferences.getInstance().getBoolean("Enable Orientation Helper", false))
+
+		if (Preferences.getInstance().getBoolean("Enable Orientation Helper", false) && !DriverStation.getInstance().isAutonomous())
 		{
 			
 			if (Math.abs(rotationalRate) == 0 && !orientationHelper.isEnabled()) {
@@ -297,6 +299,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 			} 
 			else if (Math.abs(rotationalRate) != 0 && orientationHelper.isEnabled()) {
 				orientationHelper.disable();
+				buffer.output = 0;
 			}
 			
 		}
@@ -304,10 +307,10 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		//Left get's dialed back on positive error and right get's dialed up
 		
 		
-		rearLeftSpeed = (input.x + input.y + rotationalRate);
-		rearRightSpeed = (input.x - input.y + rotationalRate);
-		frontLeftSpeed = (-input.x + input.y + rotationalRate);
-		frontRightSpeed = (-input.x -input.y + rotationalRate);
+		rearLeftSpeed = (input.x + input.y + rotationalRate) + buffer.output;
+		rearRightSpeed = (input.x - input.y + rotationalRate) + buffer.output;
+		frontLeftSpeed = (-input.x + input.y + rotationalRate) + buffer.output;
+		frontRightSpeed = (-input.x -input.y + rotationalRate) + buffer.output;
 				
 		normalize(frontLeftSpeed, rearRightSpeed, frontRightSpeed, rearRightSpeed);
 		

@@ -18,8 +18,8 @@ public class SideToAutoline extends CommandGroup implements RobotMap{
 
     public SideToAutoline() {
     	addSequential(new DriveStraightForwardDistance(
-    			FIELD.AUTO_LINE, 1.0, () -> Robot.canifier.getRearLidarInches(), true,
-    			0.0, 0, () -> Robot.ultrasonic.getLeftSonarValue(), false,
+    			FIELD.AUTO_LINE, 1.0, 82, () -> Robot.canifier.getRearLidarInches(), true,
+    			0.0, 0, 5, () -> Robot.ultrasonic.getLeftSonarValue(), false,
     			TIMEOUT));
     	//addSequential(new SetLiftPosition(LIFT.SWITCH_POSITION));
     }

@@ -1,3 +1,4 @@
+
 package org.usfirst.frc.team135.robot.commands.auton.entrypoints;
 
 import org.usfirst.frc.team135.robot.Robot;
@@ -21,11 +22,11 @@ public class LeftPosition extends CommandGroup {
 	
     public LeftPosition() 
     {
+    	Robot.navx.initAngle = 180;
     	String msg = DriverStation.getInstance().getGameSpecificMessage();
     	int switchPosition = getSwitchPosition(msg);
     	int scalePosition = getScalePosition(msg);
     	
-    	Robot.navx.initAngle = 180;
     	if (switchPosition == INVALID || scalePosition == INVALID)
     	{
     		//no point in running anything but autoline if we don't know where anything is

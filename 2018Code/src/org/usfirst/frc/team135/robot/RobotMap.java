@@ -78,13 +78,13 @@ public interface RobotMap
 	{
 		public static final float //All measurements are in inches
 			AUTO_LINE = 135,
-			WALL_SLANT_END = 30,
+			WALL_SLANT_END = 10,
 			SCALE_X = 42.5f,
 			SCALE_Y = 248,
 			SIDE_SWITCH_X = 54.5f,
 			SIDE_SWITCH_Y = 165,
-			MID_SWITCH_X = 47.25f,
-			MID_SWITCH_Y = 143.5f;
+			MID_SWITCH_X = 93.0f,
+			MID_SWITCH_Y = 142.5f;
 			
 		
 	}

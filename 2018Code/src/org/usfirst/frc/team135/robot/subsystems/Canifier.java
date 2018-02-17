@@ -67,7 +67,7 @@ public class Canifier extends Subsystem implements RobotMap{
 		return dutyCycleAndPeriods[pwmCh.value][0];   
 	}
 	
-	public double getRearLidarCM()
+	public double getFrontLidarCM()
 	{
 		double readings = 0.0;
 		for(int i = 1; i <= 5; i++)
@@ -80,7 +80,7 @@ public class Canifier extends Subsystem implements RobotMap{
 		
 	}
 	
-	public double getFrontLidarCM()
+	public double getRearLidarCM()
 	{
 		double readings = 0.0;
 		for(int i = 1; i <= 5; i++)
