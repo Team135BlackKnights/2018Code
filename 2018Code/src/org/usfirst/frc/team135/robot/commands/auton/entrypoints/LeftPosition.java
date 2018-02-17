@@ -22,7 +22,7 @@ public class LeftPosition extends CommandGroup {
 	
     public LeftPosition() 
     {
-    	Robot.navx.initAngle = 180;
+    	addSequential()
     	String msg = DriverStation.getInstance().getGameSpecificMessage();
     	int switchPosition = getSwitchPosition(msg);
     	int scalePosition = getScalePosition(msg);

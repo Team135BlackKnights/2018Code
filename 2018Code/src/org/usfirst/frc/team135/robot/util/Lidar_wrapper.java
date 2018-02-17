@@ -31,7 +31,7 @@ public class Lidar_wrapper implements PIDSource
 	@Override
 	public double pidGet() {
 		// TODO Auto-generated method stub
-		return device.ReadLIDARCM();
+		return device.getFrontLidarInches();
 	}
 	
 }
