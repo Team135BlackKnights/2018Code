@@ -14,6 +14,9 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team135.robot.commands.auton.entrypoints.LeftPosition;
+import org.usfirst.frc.team135.robot.commands.auton.entrypoints.RightPosition;
+import org.usfirst.frc.team135.robot.commands.auton.groups.SideToAutoline;
 import org.usfirst.frc.team135.robot.commands.teleop.*;
 import org.usfirst.frc.team135.robot.subsystems.*;
 
@@ -58,11 +61,15 @@ public class Robot extends TimedRobot {
 		
 		//CameraServer.getInstance().startAutomaticCapture();
 		
-		m_chooser.addDefault("Default Auto", new ExampleCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
+		m_chooser.addDefault("Autoline", new SideToAutoline());
+		m_chooser.addObject("Left Position", new LeftPosition());
+		m_chooser.addObject("Middle Position", new MiddlePosition());
+		m_chooser.addObject("Right Position", new RightPosition());
 		SmartDashboard.putData("Auto mode", m_chooser);
-
 		
+		SmartDashboard.setPersistent("Try to go for Scale?");
+		SmartDashboard.setPersistent("Try to go for Switch?");
+		SmartDashboard.setPersistent("Prefer Switch or Scale?");
 		
 	}
 
