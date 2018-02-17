@@ -4,6 +4,7 @@ package org.usfirst.frc.team135.robot.commands.auton.entrypoints;
 import org.usfirst.frc.team135.robot.Robot;
 import org.usfirst.frc.team135.robot.commands.auton.groups.SideToNearScale;
 import org.usfirst.frc.team135.robot.commands.auton.groups.SideToNearSwitch;
+import org.usfirst.frc.team135.robot.commands.auton.singles.InitializeAngle;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -22,7 +23,7 @@ public class LeftPosition extends CommandGroup {
 	
     public LeftPosition() 
     {
-    	addSequential()
+    	addSequential(new InitializeAngle(180));
     	String msg = DriverStation.getInstance().getGameSpecificMessage();
     	int switchPosition = getSwitchPosition(msg);
     	int scalePosition = getScalePosition(msg);
