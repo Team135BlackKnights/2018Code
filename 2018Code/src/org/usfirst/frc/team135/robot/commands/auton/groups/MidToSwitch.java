@@ -5,10 +5,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class DriveUntil extends CommandGroup {
+public class MidToSwitch extends CommandGroup {
 
-    public DriveUntil(double distance) {
-    	
+    public MidToSwitch() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
