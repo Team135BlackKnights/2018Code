@@ -23,6 +23,8 @@ public class MiddlePosition extends CommandGroup {
     	
     	addSequential(new InitializeAngle(270));
     	
+    	System.out.println(switchPosition);
+    	
     	if (SmartDashboard.getBoolean("Try to go for Switch?", true) && !SmartDashboard.getBoolean("Try to go for Scale?", false))
     	{
     		System.out.println(Robot.navx.getFusedAngle());

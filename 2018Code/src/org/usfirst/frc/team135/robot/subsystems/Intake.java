@@ -7,6 +7,7 @@ import org.usfirst.frc.team135.robot.commands.teleop.*;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.MotorSafetyHelper;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
@@ -25,8 +26,10 @@ public class Intake extends Subsystem implements RobotMap{
 	public static DoubleSolenoid retraction;
 	private static Compressor compressor;
 	
-	boolean rightWheelInverted = false;
-	boolean leftWheelInverted = true;
+	private MotorSafetyHelper m_safetyHelperRight, m_safetyHelperLeft;
+	
+	boolean rightWheelInverted = true;
+	boolean leftWheelInverted = false;
 	
 	private boolean isPositionInitialized = false;
 	
@@ -43,6 +46,7 @@ public class Intake extends Subsystem implements RobotMap{
 	
 	private Intake()
 	{
+		
 		InitializeWheelMotors();
 		InitializePneumatics();
 
@@ -57,6 +61,9 @@ public class Intake extends Subsystem implements RobotMap{
 		leftWheel.setInverted(leftWheelInverted);
 		rightWheel.setSafetyEnabled(false);
 		leftWheel.setSafetyEnabled(false);
+		
+		m_safetyHelperLeft = new MotorSafetyHelper(leftWheel);
+		m_safetyHelperRight = new MotorSafetyHelper(rightWheel);
 	}
 	public void InitializePneumatics()
 	{
@@ -79,6 +86,9 @@ public class Intake extends Subsystem implements RobotMap{
 	{
 		rightWheel.set(power);
 		leftWheel.set(power);
+		
+		m_safetyHelperLeft.feed();
+		m_safetyHelperRight.feed();
 	}	
 	public void MoveMandibles(DoubleSolenoid.Value value)
 	{
@@ -91,7 +101,6 @@ public class Intake extends Subsystem implements RobotMap{
 
 
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+
     }
 }

@@ -83,7 +83,7 @@ public interface RobotMap
 			SCALE_Y = 248,
 			SIDE_SWITCH_X = 54.5f,
 			SIDE_SWITCH_Y = 165,
-			MID_SWITCH_X = 93.0f,
+			MID_SWITCH_X = 107.0f,
 			MID_SWITCH_Y = 142.5f;
 			
 		
@@ -103,6 +103,12 @@ public interface RobotMap
 			LOW_POSITION = 0,
 			SWITCH_POSITION = 500,
 			SCALE_POSITION = 1310;
+		
+		public static final double
+			kP = 4.5,
+			kI = 0.045,
+			kD = 15,
+			kF = .2;
 			
 	}
 	

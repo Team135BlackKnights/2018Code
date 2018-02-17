@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,11 +23,15 @@ public class Lift extends Subsystem implements RobotMap
 {
 	private static Lift instance;
 	
-	private double setPoint = 0.0;
+	private double setpoint = 0.0;
 	
 	private TalonSRX liftMotor;
 	
 	private boolean isPositionInitialized = false;
+	
+	public boolean isMantaining;
+	
+
 	
 	private Lift()
 	{
@@ -50,14 +55,14 @@ public class Lift extends Subsystem implements RobotMap
 		liftMotor.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_100Ms, 10);
 		liftMotor.configVelocityMeasurementWindow(5, 10); //Might want to check this later
 		
-		liftMotor.config_kP(0, 2, 10);
-		liftMotor.config_kI(0, .0002, 10);
-		liftMotor.config_kD(0, 20, 10);
-		liftMotor.config_kF(0, 0, 10);
+		liftMotor.config_kP(0, LIFT.kP, 10);
+		liftMotor.config_kI(0, LIFT.kI, 10);
+		liftMotor.config_kD(0, LIFT.kD, 10);
+		liftMotor.config_kF(0, LIFT.kF, 10);
 		liftMotor.configMotionCruiseVelocity(100, 10);
 		liftMotor.configMotionAcceleration(500, 10);
 		
-
+		
 		
 	} 	
 	
@@ -137,8 +142,14 @@ public class Lift extends Subsystem implements RobotMap
 		timer.stop();
 		timer.reset();
 		
-		setPoint = position;
+		setpoint = position;
 	}
+	
+	public void mantainPosition()
+	{
+		liftMotor.set(ControlMode.Velocity, 0);
+	}
+	
     public void initDefaultCommand() {
     	setDefaultCommand(new RunLift());
     }
@@ -146,7 +157,7 @@ public class Lift extends Subsystem implements RobotMap
     public void periodic()
     {
     	SmartDashboard.putNumber("Lift Position", getEncoderPosition());
-    	SmartDashboard.putNumber("Lift Setpoint", setPoint);
+    	SmartDashboard.putNumber("Lift Setpoint", setpoint);
     	SmartDashboard.putNumber("Lift Velocity", getEncoderVelocity());
     	SmartDashboard.putNumber("Lift Acceleration", getEncoderAcceleration());
     	//System.out.println(getEncoderPosition());

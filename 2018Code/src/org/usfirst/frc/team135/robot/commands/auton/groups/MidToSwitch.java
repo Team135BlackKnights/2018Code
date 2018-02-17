@@ -33,8 +33,8 @@ public class MidToSwitch extends CommandGroup {
         			TIMEOUT));*/
         	
           	addSequential(new DriveStraightForwardDistance(
-        			FIELD.MID_SWITCH_X, 1, 35, () -> Robot.canifier.getRearLidarInches(), true,
-        			FIELD.MID_SWITCH_Y, .8, 25, () -> Robot.ultrasonic.getLeftSonarValue(), true,
+        			FIELD.MID_SWITCH_X, 1, 25, () -> Robot.canifier.getRearLidarInches(), true,
+        			FIELD.MID_SWITCH_Y, .75, 50, () -> Robot.ultrasonic.getLeftSonarValue(), true,
         			TIMEOUT));
     	}
     	else
@@ -45,8 +45,8 @@ public class MidToSwitch extends CommandGroup {
         			TIMEOUT));    		
         	*/
         	addSequential(new DriveStraightForwardDistance(
-        			FIELD.MID_SWITCH_X, 1, 35, () -> Robot.canifier.getFrontLidarInches(), true,
-        			FIELD.MID_SWITCH_Y, .8, 25, () -> Robot.ultrasonic.getLeftSonarValue(), true,
+        			FIELD.MID_SWITCH_X, 1, 25, () -> Robot.canifier.getFrontLidarInches(), true,
+        			FIELD.MID_SWITCH_Y, .75, 50, () -> Robot.ultrasonic.getLeftSonarValue(), true,
         			TIMEOUT));    		
     	
     	}

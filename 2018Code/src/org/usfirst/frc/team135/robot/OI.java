@@ -88,7 +88,7 @@ public class OI implements RobotMap
 			return 0;
 		}
 		else
-		{
+		{	
 			return input;
 		}
 	}

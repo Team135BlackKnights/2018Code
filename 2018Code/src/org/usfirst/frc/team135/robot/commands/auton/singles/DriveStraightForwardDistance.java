@@ -55,7 +55,6 @@ public class DriveStraightForwardDistance extends Command {
     	this.yEnabled = yEnabled;
     	this.xBuffer = xBuffer;
     	this.yBuffer = yBuffer;
-    	
     	navx = new NavX_wrapper(Robot.navx);
     	bufRotationZ = new PIDOut();
     	angleZController = new PIDController(.01, 0, 0, navx, bufRotationZ);
@@ -83,14 +82,15 @@ public class DriveStraightForwardDistance extends Command {
     	angleZController.enable();
     	bufRotationZ.output = 0.0;
     	timer.start();
-    	int strafing_direction = 0, driving_direction = 0;
+    	double strafing = 0, driving = 0;
     	
     	System.out.println("Starting Distance: " + distanceX + ", " + distanceY);
+    	System.out.println(Robot.navx.getFusedAngle());
     	while(timer.get() < timeout && DriverStation.getInstance().isAutonomous())
     	{
     		
-    		driving_direction = determineDrive();
-    		strafing_direction = determineStrafe();
+    		driving = determineDrive();
+    		strafing = determineStrafe();
   	 
         	if (done_driving && done_strafing)
         	{
@@ -101,16 +101,15 @@ public class DriveStraightForwardDistance extends Command {
       		//System.out.println("Running at y: " + ySensor.get());
     		//System.out.println("Running at x: " + xSensor.get());
         
-        	Robot.drivetrain.driveCartesian(strafing_direction * xSpeed, driving_direction * ySpeed, bufRotationZ.output);
+        	Robot.drivetrain.driveCartesian(strafing, driving, bufRotationZ.output);
     	}
     }
     
-    private int determineDrive()
+    private double determineDrive()
     {
        	if (Math.abs(ySensor.get() - distanceY) >= yBuffer && !done_driving && yEnabled)
     	{
-       		System.out.println("DRIVING!");
-    		return checkDriveDirection();
+    		return ySpeed;
     	}
     	else
     	{
@@ -124,17 +123,22 @@ public class DriveStraightForwardDistance extends Command {
     			return 0;
     		}
     		
-    		for(int pos_stability = 1; pos_stability <= 8; )
+    		if (ySensor.get() > distanceY + 10)
+    		{
+    			return ySpeed;
+    		}
+    		
+    		for(int pos_stability = 1; pos_stability <= 5; )
     		{
     			if (Math.abs(ySensor.get() - distanceY) < yBuffer)
     			{
     				pos_stability++;
-    				Timer.delay(.001);
+    				Timer.delay(.002);
     			}
     			else
     			{
     				System.out.println("false alarm");
-    				return checkDriveDirection();
+    				return ySpeed;
     			}
     		}     	
 			System.out.println("Confirmed driving stop at: " + ySensor.get());
@@ -144,29 +148,17 @@ public class DriveStraightForwardDistance extends Command {
     	
     }
     
-    private int checkDriveDirection()
-    {
-    	if (ySensor.get() < distanceY)
-		{
-			return 1;
-		}
-		else
-		{
-			return -1;
-		}
-    }
-    
-    private int determineStrafe()
+    private double determineStrafe()
     {
     	if (ySensor.get() > FIELD.WALL_SLANT_END
 				&& !done_strafing
 				&& Math.abs(xSensor.get() - distanceX) >= xBuffer && xEnabled) 
     	{
-    		return checkStrafeDirection();
+    		return xSpeed;
     	}
     	else
     	{
-    		//System.out.println("Checking if I should stop sideways at: " + xSensor.get());
+    		System.out.println("Checking if I should stop sideways at: " + xSensor.get());
     		
     		if (!xEnabled || done_strafing )
     		{
@@ -186,17 +178,18 @@ public class DriveStraightForwardDistance extends Command {
     		}
     		
     		
-    		for(int pos_stability = 1; pos_stability <= 8; )
+    		
+    		for(int pos_stability = 1; pos_stability <= 10; )
     		{
     			if (Math.abs(xSensor.get() - distanceX) < xBuffer)
     			{
     				pos_stability++;
-    				Timer.delay(.001);
+    				Timer.delay(.002);
     			}
     			else
     			{
     				System.out.println("false alarm");
-    				return checkStrafeDirection();
+    				return xSpeed;
     			}
     		}
     		
@@ -204,19 +197,6 @@ public class DriveStraightForwardDistance extends Command {
 			done_strafing = true;
     		return 0;
     	}
-		
-    }
-
-    private int checkStrafeDirection()
-    {
-		if (xSensor.get() < distanceX)
-		{
-			return -1;
-		}
-		else
-		{
-			return 1;
-		}
 		
     }
     
