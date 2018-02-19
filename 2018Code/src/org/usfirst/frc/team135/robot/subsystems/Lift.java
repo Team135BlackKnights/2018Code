@@ -158,8 +158,8 @@ public class Lift extends Subsystem implements RobotMap
     {
     	SmartDashboard.putNumber("Lift Position", getEncoderPosition());
     	SmartDashboard.putNumber("Lift Setpoint", setpoint);
-    	SmartDashboard.putNumber("Lift Velocity", getEncoderVelocity());
-    	SmartDashboard.putNumber("Lift Acceleration", getEncoderAcceleration());
+    	//SmartDashboard.putNumber("Lift Velocity", getEncoderVelocity());
+    	//SmartDashboard.putNumber("Lift Acceleration", getEncoderAcceleration());
     	//System.out.println(getEncoderPosition());
     }
 }
