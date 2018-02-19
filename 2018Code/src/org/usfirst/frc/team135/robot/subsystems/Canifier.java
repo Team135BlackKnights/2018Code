@@ -33,7 +33,7 @@ public class Canifier extends Subsystem implements RobotMap{
     
 	public Canifier()
 	{
-		int id = (SmartDashboard.getBoolean("Is Competition Bot?", true) ? PRACTICE.CANIFIER.ID : COMPETITION.CANIFIER.ID);
+		int id = (SmartDashboard.getBoolean("Is Competition Bot?", true) ? COMPETITION.CANIFIER.ID : PRACTICE.CANIFIER.ID);
 		canifier = new CANifier(id);
 	}
 	public static Canifier getInstance()

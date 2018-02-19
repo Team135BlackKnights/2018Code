@@ -8,6 +8,7 @@
 package org.usfirst.frc.team135.robot;
 
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -70,7 +71,7 @@ public class Robot extends TimedRobot {
 		m_chooser.addObject("Right Position", new RightPosition());
 		SmartDashboard.putData("Auto mode", m_chooser);
 
-		SmartDashboard.putBoolean("Is Competition Bot?", false);
+		Preferences.getInstance().putBoolean("Is Competition Bot?", true);
 		SmartDashboard.setPersistent("Is Competition Bot?");
 		SmartDashboard.setPersistent("Try to go for Scale?");
 		SmartDashboard.setPersistent("Try to go for Switch?");

@@ -54,7 +54,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	private static final int ENCODER_TICK_COUNT = 256;
 	private static final int ENCODER_QUAD_COUNT = (ENCODER_TICK_COUNT * 4);
 	
-	private static final double MOTOR_SETPOINT_PER_100MS = 280; //NU/100 ms MAX SPEED for slowest motor
+	private static final double MOTOR_SETPOINT_PER_100MS = 275; //NU/100 ms MAX SPEED for slowest motor
 	
 	private MotorSafetyHelper m_safetyHelper = new MotorSafetyHelper(chassis); //watchdog
 	
@@ -62,6 +62,13 @@ public class DriveTrain extends Subsystem implements RobotMap{
 											//But it doesn't work right now
 	
 	private PIDOut buffer; //Stores the orientation helper's motor bias
+	
+	public int
+		FR_ID = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.DRIVETRAIN.FRONT_RIGHT_TALON_ID : PRACTICE.DRIVETRAIN.FRONT_RIGHT_TALON_ID),
+		FL_ID =(Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.DRIVETRAIN.FRONT_LEFT_TALON_ID : PRACTICE.DRIVETRAIN.FRONT_LEFT_TALON_ID),
+		RR_ID = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.DRIVETRAIN.REAR_RIGHT_TALON_ID : PRACTICE.DRIVETRAIN.REAR_RIGHT_TALON_ID),
+		RL_ID = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.DRIVETRAIN.REAR_LEFT_TALON_ID : PRACTICE.DRIVETRAIN.REAR_RIGHT_TALON_ID);
+
 	
 	private double RearRightkP;  //PID constants for each of the drive talons
 	private double RearRightkI;
@@ -104,30 +111,25 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	*/	
 		//Instantiate each of our talons
 		
-		int
-			FR_ID = int id = (SmartDashboard.getBoolean("Is Competition Bot?", true) ? PRACTICE.CANIFIER.ID : COMPETITION.CANIFIER.ID);,
-			FL_ID,
-			RR_ID,
-			RL_ID;
+				
 		
-		
-		frontRightTalon = new WPI_TalonSRX(DRIVETRAIN.FRONT_RIGHT_TALON_ID);
-		frontLeftTalon = new WPI_TalonSRX(DRIVETRAIN.FRONT_LEFT_TALON_ID);
-		rearRightTalon = new WPI_TalonSRX(DRIVETRAIN.REAR_RIGHT_TALON_ID);
-		rearLeftTalon = new WPI_TalonSRX(DRIVETRAIN.REAR_LEFT_TALON_ID);		
+		frontRightTalon = new WPI_TalonSRX(FR_ID);
+		frontLeftTalon = new WPI_TalonSRX(FL_ID);
+		rearRightTalon = new WPI_TalonSRX(RR_ID);
+		rearLeftTalon = new WPI_TalonSRX(RL_ID);		
 
 		//Configure the talons.
-		ConfigureTalons(frontRightTalon, DRIVETRAIN.FRONT_RIGHT_TALON_ID);
-		ConfigureTalons(frontLeftTalon, DRIVETRAIN.FRONT_LEFT_TALON_ID);
-		ConfigureTalons(rearRightTalon, DRIVETRAIN.REAR_RIGHT_TALON_ID);
-		ConfigureTalons(rearLeftTalon, DRIVETRAIN.REAR_LEFT_TALON_ID);
+		ConfigureTalons(frontRightTalon, FR_ID);
+		ConfigureTalons(frontLeftTalon, FL_ID);
+		ConfigureTalons(rearRightTalon, RR_ID);
+		ConfigureTalons(rearLeftTalon, RL_ID);
 		
 		//Configure the orientation helper and it's output storage helper.
 		buffer = new PIDOut();
 		navx = new NavX_wrapper(Robot.navx);
 		
 		//Configure orientation helper.
-		orientationHelper = new PIDController(.01, 0.0001, .1, navx, buffer);
+		orientationHelper = new PIDController(.01, 0, .1, navx, buffer);
 		orientationHelper.setInputRange(0, 360);
 		orientationHelper.setOutputRange(-.1, .1);
 		orientationHelper.setAbsoluteTolerance(.2);
@@ -156,6 +158,15 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		//InitializeDriveTrain();
 	}
 	
+	public void ConfigureMotorDirection()
+	{
+		if (Preferences.getInstance().getBoolean("Is Competition Bot?", true))
+		{
+			frontRightTalon.setInverted(true);
+			rearLeftTalon.setInverted(true);
+		}
+
+	}
 	
 	public void ConfigureEncoderDirection()
 	{
@@ -173,29 +184,38 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	
 	public void InitializeDriveTrain()
 	{
-		RearRightkP = Preferences.getInstance().getDouble("RearRightP", 0); //get PID constants from Dashboard
-		RearRightkI = Preferences.getInstance().getDouble("RearRightI", 0);
-		RearRightkD = Preferences.getInstance().getDouble("RearRightD", 0);
-		RearRightkF = Preferences.getInstance().getDouble("RearRightF", 0);
+		String competition;
+		if (Preferences.getInstance().getBoolean("Is Competition Bot?", true))
+		{
+			competition = "Comp_";
+		}
+		else
+		{
+			competition = "";
+		}
+		RearRightkP = Preferences.getInstance().getDouble(competition + "RearRightP", 0); //get PID constants from Dashboard
+		RearRightkI = Preferences.getInstance().getDouble(competition + "RearRightI", 0);
+		RearRightkD = Preferences.getInstance().getDouble(competition + "RearRightD", 0);
+		RearRightkF = Preferences.getInstance().getDouble(competition + "RearRightF", 0);
 		
-		RearLeftkP = Preferences.getInstance().getDouble("RearLeftP", 0);
-		RearLeftkI = Preferences.getInstance().getDouble("RearLeftI", 0);
-		RearLeftkD = Preferences.getInstance().getDouble("RearLeftD", 0);
-		RearLeftkF = Preferences.getInstance().getDouble("RearLeftF", 0);
+		RearLeftkP = Preferences.getInstance().getDouble(competition + "RearLeftP", 0);
+		RearLeftkI = Preferences.getInstance().getDouble(competition + "RearLeftI", 0);
+		RearLeftkD = Preferences.getInstance().getDouble(competition + "RearLeftD", 0);
+		RearLeftkF = Preferences.getInstance().getDouble(competition + "RearLeftF", 0);
 		
-		FrontRightkP = Preferences.getInstance().getDouble("FrontRightP", 0);
-		FrontRightkI = Preferences.getInstance().getDouble("FrontRightI", 0);
-		FrontRightkD = Preferences.getInstance().getDouble("FrontRightD", 0);
-		FrontRightkF = Preferences.getInstance().getDouble("FrontRightF", 0);
+		FrontRightkP = Preferences.getInstance().getDouble(competition + "FrontRightP", 0);
+		FrontRightkI = Preferences.getInstance().getDouble(competition + "FrontRightI", 0);
+		FrontRightkD = Preferences.getInstance().getDouble(competition + "FrontRightD", 0);
+		FrontRightkF = Preferences.getInstance().getDouble(competition + "FrontRightF", 0);
 		
-		FrontLeftkP = Preferences.getInstance().getDouble("FrontLeftP", 0);
-		FrontLeftkI = Preferences.getInstance().getDouble("FrontLeftI", 0);
-		FrontLeftkD = Preferences.getInstance().getDouble("FrontLeftD", 0);
-		FrontLeftkF = Preferences.getInstance().getDouble("FrontLeftF", 0);
+		FrontLeftkP = Preferences.getInstance().getDouble(competition + "FrontLeftP", 0);
+		FrontLeftkI = Preferences.getInstance().getDouble(competition + "FrontLeftI", 0);
+		FrontLeftkD = Preferences.getInstance().getDouble(competition + "FrontLeftD", 0);
+		FrontLeftkF = Preferences.getInstance().getDouble(competition + "FrontLeftF", 0);
 		
-		OrientationHelper_kP = Preferences.getInstance().getDouble("OrientationHelper_kP", 0);
-		OrientationHelper_kI = Preferences.getInstance().getDouble("OrientationHelper_kI", 0);
-		OrientationHelper_kD = Preferences.getInstance().getDouble("OrientationHelper_kD", 0);
+		OrientationHelper_kP = Preferences.getInstance().getDouble(competition + "OrientationHelper_kP", 0);
+		OrientationHelper_kI = Preferences.getInstance().getDouble(competition + "OrientationHelper_kI", 0);
+		OrientationHelper_kD = Preferences.getInstance().getDouble(competition + "OrientationHelper_kD", 0);
 		
 		rearRightTalon.config_kP(0, RearRightkP, 10); //configure talons with PID constants
 		rearRightTalon.config_kI(0, RearRightkI, 10);
@@ -235,7 +255,8 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	public double getEncoderCounts(WPI_TalonSRX talon)
 	{
 		double position = talon.getSelectedSensorPosition(0);
-		if (talon.getDeviceID() == DRIVETRAIN.FRONT_RIGHT_TALON_ID || talon.getDeviceID() == DRIVETRAIN.REAR_RIGHT_TALON_ID)
+		
+		if (talon.getDeviceID() == FR_ID || talon.getDeviceID() == FL_ID)
 		{
 			position *= -1;
 		}
@@ -245,7 +266,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	public double getEncoderSpeed(WPI_TalonSRX talon)
 	{
 		double velocity = talon.getSelectedSensorVelocity(0);
-		if (talon.getDeviceID() == DRIVETRAIN.FRONT_RIGHT_TALON_ID || talon.getDeviceID() == DRIVETRAIN.REAR_RIGHT_TALON_ID)
+		if (talon.getDeviceID() == FR_ID || talon.getDeviceID() == FL_ID)
 		{
 			velocity *= -1;
 		}
@@ -259,19 +280,19 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	
 	public double getEncoderSetpoint(WPI_TalonSRX talon)
 	{
-		if (talon.getDeviceID() == DRIVETRAIN.FRONT_LEFT_TALON_ID)
+		if (talon.getDeviceID() == FL_ID)
 		{
 			return FrontLeftSetpoint;
 		}
-		else if (talon.getDeviceID() == DRIVETRAIN.REAR_LEFT_TALON_ID)
+		else if (talon.getDeviceID() == RL_ID)
 		{
 			return RearLeftSetpoint;
 		}
-		else if (talon.getDeviceID() == DRIVETRAIN.FRONT_RIGHT_TALON_ID)
+		else if (talon.getDeviceID() == FR_ID)
 		{
 			return FrontRightSetpoint;
 		}
-		else if (talon.getDeviceID() == DRIVETRAIN.REAR_RIGHT_TALON_ID)
+		else if (talon.getDeviceID() == RR_ID)
 		{
 			return RearRightSetpoint;
 		}
@@ -344,19 +365,19 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	
 	public void driveSingleMotorPower(int id)
 	{
-		if (id == DRIVETRAIN.REAR_LEFT_TALON_ID)
+		if (id == RL_ID)
 		{
 			rearLeftTalon.set(Robot.oi.GetManipY());
 		}
-		if (id == DRIVETRAIN.REAR_RIGHT_TALON_ID)
+		if (id == RR_ID)
 		{
 			rearRightTalon.set(-Robot.oi.GetManipY());
 		}
-		if (id == DRIVETRAIN.FRONT_LEFT_TALON_ID)
+		if (id == FL_ID)
 		{
 			frontLeftTalon.set(Robot.oi.GetManipY());
 		}
-		if (id == DRIVETRAIN.FRONT_RIGHT_TALON_ID)
+		if (id == FR_ID)
 		{
 			frontRightTalon.set(-Robot.oi.GetManipY());
 		}	
@@ -364,20 +385,20 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	
 	public void driveSingleMotorVelocity(int id)
 	{
-		if (id == DRIVETRAIN.REAR_LEFT_TALON_ID)
+		if (id == RL_ID)
 		{
 			rearLeftTalon.set(ControlMode.Velocity, Robot.oi.GetManipY()*MOTOR_SETPOINT_PER_100MS);
 			//full throttle joystick so it returns value of 1 * setpoint = setpoint
 		}
-		if (id == DRIVETRAIN.REAR_RIGHT_TALON_ID)
+		if (id == RR_ID)
 		{
 			rearRightTalon.set(ControlMode.Velocity, Robot.oi.GetManipY()*MOTOR_SETPOINT_PER_100MS);
 		}
-		if (id == DRIVETRAIN.FRONT_LEFT_TALON_ID)
+		if (id == FL_ID)
 		{
 			frontLeftTalon.set(ControlMode.Velocity, Robot.oi.GetManipY()*MOTOR_SETPOINT_PER_100MS);
 		}
-		if (id == DRIVETRAIN.FRONT_RIGHT_TALON_ID)
+		if (id == FR_ID)
 		{
 			frontRightTalon.set(ControlMode.Velocity, Robot.oi.GetManipY()*MOTOR_SETPOINT_PER_100MS);
 		}
@@ -385,6 +406,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	
 	public void stopMotors()
 	{
+		/*
 		orientationHelper.setSetpoint(Robot.navx.getFusedAngle());
 		orientationHelper.enable();
 		Timer timer = new Timer();
@@ -396,7 +418,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 			frontLeftTalon.set(ControlMode.Velocity, 0 + buffer.output);
 			frontRightTalon.set(ControlMode.Velocity, 0 + buffer.output);
 		}
-
+	*/
 		orientationHelper.disable();
 		
 	}

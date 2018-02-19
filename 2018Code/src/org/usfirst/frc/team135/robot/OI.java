@@ -59,12 +59,12 @@ public class OI implements RobotMap
 		LIFT_UP = new JoystickButton(MANIP, 6);
 		*/
 		
-		/*
-		DRIVE_REAR_RIGHT = new JoystickButton(MANIP, 4);
-		DRIVE_REAR_LEFT = new JoystickButton(MANIP, 3);
-		DRIVE_FRONT_LEFT = new JoystickButton(MANIP, 5);
-		DRIVE_FRONT_RIGHT = new JoystickButton(MANIP, 6);
-		*/
+		
+		DRIVE_REAR_RIGHT = new JoystickButton(LEFT, 4);
+		DRIVE_REAR_LEFT = new JoystickButton(LEFT, 3);
+		DRIVE_FRONT_LEFT = new JoystickButton(LEFT, 5);
+		DRIVE_FRONT_RIGHT = new JoystickButton(LEFT, 6);
+		
 		MANDIBLES_WHEELS_IN = new JoystickButton(MANIP, 1);
 		MANDIBLES_WHEELS_OUT = new JoystickButton(MANIP, 2);
 		
@@ -139,12 +139,12 @@ public class OI implements RobotMap
 	
 	private void AssignButtons()
 	{
-		/*
-		DRIVE_REAR_LEFT.whileHeld(new DriveMotor(DRIVETRAIN.REAR_LEFT_TALON_ID));
-		DRIVE_REAR_RIGHT.whileHeld(new DriveMotor(DRIVETRAIN.REAR_RIGHT_TALON_ID));
-		DRIVE_FRONT_LEFT.whileHeld(new DriveMotor(DRIVETRAIN.FRONT_LEFT_TALON_ID));
-		DRIVE_FRONT_RIGHT.whileHeld(new DriveMotor(DRIVETRAIN.FRONT_RIGHT_TALON_ID));
-		*/
+		
+		DRIVE_REAR_LEFT.whileHeld(new DriveMotor(COMPETITION.DRIVETRAIN.REAR_LEFT_TALON_ID));
+		DRIVE_REAR_RIGHT.whileHeld(new DriveMotor(COMPETITION.DRIVETRAIN.REAR_RIGHT_TALON_ID));
+		DRIVE_FRONT_LEFT.whileHeld(new DriveMotor(COMPETITION.DRIVETRAIN.FRONT_LEFT_TALON_ID));
+		DRIVE_FRONT_RIGHT.whileHeld(new DriveMotor(COMPETITION.DRIVETRAIN.FRONT_RIGHT_TALON_ID));
+		
 		
 		MANDIBLES_CLOSE.whenPressed(new GrabMandibles());
 		MANDIBLES_OPEN.whenPressed(new ReleaseMandibles());

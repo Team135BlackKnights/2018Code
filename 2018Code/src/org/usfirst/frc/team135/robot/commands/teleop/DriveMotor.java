@@ -1,7 +1,7 @@
 package org.usfirst.frc.team135.robot.commands.teleop;
 
 import org.usfirst.frc.team135.robot.Robot;
-import org.usfirst.frc.team135.robot.RobotMap.DRIVETRAIN;
+import org.usfirst.frc.team135.robot.RobotMap.*;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -31,19 +31,19 @@ public class DriveMotor extends Command {
     protected void execute() {
     //	Robot.drivetrain.driveSingleMotorPower(id); //power control
     	
-    	if (id == DRIVETRAIN.REAR_LEFT_TALON_ID)
+    	if (id == Robot.drivetrain.RL_ID)
     	{
     		System.out.println("rear left " + Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearLeftTalon));
     	}
-    	if (id == DRIVETRAIN.REAR_RIGHT_TALON_ID)
+    	if (id == Robot.drivetrain.RR_ID)
     	{
     		System.out.println("rear right " + Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearRightTalon));
     	}
-    	if (id == DRIVETRAIN.FRONT_LEFT_TALON_ID)
+    	if (id == Robot.drivetrain.FL_ID)
     	{
     		System.out.println("front left " + Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.frontLeftTalon));
     	}
-    	if (id == DRIVETRAIN.FRONT_RIGHT_TALON_ID)
+    	if (id == Robot.drivetrain.FR_ID)
     	{
     		System.out.println("front right " + Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.frontRightTalon));
     	}

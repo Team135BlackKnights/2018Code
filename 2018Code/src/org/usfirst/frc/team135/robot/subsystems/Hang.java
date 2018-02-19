@@ -1,7 +1,10 @@
 package org.usfirst.frc.team135.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import org.usfirst.frc.team135.robot.RobotMap;
 import org.usfirst.frc.team135.robot.commands.teleop.*;
@@ -15,8 +18,7 @@ public class Hang extends Subsystem implements RobotMap {
     // here. Call these from Commands.
 	static private Hang instance;
 	
-	WPI_VictorSPX hangMotor1;
-	WPI_VictorSPX hangMotor2;
+	WPI_VictorSPX hangMotor;
 	
 	Solenoid hangSolenoid; 
 	
@@ -38,13 +40,12 @@ public class Hang extends Subsystem implements RobotMap {
 	}
 	public void InitializeHangMotors()
 	{
-		hangMotor1 = new WPI_VictorSPX(HANG.HANG_1_VICTOR_ID);
-		hangMotor1.setInverted(false);
-		hangMotor1.setSafetyEnabled(false);
+		int id = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.HANG.HANG_1_VICTOR_ID : PRACTICE.HANG.HANG_1_VICTOR_ID);
 		
-		hangMotor2 = new WPI_VictorSPX(HANG.HANG_2_VICTOR_ID);
-		hangMotor2.setInverted(true);
-		hangMotor2.setSafetyEnabled(false);
+		hangMotor = new WPI_VictorSPX(id);
+		hangMotor.setInverted(false);
+		hangMotor.setSafetyEnabled(false);
+
 	}
 	
 	public void InitializeHangSolenoid()
@@ -55,8 +56,7 @@ public class Hang extends Subsystem implements RobotMap {
 	
 	public void RunHangMotor(double power)
 	{
-		hangMotor1.set(power);
-		hangMotor2.set(power);	
+		hangMotor.set(power);
 	}
 	
 	public void toggleState()

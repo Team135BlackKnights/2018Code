@@ -3,7 +3,7 @@ package org.usfirst.frc.team135.robot.commands.auton.singles;
 import org.usfirst.frc.team135.robot.Robot;
 import org.usfirst.frc.team135.robot.RobotMap.DIRECTION;
 import org.usfirst.frc.team135.robot.RobotMap.FIELD;
-import org.usfirst.frc.team135.robot.RobotMap.RETURNS;
+import org.usfirst.frc.team135.robot.RobotMap.*;
 import org.usfirst.frc.team135.robot.util.FunctionalDoubleManager;
 import org.usfirst.frc.team135.robot.util.Lidar_wrapper;
 import org.usfirst.frc.team135.robot.util.NavX_wrapper;

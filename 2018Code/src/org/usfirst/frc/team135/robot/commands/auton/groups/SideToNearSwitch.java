@@ -30,7 +30,7 @@ public class SideToNearSwitch extends CommandGroup implements RobotMap {
        			2.0));
        	
     	addSequential(new ExtendMandibles());
-       	addSequential(new SetLiftPosition(LIFT.SWITCH_POSITION));
+       	addSequential(new SetLiftPosition(COMPETITION.LIFT.SWITCH_POSITION));
        	
        	addSequential(new DriveStraightDistance(
        			FIELD.SIDE_SWITCH_X, .5, 5, 0, () -> Robot.ultrasonic.getLeftSonarValue(), true,
