@@ -69,7 +69,9 @@ public class Robot extends TimedRobot {
 		m_chooser.addObject("Middle Position", new MiddlePosition());
 		m_chooser.addObject("Right Position", new RightPosition());
 		SmartDashboard.putData("Auto mode", m_chooser);
-		
+
+		SmartDashboard.putBoolean("Is Competition Bot?", false);
+		SmartDashboard.setPersistent("Is Competition Bot?");
 		SmartDashboard.setPersistent("Try to go for Scale?");
 		SmartDashboard.setPersistent("Try to go for Switch?");
 		SmartDashboard.setPersistent("Prefer Switch or Scale?");

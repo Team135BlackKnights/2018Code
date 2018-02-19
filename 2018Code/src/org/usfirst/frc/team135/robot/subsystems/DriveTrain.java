@@ -13,6 +13,8 @@ import com.ctre.phoenix.motorcontrol.can.*;
 
 import org.usfirst.frc.team135.robot.Robot;
 import org.usfirst.frc.team135.robot.RobotMap;
+import org.usfirst.frc.team135.robot.RobotMap.COMPETITION;
+import org.usfirst.frc.team135.robot.RobotMap.PRACTICE;
 import org.usfirst.frc.team135.robot.commands.teleop.*;
 
 import edu.wpi.first.wpilibj.Preferences;
@@ -101,6 +103,14 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		gyro.calibrate();
 	*/	
 		//Instantiate each of our talons
+		
+		int
+			FR_ID = int id = (SmartDashboard.getBoolean("Is Competition Bot?", true) ? PRACTICE.CANIFIER.ID : COMPETITION.CANIFIER.ID);,
+			FL_ID,
+			RR_ID,
+			RL_ID;
+		
+		
 		frontRightTalon = new WPI_TalonSRX(DRIVETRAIN.FRONT_RIGHT_TALON_ID);
 		frontLeftTalon = new WPI_TalonSRX(DRIVETRAIN.FRONT_LEFT_TALON_ID);
 		rearRightTalon = new WPI_TalonSRX(DRIVETRAIN.REAR_RIGHT_TALON_ID);

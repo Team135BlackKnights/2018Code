@@ -1,6 +1,7 @@
 package org.usfirst.frc.team135.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.CANifier;
 import com.ctre.phoenix.CANifier.PWMChannel;
@@ -32,7 +33,8 @@ public class Canifier extends Subsystem implements RobotMap{
     
 	public Canifier()
 	{
-		canifier = new CANifier(CANIFIER.ID);
+		int id = (SmartDashboard.getBoolean("Is Competition Bot?", true) ? PRACTICE.CANIFIER.ID : COMPETITION.CANIFIER.ID);
+		canifier = new CANifier(id);
 	}
 	public static Canifier getInstance()
 	{
@@ -69,27 +71,18 @@ public class Canifier extends Subsystem implements RobotMap{
 	
 	public double getFrontLidarCM()
 	{
-		double readings = 0.0;
-		for(int i = 1; i <= 5; i++)
-		{
-			 readings += getMeasuredPulseWidths(rearLidar)/10;
-			 Timer.delay(.001);
-		}
+		Timer.delay(.01);
+		return getMeasuredPulseWidths(rearLidar)/10;
 		
-		return (readings / 5);
+
 		
 	}
 	
 	public double getRearLidarCM()
 	{
-		double readings = 0.0;
-		for(int i = 1; i <= 5; i++)
-		{
-			 readings += getMeasuredPulseWidths(frontLidar)/10;
-			 Timer.delay(.001);
-		}
-		
-		return (readings / 5);
+		Timer.delay(.01);
+		return	getMeasuredPulseWidths(frontLidar)/10;
+			 
 	}
 	
 	public double getRearLidarInches()

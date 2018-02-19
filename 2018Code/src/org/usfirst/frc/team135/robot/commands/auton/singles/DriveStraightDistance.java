@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class DriveStraightForwardDistance extends Command {
+public class DriveStraightDistance extends Command {
 
 	private double distanceY, distanceX;
 	private PIDController yController, angleZController;
@@ -29,6 +29,13 @@ public class DriveStraightForwardDistance extends Command {
 	
 	private boolean done_strafing = false;
 	private boolean done_driving = false;
+	
+	private double xLastPosition = 0.0;
+	private double yLastPosition = 0.0;
+	
+	private int yDiscontinuities, xDiscontinuities;
+	
+	private int yPositionalJumps, xPositionalJumps;
 	
 	private boolean yEnabled = false, xEnabled = false;
 	
@@ -41,8 +48,8 @@ public class DriveStraightForwardDistance extends Command {
 	private FunctionalDoubleManager xSensor;
 	private FunctionalDoubleManager ySensor;
 	
-    public DriveStraightForwardDistance(double distanceX, double xSpeed, double xBuffer, FunctionalDoubleManager xSensor, boolean xEnabled,
-    		double distanceY, double ySpeed, double yBuffer, FunctionalDoubleManager ySensor, boolean yEnabled, 
+    public DriveStraightDistance(double distanceX, double xSpeed, double xBuffer, int xDiscontinuities, FunctionalDoubleManager xSensor, boolean xEnabled,
+    		double distanceY, double ySpeed, double yBuffer, int yDiscontinuities, FunctionalDoubleManager ySensor, boolean yEnabled, 
     		double timeout) 
     {
     	this.distanceY = distanceY;
@@ -55,6 +62,9 @@ public class DriveStraightForwardDistance extends Command {
     	this.yEnabled = yEnabled;
     	this.xBuffer = xBuffer;
     	this.yBuffer = yBuffer;
+    	this.xDiscontinuities = xDiscontinuities;
+    	this.yDiscontinuities = yDiscontinuities;
+    	
     	navx = new NavX_wrapper(Robot.navx);
     	bufRotationZ = new PIDOut();
     	angleZController = new PIDController(.01, 0, 0, navx, bufRotationZ);
@@ -103,6 +113,11 @@ public class DriveStraightForwardDistance extends Command {
         
         	Robot.drivetrain.driveCartesian(strafing, driving, bufRotationZ.output);
     	}
+    	
+    	if (timer.get() > timeout)
+    	{
+    		System.out.println("TIMEOUT!");
+    	}
     }
     
     private double determineDrive()
@@ -113,22 +128,36 @@ public class DriveStraightForwardDistance extends Command {
     	}
     	else
     	{
-    		System.out.println("Checking if I should stop forward at: " + ySensor.get());
-    		if (!yEnabled || done_driving)
+    		
+     		if (!yEnabled || done_driving)
     		{
     			if (!yEnabled && !done_driving)
     			{
     				done_driving = true;
     			}
     			return 0;
-    		}
+    		}  		
     		
     		if (ySensor.get() > distanceY + 10)
     		{
     			return ySpeed;
     		}
     		
-    		for(int pos_stability = 1; pos_stability <= 5; )
+    		if (Math.abs(ySensor.get() - yLastPosition) > 10)
+    		{
+    			yPositionalJumps++;
+    			if(yPositionalJumps < yDiscontinuities)
+    			{
+    				yLastPosition = ySensor.get();
+    				return ySpeed;
+    			}
+    		}
+    			
+    		yLastPosition = ySensor.get();
+    		
+    		
+    		System.out.println("Checking if I should stop forward at: " + ySensor.get());
+    		for(int pos_stability = 1; pos_stability <= 10; )
     		{
     			if (Math.abs(ySensor.get() - distanceY) < yBuffer)
     			{
@@ -140,7 +169,10 @@ public class DriveStraightForwardDistance extends Command {
     				System.out.println("false alarm");
     				return ySpeed;
     			}
-    		}     	
+    		}     
+    		
+
+    		
 			System.out.println("Confirmed driving stop at: " + ySensor.get());
 			done_driving = true;
 			return 0;
@@ -152,15 +184,16 @@ public class DriveStraightForwardDistance extends Command {
     {
     	if (ySensor.get() > FIELD.WALL_SLANT_END
 				&& !done_strafing
-				&& Math.abs(xSensor.get() - distanceX) >= xBuffer && xEnabled) 
+				&& xSensor.get() >= distanceX + xBuffer && xEnabled) 
     	{
+    		System.out.println("Resolution: " + (xSensor.get()));
     		return xSpeed;
     	}
     	else
     	{
-    		System.out.println("Checking if I should stop sideways at: " + xSensor.get());
     		
-    		if (!xEnabled || done_strafing )
+    		
+     		if (!xEnabled || done_strafing )
     		{
     			if (!xEnabled && !done_strafing)
     			{
@@ -171,17 +204,31 @@ public class DriveStraightForwardDistance extends Command {
     			return 0;
     			
     		}
-    		
-    		if (ySensor.get() < FIELD.WALL_SLANT_END)
+     		
+     		
+       		if (ySensor.get() < FIELD.WALL_SLANT_END)
     		{
     			return 0;
     		}
-    		
-    		
-    		
-    		for(int pos_stability = 1; pos_stability <= 10; )
+       		
+       		System.out.println("Checking if I should stop sideways at: " + xSensor.get());
+       		
+       		if (Math.abs(xSensor.get() - xLastPosition) > 10)
     		{
-    			if (Math.abs(xSensor.get() - distanceX) < xBuffer)
+    			xPositionalJumps++;
+    			if(xPositionalJumps < xDiscontinuities)
+    			{
+    				System.out.println("Discontinuity!");
+    				xLastPosition = xSensor.get();
+    				return xSpeed;
+    			}
+    			
+    		}
+    		xLastPosition = xSensor.get();
+    		
+    		for(int pos_stability = 1; pos_stability <= 5; )
+    		{
+    			if (xSensor.get() < distanceX + xBuffer)
     			{
     				pos_stability++;
     				Timer.delay(.002);
@@ -192,6 +239,7 @@ public class DriveStraightForwardDistance extends Command {
     				return xSpeed;
     			}
     		}
+    		
     		
 			System.out.println("Confirmed sideways stop at: " + xSensor.get());
 			done_strafing = true;

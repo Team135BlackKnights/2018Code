@@ -59,8 +59,8 @@ public class Lift extends Subsystem implements RobotMap
 		liftMotor.config_kI(0, LIFT.kI, 10);
 		liftMotor.config_kD(0, LIFT.kD, 10);
 		liftMotor.config_kF(0, LIFT.kF, 10);
-		liftMotor.configMotionCruiseVelocity(100, 10);
-		liftMotor.configMotionAcceleration(500, 10);
+		//liftMotor.configMotionCruiseVelocity(100, 10);
+		//liftMotor.configMotionAcceleration(500, 10);
 		
 		
 		
@@ -158,8 +158,8 @@ public class Lift extends Subsystem implements RobotMap
     {
     	SmartDashboard.putNumber("Lift Position", getEncoderPosition());
     	SmartDashboard.putNumber("Lift Setpoint", setpoint);
-    	SmartDashboard.putNumber("Lift Velocity", getEncoderVelocity());
-    	SmartDashboard.putNumber("Lift Acceleration", getEncoderAcceleration());
+    	//SmartDashboard.putNumber("Lift Velocity", getEncoderVelocity());
+    	//SmartDashboard.putNumber("Lift Acceleration", getEncoderAcceleration());
     	//System.out.println(getEncoderPosition());
     }
 }
