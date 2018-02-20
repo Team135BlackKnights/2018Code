@@ -46,7 +46,7 @@ public class Lift extends Subsystem implements RobotMap
 		liftMotor = new TalonSRX(id);
 		liftMotor.setInverted(false);
 		
-		liftMotor.setSensorPhase(false);
+		liftMotor.setSensorPhase(true);
 		liftMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
 		liftMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 10, 10);
 		liftMotor.setSelectedSensorPosition(0, 0, 10);

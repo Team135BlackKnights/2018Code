@@ -8,7 +8,6 @@
 package org.usfirst.frc.team135.robot;
 
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -19,7 +18,6 @@ import org.usfirst.frc.team135.robot.commands.auton.entrypoints.LeftPosition;
 import org.usfirst.frc.team135.robot.commands.auton.entrypoints.MiddlePosition;
 import org.usfirst.frc.team135.robot.commands.auton.entrypoints.RightPosition;
 import org.usfirst.frc.team135.robot.commands.auton.groups.SideToAutoline;
-import org.usfirst.frc.team135.robot.commands.auton.groups.SideToNearSwitch;
 import org.usfirst.frc.team135.robot.commands.teleop.*;
 import org.usfirst.frc.team135.robot.subsystems.*;
 
@@ -43,7 +41,8 @@ public class Robot extends TimedRobot {
 	public static Hang hang;
 	public static Canifier canifier;
 	Command m_autonomousCommand;
-	Command resetHang;
+	Command getGameSpecificMessage;
+	Command setSmartDashboardKeys;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 	
 	
@@ -57,25 +56,22 @@ public class Robot extends TimedRobot {
 		ultrasonic = UltrasonicSensor.getInstance();
 		drivetrain = DriveTrain.getInstance();
 		hang = Hang.getInstance();
-		lift = Lift.getInstance();
 		intake = Intake.GetInstance();
+		lift = Lift.getInstance();
 		oi = OI.getInstance();
 		
-		
-		CameraServer.getInstance().startAutomaticCapture();
-		
+		//CameraServer.getInstance().startAutomaticCapture();
 		
 		m_chooser.addDefault("Autoline", new SideToAutoline());
 		m_chooser.addObject("Left Position", new LeftPosition());
 		m_chooser.addObject("Middle Position", new MiddlePosition());
 		m_chooser.addObject("Right Position", new RightPosition());
 		SmartDashboard.putData("Auto mode", m_chooser);
-
-		Preferences.getInstance().putBoolean("Is Competition Bot?", true);
-		SmartDashboard.setPersistent("Is Competition Bot?");
+		
 		SmartDashboard.setPersistent("Try to go for Scale?");
 		SmartDashboard.setPersistent("Try to go for Switch?");
 		SmartDashboard.setPersistent("Prefer Switch or Scale?");
+		
 	}
 
 	/**
@@ -86,8 +82,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() 
 	{
-		//resetHang = new ResetHang();
-		//resetHang.start();
 /*
 		getGameSpecificMessage.start();
 		setSmartDashboardKeys.start();*/
@@ -111,9 +105,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		//m_autonomousCommand = new SideToNearSwitch();
-		m_chooser.getSelected().start();
-		
+		m_autonomousCommand = m_chooser.getSelected();
+
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -122,9 +115,9 @@ public class Robot extends TimedRobot {
 		 */
 
 		// schedule the autonomous command (example)
-		/*if (m_autonomousCommand != null) {
+		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
-		}*/
+		}
 	}
 
 	/**
@@ -145,8 +138,7 @@ public class Robot extends TimedRobot {
 			m_autonomousCommand.cancel();
 		}
 		
-		
-
+		Robot.navx.initAngle = 0;
 	}
 
 	/**
