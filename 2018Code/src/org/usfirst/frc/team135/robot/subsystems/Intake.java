@@ -25,6 +25,8 @@ public class Intake extends Subsystem implements RobotMap{
 	public static DoubleSolenoid retraction;
 	private static Compressor compressor;
 	
+	private boolean compressorState = true;
+	
 	boolean rightWheelInverted = false;
 	boolean leftWheelInverted = true;
 	
@@ -76,6 +78,12 @@ public class Intake extends Subsystem implements RobotMap{
 
 		claw.set(DoubleSolenoid.Value.kOff);
 		retraction.set(DoubleSolenoid.Value.kOff);
+	}
+	
+	public void ToggleCompressor()
+	{
+		compressorState = !compressorState;
+		compressor.setClosedLoopControl(compressorState);
 	}
 
 	public void ActivateClaw(DoubleSolenoid.Value value)

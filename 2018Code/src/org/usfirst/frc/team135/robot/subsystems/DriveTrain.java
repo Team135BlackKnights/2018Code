@@ -120,7 +120,15 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		navx = new NavX_wrapper(Robot.navx);
 		
 		//Configure orientation helper.
-		orientationHelper = new PIDController(.01, .00001, 0, navx, buffer);
+		if (Preferences.getInstance().getBoolean("Is Competition Bot?", true))
+		{
+			orientationHelper = new PIDController(.06, .0005, .5, navx, buffer);
+		}
+		else
+		{
+			orientationHelper = new PIDController(.01, .00001, .1, navx, buffer);
+		}
+		
 		orientationHelper.setInputRange(0, 360);
 		orientationHelper.setOutputRange(0, .1);
 		orientationHelper.setAbsoluteTolerance(.2);

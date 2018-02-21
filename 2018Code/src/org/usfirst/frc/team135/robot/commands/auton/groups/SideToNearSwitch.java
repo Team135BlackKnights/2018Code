@@ -22,19 +22,17 @@ public class SideToNearSwitch extends CommandGroup implements RobotMap {
     public SideToNearSwitch() 
     {
 
-        
+    	addSequential(new ExtendMandibles());
+       	addSequential(new SetLiftPosition(COMPETITION.LIFT.SWITCH_POSITION));
         
        	addSequential(new DriveStraightForwardDistance(
        			0, .5, 5, () -> Robot.ultrasonic.getLeftSonarValue(), false,
        			FIELD.SIDE_SWITCH_Y, 1.0, 82, () -> Robot.canifier.getFrontLidarInches(), true,
        			2.0));
        	
-    	addSequential(new ExtendMandibles());
-       	addSequential(new SetLiftPosition(COMPETITION.LIFT.SWITCH_POSITION));
-       	
        	addSequential(new DriveStraightForwardDistance(
        			FIELD.SIDE_SWITCH_X, .5, 5, () -> Robot.ultrasonic.getLeftSonarValue(), true,
-       			Robot.canifier.getRearLidarInches(), 1.0,82,  () -> Robot.canifier.getFrontLidarInches(), false,
+       			Robot.canifier.getRearLidarInches(), 1.0, 82,  () -> Robot.canifier.getFrontLidarInches(), false,
        			2.0));
        	
        	

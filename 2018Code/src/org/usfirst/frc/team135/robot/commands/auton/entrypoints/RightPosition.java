@@ -68,7 +68,7 @@ public class RightPosition extends CommandGroup {
     		}
     		else if (switchPosition == FAR && scalePosition == FAR)
     		{
-    			if (SmartDashboard.getBoolean("Tiebreak with: Switch (Check)/Scale (Uncheck)", true))
+    			if (SmartDashboard.getBoolean("Prefer Switch or Scale?", true))
     			{
     				//1 cube switch
     			}
@@ -79,7 +79,7 @@ public class RightPosition extends CommandGroup {
     		}
     		else if (switchPosition == CLOSE && scalePosition == FAR)
     		{
-    			if (SmartDashboard.getBoolean("Tiebreak with: Switch (Check)/Scale (Uncheck)", true))
+    			if (SmartDashboard.getBoolean("Prefer Switch or Scale?", true))
     			{
     				//3 cube switch
     			}
@@ -90,7 +90,7 @@ public class RightPosition extends CommandGroup {
     		}
     		else if (switchPosition == FAR && scalePosition == CLOSE)
     		{
-    			if (SmartDashboard.getBoolean("Tiebreak with: Switch (Check)/Scale (Uncheck)", true))
+    			if (SmartDashboard.getBoolean("Prefer Switch or Scale?", true))
     			{
     				//1 cube switch
     			}

@@ -7,15 +7,15 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class DeployHang extends Command {
+public class ToggleHang extends Command {
 
-    public DeployHang() {
+    public ToggleHang() {
     	requires(Robot.hang);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.hang.setRelease(true);
+    	Robot.hang.toggle();
 
     	
     }

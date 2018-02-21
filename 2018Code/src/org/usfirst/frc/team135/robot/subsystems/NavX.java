@@ -42,7 +42,7 @@ public class NavX extends Subsystem
 	
 	public void periodic()
 	{
-		System.out.println(getFusedAngle());
+		//System.out.println(getFusedAngle());
 	}
 	
 

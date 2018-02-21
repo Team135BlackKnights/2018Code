@@ -56,7 +56,7 @@ public class DriveStraightForwardDistance extends Command {
     	this.yBuffer = yBuffer;
     	navx = new NavX_wrapper(Robot.navx);
     	bufRotationZ = new PIDOut();
-    	angleZController = new PIDController(.01, 0, 0, navx, bufRotationZ);
+    	angleZController = new PIDController(.06, .0005, .5, navx, bufRotationZ);
     	initAngleController();
     
     	

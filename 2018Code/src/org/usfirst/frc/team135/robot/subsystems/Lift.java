@@ -48,7 +48,7 @@ public class Lift extends Subsystem implements RobotMap
 		liftMotor = new TalonSRX(id);
 		liftMotor.setInverted(false);
 		
-		liftMotor.setSensorPhase(false);
+		liftMotor.setSensorPhase(true);
 		liftMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
 		liftMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 10, 10);
 		liftMotor.setSelectedSensorPosition(0, 0, 10);
@@ -62,6 +62,7 @@ public class Lift extends Subsystem implements RobotMap
 		
 		liftMotor.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_100Ms, 10);
 		liftMotor.configVelocityMeasurementWindow(5, 10); //Might want to check this later
+		
 		
 		liftMotor.config_kP(0, kP, 10);
 		liftMotor.config_kI(0, kI, 10);

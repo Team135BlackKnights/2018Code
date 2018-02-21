@@ -30,7 +30,7 @@ public class LeftPosition extends CommandGroup {
     	
     	if (switchPosition == INVALID || scalePosition == INVALID)
     	{
-    		//no point in running anything but autoline if we don't know where anything is
+
     	}
     	
     	
@@ -72,7 +72,7 @@ public class LeftPosition extends CommandGroup {
     		}
     		else if (switchPosition == FAR && scalePosition == FAR)
     		{
-    			if (SmartDashboard.getBoolean("Tiebreak with: Switch (Check)/Scale (Uncheck)", true))
+    			if (SmartDashboard.getBoolean("Prefer Switch or Scale?", true))
     			{
     				//1 cube switch
     			}
@@ -83,7 +83,7 @@ public class LeftPosition extends CommandGroup {
     		}
     		else if (switchPosition == CLOSE && scalePosition == FAR)
     		{
-    			if (SmartDashboard.getBoolean("Tiebreak with: Switch (Check)/Scale (Uncheck)", true))
+    			if (SmartDashboard.getBoolean("Prefer Switch or Scale?", true))
     			{
     				//3 cube switch
     			}
@@ -94,7 +94,7 @@ public class LeftPosition extends CommandGroup {
     		}
     		else if (switchPosition == FAR && scalePosition == CLOSE)
     		{
-    			if (SmartDashboard.getBoolean("Tiebreak with: Switch (Check)/Scale (Uncheck)", true))
+    			if (SmartDashboard.getBoolean("Prefer Switch or Scale?", true))
     			{
     				//1 cube switch
     			}

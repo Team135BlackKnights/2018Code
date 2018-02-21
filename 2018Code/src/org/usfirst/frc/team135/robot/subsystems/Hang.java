@@ -1,5 +1,6 @@
 package org.usfirst.frc.team135.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -16,6 +17,7 @@ public class Hang extends Subsystem implements RobotMap {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	static private Hang instance;
+	private boolean hangState = false;
 	
 	WPI_VictorSPX hangMotor1;
 	
@@ -57,9 +59,15 @@ public class Hang extends Subsystem implements RobotMap {
 		hangMotor1.set(power);	
 	}
 	
-	public void setRelease(boolean isReleased)
+	public void toggle()
 	{
-		hangSolenoid.set(isReleased);
+		if (DriverStation.getInstance().getMatchTime() <= 30)
+		{
+
+		}
+		hangState = !hangState;
+		hangSolenoid.set(hangState);
+
 	}
     public void initDefaultCommand() {
     	
