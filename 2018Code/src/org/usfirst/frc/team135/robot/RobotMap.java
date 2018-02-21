@@ -1,3 +1,5 @@
+package org.usfirst.frc.team135.robot;
+
 public interface RobotMap 
 {
 	public interface FIELD {
@@ -68,7 +70,7 @@ public interface RobotMap
 	{
 
 		public interface CANIFIER {
-			public static final int ID = 1;
+			public static final int ID = 0;
 		}
 
 		public interface LIFT {

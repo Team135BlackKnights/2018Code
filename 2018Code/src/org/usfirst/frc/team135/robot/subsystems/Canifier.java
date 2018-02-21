@@ -71,27 +71,15 @@ public class Canifier extends Subsystem implements RobotMap{
 	
 	public double getFrontLidarCM()
 	{
-		double readings = 0.0;
-		for(int i = 1; i <= 5; i++)
-		{
-			 readings += getMeasuredPulseWidths(rearLidar)/10;
-			 Timer.delay(.001);
-		}
 		
-		return (readings / 5);
+		return getMeasuredPulseWidths(frontLidar)/10;
 		
 	}
 	
 	public double getRearLidarCM()
 	{
-		double readings = 0.0;
-		for(int i = 1; i <= 5; i++)
-		{
-			 readings += getMeasuredPulseWidths(frontLidar)/10;
-			 Timer.delay(.001);
-		}
 		
-		return (readings / 5);
+		return getMeasuredPulseWidths(rearLidar)/10;
 	}
 	
 	public double getRearLidarInches()

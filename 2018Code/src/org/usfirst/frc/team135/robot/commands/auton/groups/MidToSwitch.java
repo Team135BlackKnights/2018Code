@@ -2,7 +2,6 @@ package org.usfirst.frc.team135.robot.commands.auton.groups;
 
 import org.usfirst.frc.team135.robot.Robot;
 import org.usfirst.frc.team135.robot.RobotMap.FIELD;
-import org.usfirst.frc.team135.robot.RobotMap.LIFT;
 import org.usfirst.frc.team135.robot.commands.auton.singles.DriveStraightForwardDistance;
 import org.usfirst.frc.team135.robot.commands.auton.singles.SetLiftPosition;
 import org.usfirst.frc.team135.robot.commands.teleop.ReleaseMandibles;
