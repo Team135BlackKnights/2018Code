@@ -7,6 +7,7 @@ import com.ctre.phoenix.CANifier.PWMChannel;
 import com.ctre.phoenix.CANifierStatusFrame;
 
 import edu.wpi.first.wpilibj.PWM;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 
 import com.ctre.phoenix.ILoopable;
@@ -32,7 +33,8 @@ public class Canifier extends Subsystem implements RobotMap{
     
 	public Canifier()
 	{
-		canifier = new CANifier(CANIFIER.ID);
+		int id = (Preferences.getInstance().getBoolean("Is Competition Bot?", true)) ? COMPETITION.CANIFIER.ID : PRACTICE.CANIFIER.ID;
+		canifier = new CANifier(id);
 	}
 	public static Canifier getInstance()
 	{

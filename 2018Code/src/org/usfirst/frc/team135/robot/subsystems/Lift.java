@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,8 +37,15 @@ public class Lift extends Subsystem implements RobotMap
 	private Lift()
 	{
 		
-		
-		liftMotor = new TalonSRX(LIFT.LIFT_MOTOR_ID);
+		double
+		kP = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.LIFT.kP : PRACTICE.LIFT.kP),
+		kI = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.LIFT.kP : PRACTICE.LIFT.kP),
+		kD = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.LIFT.kD : PRACTICE.LIFT.kD),
+		kF = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.LIFT.kF : PRACTICE.LIFT.kF);
+	
+	int id = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.LIFT.LIFT_MOTOR_ID : PRACTICE.LIFT.LIFT_MOTOR_ID);
+	
+		liftMotor = new TalonSRX(id);
 		liftMotor.setInverted(false);
 		
 		liftMotor.setSensorPhase(false);
@@ -55,10 +63,10 @@ public class Lift extends Subsystem implements RobotMap
 		liftMotor.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_100Ms, 10);
 		liftMotor.configVelocityMeasurementWindow(5, 10); //Might want to check this later
 		
-		liftMotor.config_kP(0, LIFT.kP, 10);
-		liftMotor.config_kI(0, LIFT.kI, 10);
-		liftMotor.config_kD(0, LIFT.kD, 10);
-		liftMotor.config_kF(0, LIFT.kF, 10);
+		liftMotor.config_kP(0, kP, 10);
+		liftMotor.config_kI(0, kI, 10);
+		liftMotor.config_kD(0, kD, 10);
+		liftMotor.config_kF(0, kF, 10);
 		liftMotor.configMotionCruiseVelocity(100, 10);
 		liftMotor.configMotionAcceleration(500, 10);
 		
@@ -153,6 +161,8 @@ public class Lift extends Subsystem implements RobotMap
     public void initDefaultCommand() {
     	setDefaultCommand(new RunLift());
     }
+    
+    
     
     public void periodic()
     {
