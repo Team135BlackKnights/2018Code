@@ -81,7 +81,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	FR_ID = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.DRIVETRAIN.FRONT_RIGHT_TALON_ID : PRACTICE.DRIVETRAIN.FRONT_RIGHT_TALON_ID),
 	FL_ID =(Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.DRIVETRAIN.FRONT_LEFT_TALON_ID : PRACTICE.DRIVETRAIN.FRONT_LEFT_TALON_ID),
 	RR_ID = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.DRIVETRAIN.REAR_RIGHT_TALON_ID : PRACTICE.DRIVETRAIN.REAR_RIGHT_TALON_ID),
-	RL_ID = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.DRIVETRAIN.REAR_LEFT_TALON_ID : PRACTICE.DRIVETRAIN.REAR_RIGHT_TALON_ID);
+	RL_ID = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.DRIVETRAIN.REAR_LEFT_TALON_ID : PRACTICE.DRIVETRAIN.REAR_LEFT_TALON_ID);
 
 	
 	private double
