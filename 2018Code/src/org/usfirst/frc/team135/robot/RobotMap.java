@@ -2,6 +2,19 @@ package org.usfirst.frc.team135.robot;
 
 public interface RobotMap 
 {
+	public interface CONVERSIONS
+	{
+		public static final double
+			INCHES2METERS = 0.0254,
+			TICKS2INCHES,
+			TICKS2METERS = TICKS2INCHES * INCHES2METERS,
+			TICKS2REVS,
+			REVS2TICKS = 1 / TICKS2REVS,
+			TICKS2RADIANS = TICKS2REVS / (2 * Math.PI),
+			RADIANS2TICKS = 1 / TICKS2RADIANS,
+			TICKS2DEGREES = TICKS2RADIANS * (Math.PI / 180),
+			DEGREES2TICKS = 1 / TICKS2DEGREES;
+	}
 	public interface FIELD {
 		public static final double // All measurements are in inches
 			AUTO_LINE = 135, 
@@ -42,10 +55,22 @@ public interface RobotMap
 		}
 
 		public interface DRIVETRAIN {
-			static final public int REAR_RIGHT_TALON_ID = 2;
-			static final public int FRONT_RIGHT_TALON_ID = 5;
-			static final public int REAR_LEFT_TALON_ID = 1;
-			static final public int FRONT_LEFT_TALON_ID = 4;
+			public static final double 
+			MAX_VELOCITY_TICKS_PER_100MS = 288,
+		 	MAX_VELOCITY_TICKS = MAX_VELOCITY_TICKS_PER_100MS * 10, //Per second
+		 	MAX_ACCELERATION_TICKS_PER_100MS,
+		 	MAX_ACCELERATION_TICKS,
+		 	MAX_JERK_TICKS_PER_100MS,
+		 	MAX_JERK_TICKS;
+		
+		public static final double
+			WHEEL_DIAMETER = 6, //Inches
+			TRACK_WIDTH = 22.626; //Inches
+			
+			public static final int REAR_RIGHT_TALON_ID = 2;
+			public static final int FRONT_RIGHT_TALON_ID = 5;
+			public static final int REAR_LEFT_TALON_ID = 1;
+			public static final int FRONT_LEFT_TALON_ID = 4;
 		}
 
 		public interface INTAKE {
@@ -83,10 +108,22 @@ public interface RobotMap
 		}
 
 		public interface DRIVETRAIN {
-			static final public int REAR_RIGHT_TALON_ID = 4;
-			static final public int FRONT_RIGHT_TALON_ID = 5;
-			static final public int REAR_LEFT_TALON_ID = 1;
-			static final public int FRONT_LEFT_TALON_ID = 2;
+			public static final double 
+				MAX_VELOCITY_TICKS_PER_100MS = 288,
+			 	MAX_VELOCITY_TICKS = MAX_VELOCITY_TICKS_PER_100MS * 10, //Per second
+			 	MAX_ACCELERATION_TICKS_PER_100MS,
+			 	MAX_ACCELERATION_TICKS,
+			 	MAX_JERK_TICKS_PER_100MS,
+			 	MAX_JERK_TICKS;
+			
+			public static final double
+				WHEEL_DIAMETER = 6, //Inches
+				TRACK_WIDTH = 22.626; //Inches
+			
+			public static final int REAR_RIGHT_TALON_ID = 4;
+			public static final int FRONT_RIGHT_TALON_ID = 5;
+			public static final int REAR_LEFT_TALON_ID = 1;
+			public static final int FRONT_LEFT_TALON_ID = 2;
 		}
 
 		public interface INTAKE {

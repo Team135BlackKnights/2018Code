@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.*;
 
 import org.usfirst.frc.team135.robot.Robot;
 import org.usfirst.frc.team135.robot.RobotMap;
+import org.usfirst.frc.team135.robot.RobotMap.COMPETITION.DRIVETRAIN;
 import org.usfirst.frc.team135.robot.commands.teleop.*;
 
 import edu.wpi.first.wpilibj.Preferences;
@@ -48,7 +49,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	private static final int ENCODER_TICK_COUNT = 256;
 	private static final int ENCODER_QUAD_COUNT = (ENCODER_TICK_COUNT * 4);
 	
-	private static final double MOTOR_SETPOINT_PER_100MS = 288; //NU/100 ms MAX SPEED for slowest motor
+	private static final double MOTOR_SETPOINT_PER_100MS = DRIVETRAIN.MAX_VELOCITY_TICKS_PER_100MS; //NU/100 ms MAX SPEED for slowest motor
 	
 	private MotorSafetyHelper m_safetyHelper = new MotorSafetyHelper(chassis); //watchdog
 	
@@ -286,6 +287,16 @@ public class DriveTrain extends Subsystem implements RobotMap{
 			return 0;
 		}
 		
+	}
+	
+	public void driveTank(double left, double right)
+	{
+		double
+			x = 0,
+			y = (left + right) / 2,
+			rotationZ = (left - right) / 2;
+		
+		this.driveCartesian(x, y, rotationZ, 0);
 	}
 	
 	public void driveCartesian(double x, double y, double rotationalRate)
