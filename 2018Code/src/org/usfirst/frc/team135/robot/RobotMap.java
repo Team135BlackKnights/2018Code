@@ -1,18 +1,71 @@
 package org.usfirst.frc.team135.robot;
 
+import jaci.pathfinder.Waypoint;
+
 public interface RobotMap 
 {
+	public interface PROFILING
+	{
+		public static final Waypoint[] 
+				
+				LeftSideToNearSwitch = 
+				{
+					new Waypoint(0, 0, 0) //x, y, theta (in radians)			
+				},
+				
+				RightSideToNearSwitch = 
+				{
+					new Waypoint(0, 0, 0)
+				},
+				
+				MidToRightSwitch =
+				{
+					new Waypoint(0, 0, 0)
+				},
+				
+				MidToLeftSwitch =
+				{
+					new Waypoint(0, 0, 0)
+				},
+				
+				LeftSwitchToPyramid =
+				{
+			
+				},
+				
+				PyramidToLeftSwitch =
+				{
+			
+				},
+				
+				RightSwitchToPyramid =
+				{
+					
+				},
+				
+				PyramidToRightSwitch = 
+				{
+					
+				},
+				
+				SideToScale = 
+				{
+					new Waypoint(0, 0, 0)
+				};
+	}
+	
 	public interface CONVERSIONS
 	{
 		public static final double
-			INCHES2METERS = 0.0254,
-			TICKS2INCHES,
-			TICKS2METERS = TICKS2INCHES * INCHES2METERS,
-			TICKS2REVS,
+			INCHES2METERS = 0.0254, //meters/inch
+			TICKS2INCHES = 0.0704, //inches/tick
+			INCHES2TICKS = 1 / TICKS2INCHES, //ticks/inch
+			TICKS2METERS = TICKS2INCHES * INCHES2METERS,		//rev/inches * inches/tick = REV/TICK
+			TICKS2REVS = (1 / (COMPETITION.DRIVETRAIN.WHEEL_DIAMETER * Math.PI)) * TICKS2INCHES,
 			REVS2TICKS = 1 / TICKS2REVS,
-			TICKS2RADIANS = TICKS2REVS / (2 * Math.PI),
+			TICKS2RADIANS = TICKS2REVS * (2 * Math.PI), //Revs/tick * radians/rev = radians/tick
 			RADIANS2TICKS = 1 / TICKS2RADIANS,
-			TICKS2DEGREES = TICKS2RADIANS * (Math.PI / 180),
+			TICKS2DEGREES = TICKS2REVS * 360, //Revs/tick * degrees/rev
 			DEGREES2TICKS = 1 / TICKS2DEGREES;
 	}
 	public interface FIELD {
