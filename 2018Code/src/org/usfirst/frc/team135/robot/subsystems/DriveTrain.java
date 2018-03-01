@@ -11,11 +11,15 @@ import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.*;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 import org.usfirst.frc.team135.robot.Robot;
 import org.usfirst.frc.team135.robot.RobotMap;
 import org.usfirst.frc.team135.robot.commands.teleop.*;
 
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,7 +34,7 @@ import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
-import java.util.*;
+
 /**
  *
  */
@@ -45,7 +49,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	private static final int angleSetPoint = 0; //Was thinking about using this but didn't.
 	
 	//Leftover stuff that we don't use.
-	private static final int ENCODER_TICK_COUNT = 256;
+	private static final int ENCODER_TICK_COUNT = 64;
 	private static final int ENCODER_QUAD_COUNT = (ENCODER_TICK_COUNT * 4);
 	
 	private static final double MOTOR_SETPOINT_PER_100MS = 288; //NU/100 ms MAX SPEED for slowest motor
@@ -126,11 +130,11 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		}
 		else
 		{
-			orientationHelper = new PIDController(.01, .00001, .1, navx, buffer);
+			orientationHelper = new PIDController(.003, 0, .02, navx, buffer);
 		}
 		
 		orientationHelper.setInputRange(0, 360);
-		orientationHelper.setOutputRange(0, .1);
+		orientationHelper.setOutputRange(-.2, .2);
 		orientationHelper.setAbsoluteTolerance(.2);
 		orientationHelper.setContinuous();
 		
@@ -321,10 +325,10 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		//Left get's dialed back on positive error and right get's dialed up
 		
 		
-		rearLeftSpeed = (input.x + input.y + rotationalRate);
-		rearRightSpeed = (input.x - input.y + rotationalRate);
-		frontLeftSpeed = (-input.x + input.y + rotationalRate);
-		frontRightSpeed = (-input.x -input.y + rotationalRate);
+		rearLeftSpeed = (input.x + input.y + rotationalRate) + buffer.output;
+		rearRightSpeed = (input.x - input.y + rotationalRate) + buffer.output;
+		frontLeftSpeed = (-input.x + input.y + rotationalRate) + buffer.output;
+		frontRightSpeed = (-input.x -input.y + rotationalRate) + buffer.output;
 				
 		double 
 		_FL = Math.abs(frontLeftSpeed),
@@ -405,12 +409,22 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	
 	public void stopMotors()
 	{
-		rearLeftTalon.set(ControlMode.PercentOutput, 0);
-		rearRightTalon.set(ControlMode.PercentOutput, 0);
-		frontLeftTalon.set(ControlMode.PercentOutput, 0);
-		frontRightTalon.set(ControlMode.PercentOutput, 0);
-	}
+		
+		orientationHelper.setSetpoint(Robot.navx.getFusedAngle());
+		orientationHelper.enable();
+		Timer timer = new Timer();
+		timer.start();
+		while((Math.abs(getEncoderSpeed(frontLeftTalon)) > 0 || orientationHelper.getError() > .2) && timer.get() < 1)
+		{
+			rearLeftTalon.set(ControlMode.Velocity, 0 + buffer.output);
+			rearRightTalon.set(ControlMode.Velocity, 0 + buffer.output);
+			frontLeftTalon.set(ControlMode.Velocity, 0 + buffer.output);
+			frontRightTalon.set(ControlMode.Velocity, 0 + buffer.output);
+		}
 	
+		orientationHelper.disable();
+		
+	}
 	
 		
     public void initDefaultCommand() 
