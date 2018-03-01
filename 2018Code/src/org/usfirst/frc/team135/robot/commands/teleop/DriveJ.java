@@ -41,6 +41,9 @@ public class DriveJ extends Command {
 			Robot.drivetrain.driveCartesian(-Robot.oi.GetRightX(), Robot.oi.GetRightY(), Robot.oi.GetLeftTwist(), 0);
 		}
 
+    	
+    	//Robot.drivetrain.driveTank(Robot.oi.GetLeftY(), Robot.oi.GetRightY());
+    	
 		SmartDashboard.putNumber("Rear Left Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearLeftTalon));
 		SmartDashboard.putNumber("Rear Right Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearRightTalon));
 		SmartDashboard.putNumber("Front Left Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.frontLeftTalon));

@@ -292,6 +292,16 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		
 	}
 	
+	public void driveTank(double left, double right)
+	{
+		double
+			x = 0,
+			y = (left + right) / 2,
+			rotationZ = (left - right) / 2;
+		
+		this.driveCartesian(x, y, rotationZ, 0);
+	}
+	
 	public void driveCartesian(double x, double y, double rotationalRate)
 	{
 		driveCartesian(x, y, rotationalRate, Robot.navx.getFusedAngle());

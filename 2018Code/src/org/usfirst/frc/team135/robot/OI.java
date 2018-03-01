@@ -96,7 +96,7 @@ public class OI implements RobotMap
 	
 	public double GetLeftY()
 	{
-		return deadband(LEFT.getY());
+		return deadband(-LEFT.getY());
 	}
 	
 	public double GetLeftX()
