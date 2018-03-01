@@ -416,10 +416,21 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	
 	public void stopMotors()
 	{
-		rearLeftTalon.set(ControlMode.PercentOutput, 0);
-		rearRightTalon.set(ControlMode.PercentOutput, 0);
-		frontLeftTalon.set(ControlMode.PercentOutput, 0);
-		frontRightTalon.set(ControlMode.PercentOutput, 0);
+		
+		orientationHelper.setSetpoint(Robot.navx.getFusedAngle());
+		orientationHelper.enable();
+		Timer timer = new Timer();
+		timer.start();
+		while((Math.abs(getRepresenativeEncoderSpeed()) > 0 || orientationHelper.getError() > .2) && timer.get() < 1)
+		{
+			rearLeftTalon.set(ControlMode.Velocity, 0 + buffer.output);
+			rearRightTalon.set(ControlMode.Velocity, 0 + buffer.output);
+			frontLeftTalon.set(ControlMode.Velocity, 0 + buffer.output);
+			frontRightTalon.set(ControlMode.Velocity, 0 + buffer.output);
+		}
+	
+		orientationHelper.disable();
+		
 	}
 	
 	
