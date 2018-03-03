@@ -1,11 +1,12 @@
 package org.usfirst.frc.team135.robot.commands.auton.singles;
 
 import org.usfirst.frc.team135.robot.Robot;
-import org.usfirst.frc.team135.robot.util.NavX_wrapper;
+import org.usfirst.frc.team135.robot.util.PIDIn;
 import org.usfirst.frc.team135.robot.util.PIDOut;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -19,7 +20,7 @@ public class Rotate extends Command {
 	
 	PIDController angleController;
 	PIDOut buffer;
-	NavX_wrapper navx;
+	PIDIn navx;
 	
     public Rotate(double rotationZ) {
     	requires(Robot.drivetrain);
@@ -27,8 +28,8 @@ public class Rotate extends Command {
     	setpoint = rotationZ;
 
     	buffer = new PIDOut();
-    	navx = new NavX_wrapper(Robot.navx);
-    	angleController = new PIDController(.005, .00005, .05, navx, buffer);
+    	navx = new PIDIn(() -> Robot.navx.getFusedAngle(), PIDSourceType.kDisplacement);
+    	angleController = new PIDController(.02, .0002, .2, navx, buffer);
     	
     	
     	initAngleController();

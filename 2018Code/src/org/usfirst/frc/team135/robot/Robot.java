@@ -62,7 +62,6 @@ public class Robot extends TimedRobot {
 		
 		//CameraServer.getInstance().startAutomaticCapture();
 		
-		m_chooser.addDefault("Autoline", new SideToAutoline());
 		m_chooser.addObject("Left Position", new LeftPosition());
 		m_chooser.addObject("Middle Position", new MiddlePosition());
 		m_chooser.addObject("Right Position", new RightPosition());
