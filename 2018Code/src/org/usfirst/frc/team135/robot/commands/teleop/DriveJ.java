@@ -47,6 +47,8 @@ public class DriveJ extends Command {
 		SmartDashboard.putNumber("Rear Left Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearLeftTalon));
 		SmartDashboard.putNumber("Rear Right Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.rearRightTalon));
 		SmartDashboard.putNumber("Front Left Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.frontLeftTalon));
+		SmartDashboard.putNumber("Front Left Accelration", Robot.drivetrain.getEncoderAcceleration(Robot.drivetrain.frontLeftTalon));
+		//SmartDashboard.putNumber("Front Left Jerk", Robot.drivetrain.getEncoderJerk(Robot.drivetrain.frontLeftTalon));
 		SmartDashboard.putNumber("Front Right Speed", Robot.drivetrain.getEncoderSpeed(Robot.drivetrain.frontRightTalon));
 
 		SmartDashboard.putNumber("Rear Left Setpoint", Robot.drivetrain.getEncoderSetpoint(Robot.drivetrain.rearLeftTalon));

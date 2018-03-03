@@ -16,7 +16,7 @@ public class ToggleCompressor extends InstantCommand {
 
     // Called once when the command executes
     protected void initialize() {
-    	//Robot.intake.ToggleCompressor();
+    	Robot.intake.ToggleCompressor();
     }
 
 }

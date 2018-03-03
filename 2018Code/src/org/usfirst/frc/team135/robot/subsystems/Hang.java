@@ -19,7 +19,7 @@ public class Hang extends Subsystem implements RobotMap {
 	static private Hang instance;
 	private boolean hangState = false;
 	
-	WPI_VictorSPX hangMotor1;
+	WPI_VictorSPX hangMotor;
 	
 	Solenoid hangSolenoid; 
 	
@@ -41,9 +41,9 @@ public class Hang extends Subsystem implements RobotMap {
 	{
 		int id = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.HANG.HANG_1_VICTOR_ID : PRACTICE.HANG.HANG_1_VICTOR_ID);
 		
-		hangMotor1 = new WPI_VictorSPX(id);
-		hangMotor1.setInverted(false);
-		hangMotor1.setSafetyEnabled(false);
+		hangMotor = new WPI_VictorSPX(id);
+		hangMotor.setInverted(true);
+		hangMotor.setSafetyEnabled(false);
 		
 	}
 	
@@ -56,7 +56,7 @@ public class Hang extends Subsystem implements RobotMap {
 	
 	public void RunHangMotor(double power)
 	{
-		hangMotor1.set(power);	
+		hangMotor.set(power);	
 	}
 	
 	public void toggle()

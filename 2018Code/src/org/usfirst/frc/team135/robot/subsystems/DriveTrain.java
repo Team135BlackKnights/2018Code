@@ -267,6 +267,44 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		return (velocity);
 	}
 	
+	public double getEncoderAcceleration(WPI_TalonSRX talon)
+	{
+		double v1, v2;
+		
+		Timer timer = new Timer();
+		
+		timer.start();
+		
+		v1 = getEncoderSpeed(talon);
+		while (timer.get() < .01)
+		{
+			
+		}
+		v2 = getEncoderSpeed(talon);
+		timer.stop();
+		
+		return ((v2 - v1) / timer.get());		
+	}
+
+	public double getEncoderJerk(WPI_TalonSRX talon)
+	{
+		double a1, a2;
+		
+		Timer timer = new Timer();
+		
+		timer.start();
+		
+		a1 = getEncoderAcceleration(talon);
+		while (timer.get() < .01)
+		{
+			
+		}
+		a2 = getEncoderAcceleration(talon);
+		timer.stop();
+		
+		return (a2 - a1) / timer.get();		
+	}
+	
 	public double getEncoderSetpoint(WPI_TalonSRX talon)
 	{
 		if (talon.getDeviceID() == FL_ID)

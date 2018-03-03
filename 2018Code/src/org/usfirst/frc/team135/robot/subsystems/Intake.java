@@ -83,6 +83,7 @@ public class Intake extends Subsystem implements RobotMap{
 	public void ToggleCompressor()
 	{
 		compressorState = !compressorState;
+		
 		compressor.setClosedLoopControl(compressorState);
 	}
 

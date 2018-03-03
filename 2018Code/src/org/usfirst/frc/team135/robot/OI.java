@@ -36,8 +36,7 @@ public class OI implements RobotMap
 		MANDIBLES_DOWN,
 		MANDIBLES_WHEELS_IN,
 		MANDIBLES_WHEELS_OUT,
-		DRIVE_HANG_FORWARD,
-		DRIVE_HANG_BACKWARD,
+		DRIVE_HANG_MOTOR,
 		TOGGLE_COMPRESSOR,
 		TOGGLE_HANG;
 	
@@ -75,10 +74,10 @@ public class OI implements RobotMap
 		MANDIBLES_UP = new JoystickButton(MANIP, 5);
 		MANDIBLES_DOWN = new JoystickButton(MANIP, 3);
 		
-		DRIVE_HANG_FORWARD = new JoystickButton(RIGHT, 1);
-		DRIVE_HANG_BACKWARD = new JoystickButton(RIGHT, 2);
-		TOGGLE_COMPRESSOR = new JoystickButton(RIGHT, 4);
-		TOGGLE_HANG = new JoystickButton(RIGHT, 8);
+		DRIVE_HANG_MOTOR = new JoystickButton(RIGHT, 1);
+		TOGGLE_HANG = new JoystickButton(RIGHT, 6);
+		
+		//TOGGLE_COMPRESSOR = new JoystickButton(RIGHT, 4);
 		AssignButtons();
 	}
 	
@@ -155,12 +154,11 @@ public class OI implements RobotMap
 		MANDIBLES_WHEELS_IN.whileHeld(new DriveMandibleWheels(true));
 		MANDIBLES_WHEELS_OUT.whileHeld(new DriveMandibleWheels(false));
 	
-		DRIVE_HANG_FORWARD.whileHeld(new DriveHang(.75));
-		DRIVE_HANG_BACKWARD.whileHeld(new DriveHang(-.75));
+		DRIVE_HANG_MOTOR.whileHeld(new RunHangMotor());
 		
 		TOGGLE_HANG.whenPressed(new ToggleHang());
 		
-		TOGGLE_COMPRESSOR.whenPressed(new ToggleCompressor());
+		//TOGGLE_COMPRESSOR.whenPressed(new ToggleCompressor());
 	}	
 	
 }
