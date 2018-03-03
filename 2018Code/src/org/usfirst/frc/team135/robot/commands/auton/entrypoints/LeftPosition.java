@@ -40,7 +40,7 @@ public class LeftPosition extends CommandGroup {
     		if (switchPosition == CLOSE)
     		{
     			//3 cube eventually
-    			addSequential(new SideToNearSwitch());
+    			addSequential(new SideToNearSwitch(false));
     			
     		}
     		else

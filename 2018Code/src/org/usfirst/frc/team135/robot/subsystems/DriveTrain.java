@@ -1,6 +1,6 @@
 package org.usfirst.frc.team135.robot.subsystems;
 
-import org.usfirst.frc.team135.robot.util.NavX_wrapper;
+import org.usfirst.frc.team135.robot.util.PIDIn;
 import org.usfirst.frc.team135.robot.util.PIDOut;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.drive.*;
 
 import edu.wpi.first.wpilibj.MotorSafetyHelper;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
@@ -41,8 +42,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	public WPI_TalonSRX frontRightTalon, frontLeftTalon, rearRightTalon, rearLeftTalon;
 	private MecanumDrive chassis; 
 	
-	public ADXRS450_Gyro gyro;
-	private NavX_wrapper navx;
+	private PIDIn navx;
 	private static final int angleSetPoint = 0; //Was thinking about using this but didn't.
 	
 	//Leftover stuff that we don't use.
@@ -118,7 +118,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		
 		//Configure the orientation helper and it's output storage helper.
 		buffer = new PIDOut();
-		navx = new NavX_wrapper(Robot.navx);
+		navx = new PIDIn(() -> Robot.navx.getFusedAngle(), PIDSourceType.kDisplacement);
 		
 		//Configure orientation helper.
 		if (Preferences.getInstance().getBoolean("Is Competition Bot?", true))

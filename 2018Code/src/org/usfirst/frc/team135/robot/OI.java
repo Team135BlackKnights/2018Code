@@ -36,10 +36,10 @@ public class OI implements RobotMap
 		MANDIBLES_DOWN,
 		MANDIBLES_WHEELS_IN,
 		MANDIBLES_WHEELS_OUT,
-		DRIVE_HANG_FORWARD,
-		DRIVE_HANG_BACKWARD,
+		DRIVE_HANG,
 		TOGGLE_COMPRESSOR,
-		TOGGLE_HANG;
+		TOGGLE_HANG,
+		RESET_NAVX;
 	
  
 	public static OI getInstance() {
@@ -75,10 +75,11 @@ public class OI implements RobotMap
 		MANDIBLES_UP = new JoystickButton(MANIP, 5);
 		MANDIBLES_DOWN = new JoystickButton(MANIP, 3);
 		
-		DRIVE_HANG_FORWARD = new JoystickButton(RIGHT, 1);
-		DRIVE_HANG_BACKWARD = new JoystickButton(RIGHT, 2);
+		DRIVE_HANG = new JoystickButton(RIGHT, 1);
 		TOGGLE_COMPRESSOR = new JoystickButton(RIGHT, 4);
 		TOGGLE_HANG = new JoystickButton(RIGHT, 8);
+		
+		RESET_NAVX = new JoystickButton(LEFT, 12);
 		AssignButtons();
 	}
 	
@@ -138,6 +139,11 @@ public class OI implements RobotMap
 		return deadband(MANIP.getTwist());
 	}
 	
+	public boolean GetNavXResetButton()
+	{
+		return LEFT.getRawButton(11);
+	}
+	
 	private void AssignButtons()
 	{
 		/*
@@ -155,12 +161,13 @@ public class OI implements RobotMap
 		MANDIBLES_WHEELS_IN.whileHeld(new DriveMandibleWheels(true));
 		MANDIBLES_WHEELS_OUT.whileHeld(new DriveMandibleWheels(false));
 	
-		DRIVE_HANG_FORWARD.whileHeld(new DriveHang(.75));
-		DRIVE_HANG_BACKWARD.whileHeld(new DriveHang(-.75));
+		DRIVE_HANG.whileHeld(new RunHang());
 		
 		TOGGLE_HANG.whenPressed(new ToggleHang());
 		
-		TOGGLE_COMPRESSOR.whenPressed(new ToggleCompressor());
+		RESET_NAVX.whenPressed(new ResetNavX());
+		
+		//TOGGLE_COMPRESSOR.whenPressed(new ToggleCompressor());
 	}	
 	
 }

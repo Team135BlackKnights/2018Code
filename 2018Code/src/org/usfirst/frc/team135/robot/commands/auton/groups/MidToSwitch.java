@@ -1,15 +1,10 @@
 package org.usfirst.frc.team135.robot.commands.auton.groups;
 
-import org.usfirst.frc.team135.robot.Robot;
 import org.usfirst.frc.team135.robot.RobotMap;
-import org.usfirst.frc.team135.robot.RobotMap.COMPETITION;
-import org.usfirst.frc.team135.robot.RobotMap.FIELD;
 import org.usfirst.frc.team135.robot.commands.auton.singles.DriveAlongProfile;
-import org.usfirst.frc.team135.robot.commands.auton.singles.DriveStraightForwardDistance;
 import org.usfirst.frc.team135.robot.commands.auton.singles.SetLiftPosition;
 import org.usfirst.frc.team135.robot.commands.teleop.ExtendMandibles;
 import org.usfirst.frc.team135.robot.commands.teleop.GrabMandibles;
-import org.usfirst.frc.team135.robot.commands.teleop.ReleaseMandibles;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
