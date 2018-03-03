@@ -54,7 +54,7 @@ public class LeftPosition extends CommandGroup {
     		if (scalePosition == CLOSE)
     		{
     			//2 cube
-    			addSequential(new SideToNearScale());
+    			addSequential(new SideToNearScale(false));
     		}
     		else
     		{
