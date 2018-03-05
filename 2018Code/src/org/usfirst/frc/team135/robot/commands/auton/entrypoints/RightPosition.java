@@ -2,6 +2,7 @@ package org.usfirst.frc.team135.robot.commands.auton.entrypoints;
 
 import org.usfirst.frc.team135.robot.Robot;
 import org.usfirst.frc.team135.robot.commands.auton.groups.MidToSwitch;
+import org.usfirst.frc.team135.robot.commands.auton.groups.SideToAutoline;
 import org.usfirst.frc.team135.robot.commands.auton.groups.SideToNearSwitch;
 import org.usfirst.frc.team135.robot.commands.auton.singles.InitializeAngle;
 
@@ -27,18 +28,17 @@ public class RightPosition extends CommandGroup {
     	
     	if (switchPosition == INVALID || scalePosition == INVALID)
     	{
-    		//no point in running anything but autoline if we don't know where anything is
+    		addSequential(new SideToAutoline(true));
     	}
     	
     	
     	if (SmartDashboard.getBoolean("Try to go for Switch?", true) && !SmartDashboard.getBoolean("Try to go for Scale?", false))
     	{
     		
-    		addSequential(new SideToNearSwitch(true));
     		//Go for switch only
     		if (switchPosition == CLOSE)
     		{
-    			//3 cube
+    			addSequential(new SideToNearSwitch(true));
     		}
     		else
     		{

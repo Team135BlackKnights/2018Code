@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class SideToNearSwitch extends CommandGroup implements RobotMap {	
     public SideToNearSwitch(boolean isRight) 
     {
-
     	addSequential(new DriveStraightForward(FIELD.SIDE_SWITCH_Y, isRight));
     	addSequential(new ExtendMandibles());
        	addSequential(new SetLiftPosition(COMPETITION.LIFT.SWITCH_POSITION));

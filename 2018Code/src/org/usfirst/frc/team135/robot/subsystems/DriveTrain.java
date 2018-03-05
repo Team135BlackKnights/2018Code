@@ -130,7 +130,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		}
 		else
 		{
-			orientationHelper = new PIDController(.01, 0, .1, navx, buffer);
+			orientationHelper = new PIDController(.06, 0, .6, navx, buffer);
 		}
 		
 		orientationHelper.setInputRange(0, 360);
