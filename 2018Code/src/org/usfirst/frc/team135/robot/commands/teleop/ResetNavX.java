@@ -11,13 +11,6 @@ public class ResetNavX extends InstantCommand {
 
     public ResetNavX() {
         super();
-<<<<<<< HEAD
-    }
-
-    // Called once when the command executes
-    protected void initialize() {
-    	
-=======
 
     }
 
@@ -28,7 +21,7 @@ public class ResetNavX extends InstantCommand {
     	{
     		Robot.navx.initAngle = -Robot.navx.getFusedAngle();
     	}
->>>>>>> branch 'AutoTestingV1.11' of https://github.com/Team135BlackKnights/2018Code.git
+
     }
 
 }

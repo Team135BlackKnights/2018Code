@@ -32,7 +32,10 @@ import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Arrays;
+
+import edu.wpi.first.wpilibj.Timer;
 /**
  *
  */
@@ -127,11 +130,11 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		}
 		else
 		{
-			orientationHelper = new PIDController(.01, .00001, .1, navx, buffer);
+			orientationHelper = new PIDController(.01, 0, .1, navx, buffer);
 		}
 		
 		orientationHelper.setInputRange(0, 360);
-		orientationHelper.setOutputRange(0, .1);
+		orientationHelper.setOutputRange(-.2, .2);
 		orientationHelper.setAbsoluteTolerance(.2);
 		orientationHelper.setContinuous();
 		
@@ -421,7 +424,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		orientationHelper.enable();
 		Timer timer = new Timer();
 		timer.start();
-		while((Math.abs(getRepresenativeEncoderSpeed()) > 0 || orientationHelper.getError() > .2) && timer.get() < 1)
+		while((Math.abs(getEncoderSpeed(frontLeftTalon)) > 0 || orientationHelper.getError() > .2) && timer.get() < 1)
 		{
 			rearLeftTalon.set(ControlMode.Velocity, 0 + buffer.output);
 			rearRightTalon.set(ControlMode.Velocity, 0 + buffer.output);
