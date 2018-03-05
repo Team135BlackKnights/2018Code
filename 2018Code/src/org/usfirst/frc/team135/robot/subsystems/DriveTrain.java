@@ -335,10 +335,10 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		//Left get's dialed back on positive error and right get's dialed up
 		
 		
-		rearLeftSpeed = (input.x + input.y + rotationalRate);
-		rearRightSpeed = (input.x - input.y + rotationalRate);
-		frontLeftSpeed = (-input.x + input.y + rotationalRate);
-		frontRightSpeed = (-input.x -input.y + rotationalRate);
+		rearLeftSpeed = (input.x + input.y + rotationalRate) + buffer.output;
+		rearRightSpeed = (input.x - input.y + rotationalRate) + buffer.output;
+		frontLeftSpeed = (-input.x + input.y + rotationalRate) + buffer.output;
+		frontRightSpeed = (-input.x -input.y + rotationalRate) + buffer.output;
 				
 		double 
 		_FL = Math.abs(frontLeftSpeed),
