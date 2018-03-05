@@ -24,14 +24,14 @@ public class MidToSwitch extends CommandGroup implements RobotMap{
     	
     	if(switchIsRight)
     	{
-    		addSequential(new DriveAlongProfile(PROFILING.MID_TO_RIGHT_SWITCH, MidToSwitch.TIMEOUT));
+    		//addSequential(new DriveAlongProfile(PROFILING.MID_TO_RIGHT_SWITCH, MidToSwitch.TIMEOUT));
     	}
     	else
     	{
-    		addSequential(new DriveAlongProfile(PROFILING.MID_TO_LEFT_SWITCH, MidToSwitch.TIMEOUT));
+    		//addSequential(new DriveAlongProfile(PROFILING.MID_TO_LEFT_SWITCH, MidToSwitch.TIMEOUT));
     	}
 
-       	addSequential(new GrabMandibles());
+       	//addSequential(new GrabMandibles());
     	
 
     }

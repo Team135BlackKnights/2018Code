@@ -12,29 +12,25 @@ public interface RobotMap
 				MID_TO_RIGHT_SWITCH =
 				{
 					new Waypoint(0, 0, 0),
-					new Waypoint(0.288, 11.167, Pathfinder.d2r(357.04)),
-					new Waypoint(1.163, 22.333, Pathfinder.d2r(353.98)),
-					new Waypoint(2.660, 33.500, Pathfinder.d2r(350.71)),
-					new Waypoint(4.847, 44.667, Pathfinder.d2r(347.07)),
-					new Waypoint(7.839, 55.833, Pathfinder.d2r(342.82)),
-					new Waypoint(11.845, 67.000, Pathfinder.d2r(337.51)),
-					new Waypoint(17.279, 78.167, Pathfinder.d2r(330.20)),
-					new Waypoint(25.206, 89.333, Pathfinder.d2r(318.07)),
-					new Waypoint(46.516, 100.5, Pathfinder.d2r(270.00))
+					new Waypoint(0.288 * CONVERSIONS.INCHES2METERS, 11.167 * CONVERSIONS.INCHES2METERS, Pathfinder.d2r(357.04)),
+					new Waypoint(1.163 * CONVERSIONS.INCHES2METERS, 22.333 * CONVERSIONS.INCHES2METERS, Pathfinder.d2r(353.98)),
+					new Waypoint(2.660 * CONVERSIONS.INCHES2METERS, 33.500 * CONVERSIONS.INCHES2METERS, Pathfinder.d2r(350.71)),
+					new Waypoint(4.847 * CONVERSIONS.INCHES2METERS, 44.667 * CONVERSIONS.INCHES2METERS, Pathfinder.d2r(347.07)),
+					new Waypoint(7.839 * CONVERSIONS.INCHES2METERS, 55.833 * CONVERSIONS.INCHES2METERS, Pathfinder.d2r(342.82)),
+					new Waypoint(11.845 * CONVERSIONS.INCHES2METERS, 67.000 * CONVERSIONS.INCHES2METERS, Pathfinder.d2r(337.51)),
+					new Waypoint(17.279 * CONVERSIONS.INCHES2METERS, 78.167 * CONVERSIONS.INCHES2METERS, Pathfinder.d2r(330.20)),
+					new Waypoint(25.206 * CONVERSIONS.INCHES2METERS, 89.333 * CONVERSIONS.INCHES2METERS, Pathfinder.d2r(318.07)),
+					new Waypoint(46.516 * CONVERSIONS.INCHES2METERS, 100.5 * CONVERSIONS.INCHES2METERS, Pathfinder.d2r(270.00))
 				},
 				
 				MID_TO_LEFT_SWITCH =
 				{
 					new Waypoint(0, 0, 0),
-					new Waypoint(-1.125, 11.167, Pathfinder.d2r(11.51)),
-					new Waypoint(4.648, 22.333, Pathfinder.d2r(23.51)),
-					new Waypoint(-10.681, 33.500, Pathfinder.d2r(30)),
-					new Waypoint(-17.128, 44.667, Pathfinder.d2r(30)),
-					new Waypoint(-23.575, 55.833, Pathfinder.d2r(30)),
-					new Waypoint(-30.022, 67.000, Pathfinder.d2r(30)),
-					new Waypoint(-36.469, 78.167, Pathfinder.d2r(30)),
-					new Waypoint(-42.196, 89.333, Pathfinder.d2r(30)),
-					new Waypoint(-61.508, 100.5, Pathfinder.d2r(90))
+					new Waypoint(-0.011 * CONVERSIONS.INCHES2METERS, 26.834 * CONVERSIONS.INCHES2METERS, 0),
+					new Waypoint(-3.966 * CONVERSIONS.INCHES2METERS, 66.548 * CONVERSIONS.INCHES2METERS, 6.0621),
+					new Waypoint(-15.511 * CONVERSIONS.INCHES2METERS, 106.938 * CONVERSIONS.INCHES2METERS, 5.85),
+					new Waypoint(-25.547 * CONVERSIONS.INCHES2METERS, 117.430 * CONVERSIONS.INCHES2METERS, 5.05),
+					new Waypoint(-42.938 * CONVERSIONS.INCHES2METERS, 120.188 * CONVERSIONS.INCHES2METERS, 3.14),
 				};
 	}
 	

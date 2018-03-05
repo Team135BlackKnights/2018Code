@@ -22,7 +22,7 @@ public class DriveAlongProfile extends Command implements RobotMap {
 	private Trajectory _leftTrajectory, _rightTrajectory;
 	private EncoderFollower _leftEncoderFollower, _rightEncoderFollower;
 	
-	private static final Trajectory.FitMethod _FIT_METHOD = Trajectory.FitMethod.HERMITE_QUINTIC;
+	private static final Trajectory.FitMethod _FIT_METHOD = Trajectory.FitMethod.HERMITE_CUBIC;
 
 	private static final int _SAMPLES = Trajectory.Config.SAMPLES_HIGH;
 	
@@ -99,11 +99,11 @@ public class DriveAlongProfile extends Command implements RobotMap {
     // Called just before this Command runs the first time
     protected void initialize() {    	
     	
-    	this._leftEncoderFollower.configureEncoder((int)Robot.drivetrain.getEncoderCounts(Robot.drivetrain.frontLeftTalon), 
+    	this._leftEncoderFollower.configureEncoder((int)Robot.drivetrain.getEncoderCounts(Robot.drivetrain.rearLeftTalon), 
 													(int)CONVERSIONS.REVS2TICKS, 
 													DRIVETRAIN.WHEEL_DIAMETER * CONVERSIONS.INCHES2METERS);  
     	
-    	this._rightEncoderFollower.configureEncoder((int)Robot.drivetrain.getEncoderCounts(Robot.drivetrain.frontRightTalon), 
+    	this._rightEncoderFollower.configureEncoder((int)Robot.drivetrain.getEncoderCounts(Robot.drivetrain.rearRightTalon), 
 													(int)CONVERSIONS.REVS2TICKS, 
 													DRIVETRAIN.WHEEL_DIAMETER * CONVERSIONS.INCHES2METERS);
     	
