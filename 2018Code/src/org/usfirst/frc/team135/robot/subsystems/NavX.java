@@ -1,5 +1,7 @@
 package org.usfirst.frc.team135.robot.subsystems;
 
+import org.usfirst.frc.team135.robot.Robot;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SerialPort;
@@ -34,6 +36,10 @@ public class NavX extends Subsystem
 		return instance;
 	}
 	
+	public void reset()
+	{
+		ahrs.reset();
+	}
 	public double getFusedAngle()
 	{
 
@@ -42,7 +48,7 @@ public class NavX extends Subsystem
 	
 	public void periodic()
 	{
-		//System.out.println(getFusedAngle());
+		
 	}
 	
 

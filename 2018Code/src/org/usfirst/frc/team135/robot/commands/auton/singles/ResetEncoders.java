@@ -1,4 +1,4 @@
-package org.usfirst.frc.team135.robot.commands.teleop;
+package org.usfirst.frc.team135.robot.commands.auton.singles;
 
 import org.usfirst.frc.team135.robot.Robot;
 
@@ -7,16 +7,16 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 /**
  *
  */
-public class ToggleHang extends InstantCommand {
+public class ResetEncoders extends InstantCommand {
 
-    public ToggleHang() {
+    public ResetEncoders() {
         super();
-        requires(Robot.hang);
+
     }
 
     // Called once when the command executes
     protected void initialize() {
-    	Robot.hang.toggle();
+    	Robot.drivetrain.ResetEncoders();
     }
 
 }

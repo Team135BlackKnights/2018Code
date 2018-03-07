@@ -130,7 +130,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		}
 		else
 		{
-			orientationHelper = new PIDController(.06, 0, .6, navx, buffer);
+			orientationHelper = new PIDController(.01, 0, .1, navx, buffer);
 		}
 		
 		orientationHelper.setInputRange(0, 360);
@@ -159,6 +159,14 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		//talon.enableVoltageCompensation(true);
 		
 		//InitializeDriveTrain();
+	}
+	
+	public void ResetEncoders()
+	{
+		frontLeftTalon.setSelectedSensorPosition(0, 0, 10);
+		frontRightTalon.setSelectedSensorPosition(0, 0, 10);
+		rearLeftTalon.setSelectedSensorPosition(0, 0, 10);
+		rearRightTalon.setSelectedSensorPosition(0, 0, 10);
 	}
 	
 	
@@ -321,12 +329,12 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		if (Preferences.getInstance().getBoolean("Enable Orientation Helper", false))
 		{
 			
-			if (Math.abs(rotationalRate) == 0 && !orientationHelper.isEnabled()) {
+			if (Math.abs(rotationalRate) == 0 && !orientationHelper.isEnabled() && (x != 0 || y != 0)) {
 				// PID controller will bias motors accordingly
 				orientationHelper.enable();
 				orientationHelper.setSetpoint(Robot.navx.getFusedAngle()); // See about using a navx in the future
 			} 
-			else if (Math.abs(rotationalRate) != 0 && orientationHelper.isEnabled()) {
+			else if ((Math.abs(rotationalRate) != 0  || (x == 0 && y == 0)) && orientationHelper.isEnabled()) {
 				orientationHelper.disable();
 			}
 			
@@ -436,7 +444,10 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		
 	}
 	
-	
+	public void periodic()
+	{
+		//System.out.printlngetEncoderCounts(frontLeftTalon);
+	}
 		
     public void initDefaultCommand() 
     {

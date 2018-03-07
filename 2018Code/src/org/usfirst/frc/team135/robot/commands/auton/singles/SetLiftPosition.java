@@ -13,7 +13,6 @@ public class SetLiftPosition extends Command {
 	private boolean done = false;
     public SetLiftPosition(double position) {
     	requires(Robot.lift);
-    	System.out.println("HI!");
     	this.position = position;
     }
 

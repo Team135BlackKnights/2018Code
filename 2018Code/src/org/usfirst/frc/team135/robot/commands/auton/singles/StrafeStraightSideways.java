@@ -32,7 +32,7 @@ public class StrafeStraightSideways extends InstantCommand {
     	
     	if (this._targetDisplacement != 0)
     	{
-    		direction = (this._targetDisplacement > 0) ? 1 : -1;
+    		direction = (this._targetDisplacement > 0) ? StrafeStraightSideways.RIGHT : StrafeStraightSideways.LEFT;
     	}
     	else
     	{

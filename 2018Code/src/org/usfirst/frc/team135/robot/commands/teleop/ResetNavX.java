@@ -19,7 +19,8 @@ public class ResetNavX extends InstantCommand {
     {
     	if (Robot.oi.GetNavXResetButton())
     	{
-    		Robot.navx.initAngle = -Robot.navx.getFusedAngle();
+    		Robot.navx.initAngle = 0;
+    		Robot.navx.reset();
     	}
 
     }

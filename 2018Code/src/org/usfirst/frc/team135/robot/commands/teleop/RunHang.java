@@ -17,7 +17,21 @@ public class RunHang extends InstantCommand {
     // Called once when the command executes
     protected void initialize() 
     {
-    	Robot.hang.RunHangMotor(-1.0);
+    }
+    
+    protected void execute()
+    {
+    	Robot.hang.RunHangMotor(1.0);
+    }
+    
+    protected void interrupted()
+    {
+    	//this.end();
+    }
+    
+    protected void end()
+    {
+    	Robot.hang.RunHangMotor(0);
     }
 
 }

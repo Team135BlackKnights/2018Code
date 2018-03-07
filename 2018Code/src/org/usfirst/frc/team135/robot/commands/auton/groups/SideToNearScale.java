@@ -17,10 +17,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class SideToNearScale extends CommandGroup implements RobotMap {
 
     public SideToNearScale(boolean isRight) {
-    	addParallel(new SetLiftPosition(COMPETITION.LIFT.SCALE_POSITION));
-    	addParallel(new DriveStraightForward(FIELD.SCALE_Y, isRight));
-    	addSequential(new StrafeStraightSideways(FIELD.SCALE_X, () -> Robot.ultrasonic.getRightSonarValue()));
-    	addSequential(new DriveMandibleWheels(false));
+    	//addParallel(new SetLiftPosition(COMPETITION.LIFT.SCALE_POSITION));
+    	addParallel(new DriveStraightForward(FIELD.SCALE_Y, isRight, 4));
+    	//addSequential(new StrafeStraightSideways(FIELD.SCALE_X, () -> Robot.ultrasonic.getRightSonarValue()));
+    	//addSequential(new DriveMandibleWheels(false));
 
     }
 }

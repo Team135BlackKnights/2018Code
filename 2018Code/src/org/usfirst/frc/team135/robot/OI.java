@@ -77,7 +77,7 @@ public class OI implements RobotMap
 		
 		DRIVE_HANG = new JoystickButton(RIGHT, 1);
 		TOGGLE_COMPRESSOR = new JoystickButton(RIGHT, 4);
-		TOGGLE_HANG = new JoystickButton(RIGHT, 8);
+		TOGGLE_HANG = new JoystickButton(RIGHT, 6);
 		
 		RESET_NAVX = new JoystickButton(LEFT, 12);
 		AssignButtons();

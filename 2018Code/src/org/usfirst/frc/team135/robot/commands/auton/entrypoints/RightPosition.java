@@ -34,11 +34,11 @@ public class RightPosition extends CommandGroup {
     	
     	if (SmartDashboard.getBoolean("Try to go for Switch?", true) && !SmartDashboard.getBoolean("Try to go for Scale?", false))
     	{
-    		
+    		addSequential(new SideToNearSwitch(true));
     		//Go for switch only
     		if (switchPosition == CLOSE)
     		{
-    			addSequential(new SideToNearSwitch(true));
+    			
     		}
     		else
     		{

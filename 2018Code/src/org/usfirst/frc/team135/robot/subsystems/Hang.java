@@ -61,10 +61,10 @@ public class Hang extends Subsystem implements RobotMap {
 	
 	public void toggle()
 	{
-		if (DriverStation.getInstance().getMatchTime() <= 30)
+		/*if (DriverStation.getInstance().getMatchTime() <= 30)
 		{
 
-		}
+		}*/
 		hangState = !hangState;
 		hangSolenoid.set(hangState);
 

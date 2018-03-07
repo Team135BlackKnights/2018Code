@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class SideToAutoline extends CommandGroup implements RobotMap{
 	
-    public SideToAutoline(boolean isRight) {
+    public SideToAutoline(boolean isBackward) {
     	
-    	addSequential(new DriveStraightForward(FIELD.AUTO_LINE, isRight));
+    	addSequential(new DriveStraightForward(FIELD.AUTO_LINE, isBackward, 4));
     }
 }

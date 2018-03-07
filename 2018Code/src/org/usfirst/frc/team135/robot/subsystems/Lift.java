@@ -143,7 +143,7 @@ public class Lift extends Subsystem implements RobotMap
 		Timer timer = new Timer();
 		
 		timer.start();
-		while(getEncoderPosition() < position && timer.get() < 2)
+		while(getEncoderPosition() < position && timer.get() < 3)
 		{
 			set(1.0);
 		}
@@ -167,11 +167,14 @@ public class Lift extends Subsystem implements RobotMap
     
     public void periodic()
     {
-    	SmartDashboard.putNumber("Lift Position", getEncoderPosition());
-    	SmartDashboard.putNumber("Lift Setpoint", setpoint);
+    	//SmartDashboard.putNumber("Lift Position", getEncoderPosition());
+    	//SmartDashboard.putNumber("Lift Setpoint", setpoint);
+    	//System.out.println(getEncoderPosition());
     	//SmartDashboard.putNumber("Lift Velocity", getEncoderVelocity());
     	//SmartDashboard.putNumber("Lift Acceleration", getEncoderAcceleration());
     	//System.out.println(getEncoderPosition());
     }
 }
 
+
+		

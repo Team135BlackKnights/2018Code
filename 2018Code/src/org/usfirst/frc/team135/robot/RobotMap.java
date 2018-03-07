@@ -55,7 +55,7 @@ public interface RobotMap
 			SCALE_X = 42.5f, 
 			SCALE_Y = 248, 
 			SIDE_SWITCH_X = 54.5f,
-			SIDE_SWITCH_Y = 165, 
+			SIDE_SWITCH_Y = 120, 
 			MID_SWITCH_X = 105f, 
 			MID_SWITCH_Y = 92.1f;
 	}
@@ -118,8 +118,8 @@ public interface RobotMap
 		}
 
 		public interface HANG {
-			public static final int HANG_1_VICTOR_ID = 3;
-			public static final int SOLENOID_PORT = 4;
+			public static final int HANG_1_VICTOR_ID = 4;
+			public static final int SOLENOID_PORT = 6;
 
 		}
 	}
