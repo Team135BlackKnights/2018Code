@@ -126,7 +126,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		//Configure orientation helper.
 		if (Preferences.getInstance().getBoolean("Is Competition Bot?", true))
 		{
-			orientationHelper = new PIDController(.06, .0005, .5, navx, buffer);
+			orientationHelper = new PIDController(.01, 0, .1, navx, buffer);
 		}
 		else
 		{
@@ -154,7 +154,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		talon.setSelectedSensorPosition(0, 0, 10);
 		
 		talon.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_100Ms, 10);
-		talon.configVelocityMeasurementWindow(64, 0);
+		talon.configVelocityMeasurementWindow(64, 10);
 		//talon.configVoltageCompSaturation(12.0, 10);
 		//talon.enableVoltageCompensation(true);
 		

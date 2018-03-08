@@ -83,7 +83,7 @@ public interface RobotMap
 
 			public static final double LOW_POSITION = 0, SWITCH_POSITION = 500, SCALE_POSITION = 1310;
 
-			public static final double kP = 4.5, kI = 0.045, kD = 15, kF = .2;
+			public static final double kP = 0.04, kI = 0.0, kD = 0, kF = 0.33;
 
 		}
 
@@ -134,7 +134,7 @@ public interface RobotMap
 		public interface LIFT {
 			public static final int LIFT_MOTOR_ID = 3;
 
-			public static final double LOW_POSITION = 0, SWITCH_POSITION = 500, SCALE_POSITION = 1310;
+			public static final double LOW_POSITION = 0, SWITCH_POSITION = 550, SCALE_POSITION = 1360;
 
 			public static final double kP = .33, kI = 0.0033, kD = 3.3, kF = .15;
 

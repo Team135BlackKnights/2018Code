@@ -3,6 +3,7 @@ package org.usfirst.frc.team135.robot.commands.auton.singles;
 import org.usfirst.frc.team135.robot.Robot;
 import org.usfirst.frc.team135.robot.util.FunctionalDoubleManager;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
 /**
@@ -11,18 +12,18 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 public class StrafeStraightSideways extends InstantCommand {
 
 	private FunctionalDoubleManager _rangedSensor;
-	private double _targetDisplacement;
+	private double _targetDistance;
 	
 	private static final int RIGHT = 1, LEFT = -1;
 	
 	private static final double DRIVE_POWER = .6;
 	
-    public StrafeStraightSideways(double targetDisplacment, FunctionalDoubleManager rangedSensor) {
+    public StrafeStraightSideways(double targetDistance, FunctionalDoubleManager rangedSensor) {
         super();
         requires(Robot.drivetrain);
         
         this._rangedSensor = rangedSensor;
-        this._targetDisplacement = targetDisplacment;
+        this._targetDistance = targetDistance;
     }
 
     // Called once when the command executes
@@ -30,9 +31,9 @@ public class StrafeStraightSideways extends InstantCommand {
     {
     	int direction = 0;
     	
-    	if (this._targetDisplacement != 0)
+    	if (this._targetDistance != 0)
     	{
-    		direction = (this._targetDisplacement > 0) ? StrafeStraightSideways.RIGHT : StrafeStraightSideways.LEFT;
+    		direction = (this._targetDistance < this._rangedSensor.get()) ? StrafeStraightSideways.RIGHT : StrafeStraightSideways.LEFT;
     	}
     	else
     	{
@@ -42,14 +43,14 @@ public class StrafeStraightSideways extends InstantCommand {
     	
     	if (direction == StrafeStraightSideways.RIGHT)
     	{
-    		while (this._rangedSensor.get() < this._targetDisplacement)
+    		while (this._rangedSensor.get() < this._targetDistance && DriverStation.getInstance().isAutonomous())
     		{
         		Robot.drivetrain.driveCartesian(direction * StrafeStraightSideways.DRIVE_POWER, 0, 0);
     		}
     	}
     	else if (direction == StrafeStraightSideways.LEFT)
     	{
-    		while (this._rangedSensor.get() > this._targetDisplacement)
+    		while (this._rangedSensor.get() > this._targetDistance && DriverStation.getInstance().isAutonomous())
     		{
         		Robot.drivetrain.driveCartesian(direction * StrafeStraightSideways.DRIVE_POWER, 0, 0);
     		}

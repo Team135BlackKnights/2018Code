@@ -30,10 +30,16 @@ public class RunLift extends Command {
     	{
     		joyValue *= Preferences.getInstance().getDouble("Lift Up Speed", 0.0);
     	}
-    	else
+    	else if (joyValue < 0)
     	{
     		joyValue *= -Preferences.getInstance().getDouble("Lift Down Speed", 0.0);
     	}
+    	else if (joyValue == 0)
+    	{
+    		Robot.lift.mantainPosition();
+    		return;
+    	}
+    	
     	
     	Robot.lift.set(joyValue);
 
@@ -49,12 +55,12 @@ public class RunLift extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.lift.mantainPosition();
+    	
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	end();
+
     }
 }

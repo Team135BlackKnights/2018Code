@@ -53,23 +53,16 @@ public class Lift extends Subsystem implements RobotMap
 		liftMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 10, 10);
 		liftMotor.setSelectedSensorPosition(0, 0, 10);
 		
-		//Motors don't stop precisely where you want them to. Usually stop a bit later.
-		liftMotor.configForwardSoftLimitThreshold(1580, 10);
-		liftMotor.configForwardSoftLimitEnable(false, 10);
-		
-		liftMotor.configReverseSoftLimitThreshold(-50, 10);
-		liftMotor.configReverseSoftLimitEnable(false, 10);
-		
 		liftMotor.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_100Ms, 10);
-		liftMotor.configVelocityMeasurementWindow(5, 10); //Might want to check this later
+		liftMotor.configVelocityMeasurementWindow(64, 10); //Might want to check this later
 		
 		
 		liftMotor.config_kP(0, kP, 10);
 		liftMotor.config_kI(0, kI, 10);
 		liftMotor.config_kD(0, kD, 10);
 		liftMotor.config_kF(0, kF, 10);
-		liftMotor.configMotionCruiseVelocity(100, 10);
-		liftMotor.configMotionAcceleration(500, 10);
+		//liftMotor.configMotionCruiseVelocity(100, 10);
+		//liftMotor.configMotionAcceleration(500, 10);
 		
 		
 		
@@ -143,10 +136,29 @@ public class Lift extends Subsystem implements RobotMap
 		Timer timer = new Timer();
 		
 		timer.start();
-		while(getEncoderPosition() < position && timer.get() < 3)
+		
+		if (position == getEncoderPosition())
 		{
-			set(1.0);
+			return;
 		}
+		
+		double direction = (position < getEncoderPosition()) ? -1 : 1;
+		
+		if (direction == 1)
+		{
+			while(getEncoderPosition() < position && timer.get() < 3)
+			{
+				set(1 * direction);
+			}
+		}
+		else
+		{
+			while(getEncoderPosition() > position && timer.get() < 3)
+			{
+				set(1 * direction);
+			}
+		}
+
 		
 		timer.stop();
 		timer.reset();
@@ -167,9 +179,9 @@ public class Lift extends Subsystem implements RobotMap
     
     public void periodic()
     {
-    	//SmartDashboard.putNumber("Lift Position", getEncoderPosition());
-    	//SmartDashboard.putNumber("Lift Setpoint", setpoint);
-    	//System.out.println(getEncoderPosition());
+    	SmartDashboard.putNumber("Lift Position", getEncoderPosition());
+    	SmartDashboard.putNumber("Lift Setpoint", setpoint);
+    	System.out.println(getEncoderPosition());
     	//SmartDashboard.putNumber("Lift Velocity", getEncoderVelocity());
     	//SmartDashboard.putNumber("Lift Acceleration", getEncoderAcceleration());
     	//System.out.println(getEncoderPosition());
