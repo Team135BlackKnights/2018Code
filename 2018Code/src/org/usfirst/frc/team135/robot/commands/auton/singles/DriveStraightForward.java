@@ -23,7 +23,7 @@ public class DriveStraightForward extends InstantCommand implements RobotMap{
 	private double _targetDisplacement;
 	
 	private boolean _isFacingBackwards;
-	
+
 	private double _timeout;
 	
 	private enum Mode
@@ -36,9 +36,8 @@ public class DriveStraightForward extends InstantCommand implements RobotMap{
     public DriveStraightForward(double targetDistance, FunctionalDoubleManager rangedSensor, boolean isFacingBackwards, double timeout) {
         super();
 	    requires(Robot.drivetrain);
-	    
-	    Robot.drivetrain.ResetEncoders();
-	    
+	    	    
+    	Robot.drivetrain.ResetEncoders();
 	    this._targetDisplacement = targetDistance;
 	    this._rangedSensor = rangedSensor;
 	    
@@ -55,6 +54,7 @@ public class DriveStraightForward extends InstantCommand implements RobotMap{
         super();
 	    requires(Robot.drivetrain);
 	    
+    	Robot.drivetrain.ResetEncoders();
 	    this._targetDisplacement = targetDistance;
 	    this._rangedSensor = rangedSensor;
 	    this._encoder = encoder;
@@ -71,7 +71,8 @@ public class DriveStraightForward extends InstantCommand implements RobotMap{
     public DriveStraightForward(double targetDisplacement, boolean isFacingBackwards, double timeout) {
         super();
 	    requires(Robot.drivetrain);
-	    
+
+    	Robot.drivetrain.ResetEncoders();
 	    this._targetDisplacement = targetDisplacement;
 	    
 	    this._encoder = () -> CONVERSIONS.TICKS2INCHES * Robot.drivetrain.getEncoderCounts(Robot.drivetrain.rearLeftTalon);
@@ -91,17 +92,12 @@ public class DriveStraightForward extends InstantCommand implements RobotMap{
     	int direction = 0;
     	if (this._targetDisplacement != 0)
     	{
-    		direction = (this._targetDisplacement > 0) ? -1 : 1;
+    		direction = (this._targetDisplacement > 0) ? 1 : -1;
     	}
     	else
     	{
     		System.out.println("Done driving straight... 0?");
     		return;
-    	}
-    	
-    	if (this._isFacingBackwards)
-    	{
-    		direction *= -1;
     	}
     	
     	timer.start();

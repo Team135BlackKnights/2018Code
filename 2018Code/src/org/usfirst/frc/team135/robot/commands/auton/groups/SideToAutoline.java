@@ -11,6 +11,6 @@ public class SideToAutoline extends CommandGroup implements RobotMap{
 	
     public SideToAutoline(boolean isBackward) {
     	
-    	addSequential(new DriveStraightForward(FIELD.AUTO_LINE, isBackward, 4));
+    	addSequential(new DriveStraightForward(FIELD.AUTO_LINE, isBackward, 2));
     }
 }

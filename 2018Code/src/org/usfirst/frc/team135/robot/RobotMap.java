@@ -5,6 +5,7 @@ import jaci.pathfinder.Waypoint;
 
 public interface RobotMap 
 {
+
 	public interface PROFILING
 	{
 		public static final Waypoint[] 
@@ -54,10 +55,13 @@ public interface RobotMap
 			WALL_SLANT_END = 10, 
 			SCALE_X = 42.5f, 
 			SCALE_Y = 248, 
-			SIDE_SWITCH_X = 54.5f,
+			SIDE_SWITCH_X = 53f,
 			SIDE_SWITCH_Y = 120, 
 			MID_SWITCH_X = 105f, 
-			MID_SWITCH_Y = 92.1f;
+			MID_SWITCH_Y = 92.1f,
+			FAR_SCALE_X = 189f,
+			FAR_SCALE_Y = 17.5,
+			FAR_SWITCH_X = 160;
 	}
 	
 	public interface DIRECTION {
@@ -81,7 +85,7 @@ public interface RobotMap
 		public interface LIFT {
 			public static final int LIFT_MOTOR_ID = 3;
 
-			public static final double LOW_POSITION = 0, SWITCH_POSITION = 500, SCALE_POSITION = 1310;
+			public static final double LOW_POSITION = 0, SWITCH_POSITION = 650, SCALE_POSITION = 1310;
 
 			public static final double kP = 0.04, kI = 0.0, kD = 0, kF = 0.33;
 
@@ -131,12 +135,13 @@ public interface RobotMap
 			public static final int ID = 0;
 		}
 
+		
 		public interface LIFT {
 			public static final int LIFT_MOTOR_ID = 3;
 
-			public static final double LOW_POSITION = 0, SWITCH_POSITION = 550, SCALE_POSITION = 1360;
+			public static final double LOW_POSITION = 0, SWITCH_POSITION = 650, SCALE_POSITION = 1360;
 
-			public static final double kP = .33, kI = 0.0033, kD = 3.3, kF = .15;
+			public static final double kP = .04, kI = 0.0, kD = .4, kF = .33;
 
 		}
 

@@ -23,7 +23,6 @@ public class LeftPosition extends CommandGroup {
 	
     public LeftPosition() 
     {
-    	addSequential(new InitializeAngle(180));
     	String msg = DriverStation.getInstance().getGameSpecificMessage();
     	int switchPosition = getSwitchPosition(msg);
     	int scalePosition = getScalePosition(msg);
@@ -36,11 +35,11 @@ public class LeftPosition extends CommandGroup {
     	
     	if (SmartDashboard.getBoolean("Try to go for Switch?", true) && !SmartDashboard.getBoolean("Try to go for Scale?", false))
     	{
+    		addSequential(new SideToNearSwitch(false));
     		//Go for switch only
     		if (switchPosition == CLOSE)
     		{
-    			//3 cube eventually
-    			addSequential(new SideToNearSwitch(false));
+    			
     			
     		}
     		else
@@ -74,7 +73,7 @@ public class LeftPosition extends CommandGroup {
     		{
     			if (SmartDashboard.getBoolean("Prefer Switch or Scale?", true))
     			{
-    				//1 cube switch
+    				
     			}
     			else
     			{
@@ -100,7 +99,7 @@ public class LeftPosition extends CommandGroup {
     			}
     			else
     			{
-    				//2 cube scale
+    				addSequential(new SideToNearScale(false));
     			}
     		}
     	}

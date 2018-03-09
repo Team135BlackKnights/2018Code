@@ -39,6 +39,8 @@ public class OI implements RobotMap
 		DRIVE_HANG,
 		TOGGLE_COMPRESSOR,
 		TOGGLE_HANG,
+		THROW_CUBE_FORWARD,
+		THROW_CUBE_BACKWARD,
 		RESET_NAVX;
 	
  
@@ -74,6 +76,9 @@ public class OI implements RobotMap
 		
 		MANDIBLES_UP = new JoystickButton(MANIP, 5);
 		MANDIBLES_DOWN = new JoystickButton(MANIP, 3);
+		
+		THROW_CUBE_FORWARD = new JoystickButton(MANIP, 8);
+		THROW_CUBE_BACKWARD = new JoystickButton(MANIP, 7);
 		
 		DRIVE_HANG = new JoystickButton(RIGHT, 1);
 		TOGGLE_COMPRESSOR = new JoystickButton(RIGHT, 4);
@@ -157,6 +162,9 @@ public class OI implements RobotMap
 		MANDIBLES_OPEN.whenPressed(new ReleaseMandibles());
 		MANDIBLES_UP.whenPressed(new RetractMandibles());
 		MANDIBLES_DOWN.whenPressed(new ExtendMandibles());
+		
+		THROW_CUBE_FORWARD.whenPressed(new ThrowCubeForward());
+		THROW_CUBE_BACKWARD.whenPressed(new ThrowCubeBackwards());
 		
 		MANDIBLES_WHEELS_IN.whileHeld(new DriveMandibleWheels(true));
 		MANDIBLES_WHEELS_OUT.whileHeld(new DriveMandibleWheels(false));
