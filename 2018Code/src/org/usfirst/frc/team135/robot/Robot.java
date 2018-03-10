@@ -8,12 +8,14 @@
 package org.usfirst.frc.team135.robot;
 
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team135.robot.RobotMap.AUTO;
 import org.usfirst.frc.team135.robot.commands.auton.entrypoints.LeftPosition;
 import org.usfirst.frc.team135.robot.commands.auton.entrypoints.MiddlePosition;
 import org.usfirst.frc.team135.robot.commands.auton.entrypoints.RightPosition;
@@ -40,6 +42,8 @@ public class Robot extends TimedRobot {
 	public static Intake intake;
 	public static Hang hang;
 	public static Canifier canifier;
+	
+	public static String msg;
 	Command m_autonomousCommand;
 	Command getGameSpecificMessage;
 	Command setSmartDashboardKeys;
@@ -62,7 +66,7 @@ public class Robot extends TimedRobot {
 		
 		//CameraServer.getInstance().startAutomaticCapture();
 		
-		m_chooser.addDefault("Autoline", new SideToAutoline(true));
+		m_chooser.addDefault("Autoline", new SideToAutoline(false));
 		m_chooser.addObject("Left Position", new LeftPosition());
 		m_chooser.addObject("Middle Position", new MiddlePosition());
 		m_chooser.addObject("Right Position", new RightPosition());
@@ -107,7 +111,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		m_autonomousCommand = m_chooser.getSelected();
-
+		Robot.msg = DriverStation.getInstance().getGameSpecificMessage();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand

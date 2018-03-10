@@ -2,6 +2,7 @@
 package org.usfirst.frc.team135.robot.commands.auton.entrypoints;
 
 import org.usfirst.frc.team135.robot.Robot;
+import org.usfirst.frc.team135.robot.commands.auton.groups.SideToAutoline;
 import org.usfirst.frc.team135.robot.commands.auton.groups.SideToNearScale;
 import org.usfirst.frc.team135.robot.commands.auton.groups.SideToNearSwitch;
 import org.usfirst.frc.team135.robot.commands.auton.singles.InitializeAngle;
@@ -23,28 +24,27 @@ public class LeftPosition extends CommandGroup {
 	
     public LeftPosition() 
     {
-    	String msg = DriverStation.getInstance().getGameSpecificMessage();
-    	int switchPosition = getSwitchPosition(msg);
-    	int scalePosition = getScalePosition(msg);
+    	int switchPosition = getSwitchPosition(Robot.msg);
+    	int scalePosition = getScalePosition(Robot.msg);
     	
     	if (switchPosition == INVALID || scalePosition == INVALID)
     	{
-
+    		addSequential(new SideToAutoline(false));
     	}
     	
     	
     	if (SmartDashboard.getBoolean("Try to go for Switch?", true) && !SmartDashboard.getBoolean("Try to go for Scale?", false))
     	{
-    		addSequential(new SideToNearSwitch(false));
+    		
     		//Go for switch only
     		if (switchPosition == CLOSE)
     		{
-    			
+    			addSequential(new SideToNearSwitch(false));
     			
     		}
     		else
     		{
-    			//2 cube
+    			addSequential(new SideToAutoline(false));
     		}
     	}
     	else if (!SmartDashboard.getBoolean("Try to go for Switch?", true) && SmartDashboard.getBoolean("Try to go for Scale?", false))
@@ -53,7 +53,7 @@ public class LeftPosition extends CommandGroup {
     		if (scalePosition == CLOSE)
     		{
     			//2 cube
-    			addSequential(new SideToNearScale(false));
+    			//addSequential(new SideToNearScale(false));
     		}
     		else
     		{

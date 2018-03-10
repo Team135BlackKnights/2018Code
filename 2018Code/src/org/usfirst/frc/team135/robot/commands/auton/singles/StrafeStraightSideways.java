@@ -23,7 +23,7 @@ public class StrafeStraightSideways extends InstantCommand {
 	
 	private int _direction = 1;
 	
-    public StrafeStraightSideways(double targetDistance, int direction, FunctionalDoubleManager rangedSensor, double timeout) {
+    public StrafeStraightSideways(double targetDistance, int direction, boolean facingBackwards, FunctionalDoubleManager rangedSensor, double timeout) {
         super();
         requires(Robot.drivetrain);
         
@@ -31,6 +31,11 @@ public class StrafeStraightSideways extends InstantCommand {
         this._targetDistance = targetDistance;
         
         this._direction = direction;
+        
+        if (facingBackwards)
+        {
+        	this._direction *= -1;
+        }
         
         this._timeout = _targetDistance;
         
@@ -61,14 +66,14 @@ public class StrafeStraightSideways extends InstantCommand {
     	{
     		while (this._rangedSensor.get() > this._targetDistance && DriverStation.getInstance().isAutonomous() && timer.get() < this._timeout)
     		{
-        		Robot.drivetrain.driveCartesian(-StrafeStraightSideways.DRIVE_POWER, 0, 0);
+        		Robot.drivetrain.driveCartesian(this._direction * StrafeStraightSideways.DRIVE_POWER, 0, 0);
     		}
     	}
     	else if (this._direction == StrafeStraightSideways.LEFT)
     	{
     		while (this._rangedSensor.get() > this._targetDistance && DriverStation.getInstance().isAutonomous()  && timer.get() < this._timeout)
     		{
-        		Robot.drivetrain.driveCartesian(-StrafeStraightSideways.DRIVE_POWER, 0, 0);
+        		Robot.drivetrain.driveCartesian(this._direction * StrafeStraightSideways.DRIVE_POWER, 0, 0);
     		}
     	}
     	

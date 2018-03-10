@@ -19,7 +19,7 @@ public class MiddlePosition extends CommandGroup {
 		INVALID = -1;
 	
     public MiddlePosition() {
-    	int switchPosition = getSwitchPosition(DriverStation.getInstance().getGameSpecificMessage());
+    	int switchPosition = getSwitchPosition(Robot.msg);
     	
     	addSequential(new InitializeAngle(270));
     	
@@ -31,12 +31,11 @@ public class MiddlePosition extends CommandGroup {
     		if (switchPosition == RIGHT)
     		{
     			
-    			addSequential(new MidToSwitch(true));
+    			//addSequential(new MidToSwitch(true));
     		}
     		else if (switchPosition == LEFT)
     		{
-    			System.out.println(Robot.navx.initAngle);
-    			addSequential(new MidToSwitch(false));
+    			//addSequential(new MidToSwitch(false));
     		}
     		else
     		{

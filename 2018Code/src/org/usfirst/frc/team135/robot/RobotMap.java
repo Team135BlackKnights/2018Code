@@ -5,7 +5,11 @@ import jaci.pathfinder.Waypoint;
 
 public interface RobotMap 
 {
-
+	
+	public interface AUTO
+	{
+		public static String msg = "";
+	}
 	public interface PROFILING
 	{
 		public static final Waypoint[] 
@@ -51,10 +55,10 @@ public interface RobotMap
 	}
 	public interface FIELD {
 		public static final double // All measurements are in inches
-			AUTO_LINE = 135, 
+			AUTO_LINE = 70, 
 			WALL_SLANT_END = 10, 
 			SCALE_X = 42.5f, 
-			SCALE_Y = 248, 
+			SCALE_Y = 290, 
 			SIDE_SWITCH_X = 53f,
 			SIDE_SWITCH_Y = 120, 
 			MID_SWITCH_X = 105f, 

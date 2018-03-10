@@ -24,7 +24,7 @@ public class MidToSwitch extends CommandGroup implements RobotMap{
     	
     	addSequential(new ExtendMandibles());
        	addSequential(new SetLiftPosition(COMPETITION.LIFT.SWITCH_POSITION));
-       	addSequential(new StrafeStraightSideways(4, 1, () -> Robot.ultrasonic.getRightSonarValue(), 2));
+       	addSequential(new StrafeStraightSideways(4, 1, true, () -> Robot.ultrasonic.getRightSonarValue(),  2));
        	
     	if(switchIsRight)
     	{
@@ -36,7 +36,7 @@ public class MidToSwitch extends CommandGroup implements RobotMap{
     		addSequential(new DriveStraightForward(FIELD.MID_SWITCH_X, false, 5));
     	}
     	
-    	addSequential(new StrafeStraightSideways(2, 1, () -> Robot.ultrasonic.getLeftSonarValue(), 2));
+    	addSequential(new StrafeStraightSideways(2, 1, true, () -> Robot.ultrasonic.getLeftSonarValue(), 2));
 
        	addSequential(new GrabMandibles());
     	
