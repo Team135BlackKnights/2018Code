@@ -25,7 +25,7 @@ public class SideToNearSwitch extends CommandGroup implements RobotMap {
     	addSequential(new ExtendMandibles());
        	addSequential(new SetLiftPosition(COMPETITION.LIFT.SWITCH_POSITION));
        	addSequential(new StrafeStraightSideways(SideToNearSwitch.DISTANCE_FROM_SWITCH_WALL,
-       											strafe_direction, !isRight, () -> Robot.ultrasonic.getRightSonarValue(), 1.5));
+       											strafe_direction, isRight, () -> Robot.ultrasonic.getRightSonarValue(), 1.5));
        	addSequential(new GrabMandibles());
     }
 }
