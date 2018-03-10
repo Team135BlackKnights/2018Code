@@ -30,6 +30,8 @@ public class LeftPosition extends CommandGroup {
     	if (switchPosition == INVALID || scalePosition == INVALID)
     	{
     		addSequential(new SideToAutoline(false));
+    		System.out.println("Invalid message. Ran autoline. Terminating auto...");
+    		return;
     	}
     	
     	

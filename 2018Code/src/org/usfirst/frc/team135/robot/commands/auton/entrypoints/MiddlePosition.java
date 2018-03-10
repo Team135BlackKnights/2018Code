@@ -23,7 +23,11 @@ public class MiddlePosition extends CommandGroup {
     	
     	addSequential(new InitializeAngle(270));
     	
-    	System.out.println(switchPosition);
+    	if (switchPosition == INVALID)
+    	{
+    		System.out.println("Invalid message. Ran autoline. Terminating auto...");
+
+    	}
     	
     	if (SmartDashboard.getBoolean("Try to go for Switch?", true) && !SmartDashboard.getBoolean("Try to go for Scale?", false))
     	{

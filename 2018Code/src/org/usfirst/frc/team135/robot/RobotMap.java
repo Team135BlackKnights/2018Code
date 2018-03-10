@@ -62,7 +62,7 @@ public interface RobotMap
 			SIDE_SWITCH_X = 53f,
 			SIDE_SWITCH_Y = 120, 
 			MID_SWITCH_X = 105f, 
-			MID_SWITCH_Y = 92.1f,
+			MID_SWITCH_Y = 160,
 			FAR_SCALE_X = 189f,
 			FAR_SCALE_Y = 17.5,
 			FAR_SWITCH_X = 160;
