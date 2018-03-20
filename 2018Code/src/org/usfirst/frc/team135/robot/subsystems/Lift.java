@@ -56,6 +56,10 @@ public class Lift extends Subsystem implements RobotMap
 		liftMotor.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_100Ms, 10);
 		liftMotor.configVelocityMeasurementWindow(64, 10); //Might want to check this later
 		
+		//liftMotor.configForwardSoftLimitThreshold(1250, 10);
+		
+		liftMotor.configForwardSoftLimitEnable(false, 10);
+		liftMotor.configReverseSoftLimitEnable(false, 10);
 		
 		liftMotor.config_kP(0, kP, 10);
 		liftMotor.config_kI(0, kI, 10);
@@ -122,6 +126,10 @@ public class Lift extends Subsystem implements RobotMap
 	
 	public void set(double speed)
 	{
+		/*if (getEncoderPosition() <= 300 && speed < 0)
+		{
+			speed *= .25;
+		}*/
 		liftMotor.set(ControlMode.PercentOutput, speed);
 	}
 	
@@ -181,7 +189,7 @@ public class Lift extends Subsystem implements RobotMap
     {
     	SmartDashboard.putNumber("Lift Position", getEncoderPosition());
     	SmartDashboard.putNumber("Lift Setpoint", setpoint);
-    	System.out.println(getEncoderPosition());
+    	//System.out.println(getEncoderPosition());
     	//SmartDashboard.putNumber("Lift Velocity", getEncoderVelocity());
     	//SmartDashboard.putNumber("Lift Acceleration", getEncoderAcceleration());
     	//System.out.println(getEncoderPosition());

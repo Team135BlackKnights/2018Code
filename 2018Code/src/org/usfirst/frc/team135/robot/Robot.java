@@ -36,18 +36,19 @@ public class Robot extends TimedRobot {
 	
 	public static NavX navx;
 	public static UltrasonicSensor ultrasonic;
+	public static Camera camera;
 	public static OI oi;
 	public static DriveTrain drivetrain;
 	public static Lift lift;
 	public static Intake intake;
 	public static Hang hang;
-	public static Canifier canifier;
+	//public static Canifier canifier;
 	
-	public static String msg;
+	public static String msg = "";
 	Command m_autonomousCommand;
 	Command getGameSpecificMessage;
 	Command setSmartDashboardKeys;
-	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	SendableChooser<String> m_chooser = new SendableChooser<>();
 	
 	
 
@@ -56,8 +57,9 @@ public class Robot extends TimedRobot {
 		//Order does matter.
 		
 		navx = NavX.getInstance();
-		canifier = Canifier.getInstance();
+		//canifier = Canifier.getInstance();
 		ultrasonic = UltrasonicSensor.getInstance();
+		camera = Camera.getInstance();
 		drivetrain = DriveTrain.getInstance();
 		hang = Hang.getInstance();
 		intake = Intake.GetInstance();
@@ -66,11 +68,11 @@ public class Robot extends TimedRobot {
 		
 		//CameraServer.getInstance().startAutomaticCapture();
 		
-		m_chooser.addDefault("Autoline", new SideToAutoline(false));
-		m_chooser.addObject("Left Position", new LeftPosition());
-		m_chooser.addObject("Middle Position", new MiddlePosition());
-		m_chooser.addObject("Right Position", new RightPosition());
-		SmartDashboard.putData("Auto mode", m_chooser);
+		m_chooser.addDefault("Autoline", "Autoline");
+		m_chooser.addObject("Left Position", "LeftPosition");
+		m_chooser.addObject("Middle Position", "MiddlePosition");
+		m_chooser.addObject("Right Position", "RightPosition");
+		SmartDashboard.putData("Auto Mode", m_chooser);
 		
 		
 		SmartDashboard.setPersistent("Try to go for Scale?");
@@ -110,10 +112,28 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = m_chooser.getSelected();
 		Robot.msg = DriverStation.getInstance().getGameSpecificMessage();
+		Robot.navx.reset();
+		
+		if (m_chooser.getSelected().equals("LeftPosition"))
+		{
+			m_autonomousCommand = new LeftPosition();
+		}
+		else if (m_chooser.getSelected().equals("RightPosition"))
+		{
+			m_autonomousCommand = new RightPosition();
+		}
+		else if (m_chooser.getSelected().equals("MiddlePosition"))
+		{
+			m_autonomousCommand = new MiddlePosition();
+		}
+		else
+		{
+			m_autonomousCommand = new SideToAutoline(true);
+		}
+		
 		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
+		 * String autoSel0000ected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
 		 * = new MyAutoCommand(); break; case "Default Auto": default:
 		 * autonomousCommand = new ExampleCommand(); break; }
@@ -142,6 +162,9 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
+		
+		camera.setDriverMode(true);
+
 	}
 
 	/**

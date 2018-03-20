@@ -18,7 +18,7 @@ public class SideToNearSwitch extends CommandGroup implements RobotMap {
 	private static final double DISTANCE_FROM_SWITCH_WALL = 4;
     public SideToNearSwitch(boolean isRight) 
     {
-    	int strafe_direction = isRight ?  DIRECTION.LEFT : DIRECTION.RIGHT;
+    	int strafe_direction = isRight ?  DIRECTION.RIGHT : DIRECTION.LEFT;
     	int encoder_direction = isRight ? DIRECTION.BACKWARD : DIRECTION.FORWARD;
     	   	
     	addSequential(new DriveStraightForward(encoder_direction * FIELD.SIDE_SWITCH_Y, isRight, 3));

@@ -55,17 +55,19 @@ public interface RobotMap
 	}
 	public interface FIELD {
 		public static final double // All measurements are in inches
-			AUTO_LINE = 70, 
+			AUTO_LINE = 80, 
 			WALL_SLANT_END = 10, 
-			SCALE_X = 42.5f, 
-			SCALE_Y = 290, 
+			SCALE_X = (31.625 + 17), 
+			SCALE_Y = 288, 
+			SWITCH_TAPE_MIDPOINT_HEIGHT = 9.25,
 			SIDE_SWITCH_X = 53f,
-			SIDE_SWITCH_Y = 120, 
+			SIDE_SWITCH_Y = 132,
 			MID_SWITCH_X = 105f, 
 			MID_SWITCH_Y = 160,
 			FAR_SCALE_X = 189f,
 			FAR_SCALE_Y = 17.5,
-			FAR_SWITCH_X = 160;
+			FAR_SWITCH_X = 160,
+			FAR_SWITCH_Y = 200;
 	}
 	
 	public interface DIRECTION {
@@ -81,7 +83,16 @@ public interface RobotMap
 	
 	public interface PRACTICE
 	{
-
+		public interface CAMERA
+		{
+			public static final int
+				REFLECTIVE_TAPE_MODE = 0,
+				POWER_CUBE_MODE = 1;
+			
+			public static final double
+				CAMERA_HEIGHT = 8.625; //In inches;
+		}
+		
 		public interface CANIFIER {
 			public static final int ID = 1;
 		}
@@ -127,6 +138,7 @@ public interface RobotMap
 
 		public interface HANG {
 			public static final int HANG_1_VICTOR_ID = 4;
+			public static final int TEST_TALON_ID = 6;
 			public static final int SOLENOID_PORT = 6;
 
 		}
@@ -134,6 +146,15 @@ public interface RobotMap
 	
 	public interface COMPETITION
 	{
+		public interface CAMERA
+		{
+			public static final int
+				REFLECTIVE_TAPE_MODE = 0,
+				POWER_CUBE_MODE = 1;
+			
+			public static final double
+				CAMERA_HEIGHT = 8.625; //In inches;
+		}
 
 		public interface CANIFIER {
 			public static final int ID = 0;
@@ -181,6 +202,7 @@ public interface RobotMap
 
 		public interface HANG {
 			public static final int HANG_1_VICTOR_ID = 3;
+			public static final int TEST_TALON_ID = 6;
 			public static final int SOLENOID_PORT = 4;
 
 		}

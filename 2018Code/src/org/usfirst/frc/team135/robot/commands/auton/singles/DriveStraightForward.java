@@ -75,7 +75,7 @@ public class DriveStraightForward extends InstantCommand implements RobotMap{
     	Robot.drivetrain.ResetEncoders();
 	    this._targetDisplacement = targetDisplacement;
 	    
-	    this._encoder = () -> CONVERSIONS.TICKS2INCHES * Robot.drivetrain.getEncoderCounts(Robot.drivetrain.rearLeftTalon);
+	    this._encoder = () -> CONVERSIONS.TICKS2INCHES * -Robot.drivetrain.getEncoderCounts(Robot.drivetrain.rearLeftTalon);
 	    this._driveMode = Mode.ENCODER;
 	    
 	    this._isFacingBackwards = isFacingBackwards;

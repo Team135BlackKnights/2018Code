@@ -21,11 +21,12 @@ public class RightPosition extends CommandGroup {
 	FAR = 0,
 	INVALID = -1;
     public RightPosition() {
+    	
     	int switchPosition = getSwitchPosition(Robot.msg);
     	int scalePosition = getScalePosition(Robot.msg);
     	
     	addSequential(new InitializeAngle(180));
-    	
+    	System.out.println(Robot.msg);
     	if (switchPosition == INVALID || scalePosition == INVALID)
     	{
     		addSequential(new SideToAutoline(true));
@@ -56,7 +57,7 @@ public class RightPosition extends CommandGroup {
     		}
     		else
     		{
-    			//1 cube
+    			addSequential(new SideToAutoline(true));
     		}
     		
     	}
@@ -137,5 +138,11 @@ public class RightPosition extends CommandGroup {
     		System.out.println("Unable to get a valid game specific message. Only running autoline.");
     		return INVALID;
     	}
+    }
+    
+    
+    public RightPosition clone()
+    {
+    	return new RightPosition();
     }
 }

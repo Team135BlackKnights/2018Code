@@ -31,12 +31,12 @@ public class StrafeStraightSideways extends InstantCommand {
         this._targetDistance = targetDistance;
         
         this._direction = direction;
-        
+        /*
         if (facingBackwards)
         {
         	this._direction *= -1;
         }
-        
+        */
         this._timeout = _targetDistance;
         
         

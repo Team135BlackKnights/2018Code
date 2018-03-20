@@ -22,17 +22,21 @@ public class RunHang extends InstantCommand {
     protected void execute()
     {
     	
-    	Robot.hang.RunHangMotor(1.0);
+    	Robot.hang.runHangMotor(1.0);
     }
     
     protected void interrupted()
     {
-    	//this.end();
+    	this.end();
+    }
+    
+    protected boolean isFinished() {
+        return false;
     }
     
     protected void end()
     {
-    	Robot.hang.RunHangMotor(0);
+    	Robot.hang.runHangMotor(0);
     }
 
 }

@@ -41,7 +41,9 @@ public class OI implements RobotMap
 		TOGGLE_HANG,
 		THROW_CUBE_FORWARD,
 		THROW_CUBE_BACKWARD,
-		RESET_NAVX;
+		RESET_NAVX,
+		RUN_HANG_TEST_MOTOR_FORWARD,
+		RUN_HANG_TEST_MOTOR_BACKWARD;
 	
  
 	public static OI getInstance() {
@@ -85,6 +87,8 @@ public class OI implements RobotMap
 		TOGGLE_HANG = new JoystickButton(RIGHT, 6);
 		
 		RESET_NAVX = new JoystickButton(LEFT, 12);
+		RUN_HANG_TEST_MOTOR_FORWARD = new JoystickButton(RIGHT, 10);
+		RUN_HANG_TEST_MOTOR_BACKWARD = new JoystickButton(RIGHT, 9);
 		AssignButtons();
 	}
 	
@@ -174,6 +178,9 @@ public class OI implements RobotMap
 		TOGGLE_HANG.whenPressed(new ToggleHang());
 		
 		RESET_NAVX.whenPressed(new ResetNavX());
+		
+		RUN_HANG_TEST_MOTOR_FORWARD.whileHeld(new RunHangTestMotor(1.0));
+		RUN_HANG_TEST_MOTOR_BACKWARD.whileHeld(new RunHangTestMotor(-1.0));
 		
 		//TOGGLE_COMPRESSOR.whenPressed(new ToggleCompressor());
 	}	
