@@ -110,8 +110,25 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = m_chooser.getSelected();
 		Robot.msg = DriverStation.getInstance().getGameSpecificMessage();
+		Robot.navx.reset();
+		
+		if (m_chooser.getSelected().equals("LeftPosition"))
+		{
+			m_autonomousCommand = new LeftPosition();
+		}
+		else if (m_chooser.getSelected().equals("RightPosition"))
+		{
+			m_autonomousCommand = new RightPosition();
+		}
+		else if (m_chooser.getSelected().equals("MiddlePosition"))
+		{
+			m_autonomousCommand = new MiddlePosition();
+		}
+		else
+		{
+			m_autonomousCommand = new SideToAutoline(true);
+		}
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
