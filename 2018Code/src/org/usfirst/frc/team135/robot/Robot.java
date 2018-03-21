@@ -110,6 +110,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		
 		Robot.msg = DriverStation.getInstance().getGameSpecificMessage();
 		Robot.navx.reset();
 		

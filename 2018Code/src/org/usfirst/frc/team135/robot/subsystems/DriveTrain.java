@@ -446,7 +446,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	
 	public void periodic()
 	{
-		System.out.println(getEncoderCounts(frontLeftTalon));
+		//System.out.println(getEncoderCounts(frontLeftTalon));
 	}
 		
     public void initDefaultCommand() 
