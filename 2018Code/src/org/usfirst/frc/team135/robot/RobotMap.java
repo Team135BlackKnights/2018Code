@@ -134,7 +134,12 @@ public interface RobotMap
 		public interface CAMERA
 		{
 
-			double CAMERA_HEIGHT = 0;
+			public static final int
+				REFLECTIVE_TAPE_MODE = 0,
+				POWER_CUBE_MODE = 1;
+		
+			public static final double
+				CAMERA_HEIGHT = 8.625; //In inches;
 			
 		}
 		
@@ -196,7 +201,12 @@ public interface RobotMap
 		public interface CAMERA
 		{
 
-			double CAMERA_HEIGHT = 0;
+			public static final int
+				REFLECTIVE_TAPE_MODE = 0,
+				POWER_CUBE_MODE = 1;
+		
+			public static final double
+				CAMERA_HEIGHT = 8.625; //In inches;
 			
 		}
 	}
