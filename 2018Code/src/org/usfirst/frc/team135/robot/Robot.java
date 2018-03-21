@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
 	Command m_autonomousCommand;
 	Command getGameSpecificMessage;
 	Command setSmartDashboardKeys;
-	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	SendableChooser<String> m_chooser = new SendableChooser<>();
 	
 	
 
@@ -66,11 +66,11 @@ public class Robot extends TimedRobot {
 		
 		//CameraServer.getInstance().startAutomaticCapture();
 		
-		m_chooser.addDefault("Autoline", new SideToAutoline(false));
-		m_chooser.addObject("Left Position", new LeftPosition());
-		m_chooser.addObject("Middle Position", new MiddlePosition());
-		m_chooser.addObject("Right Position", new RightPosition());
-		SmartDashboard.putData("Auto mode", m_chooser);
+		m_chooser.addDefault("Autoline", "Autoline");
+		m_chooser.addObject("Left Position", "LeftPosition");
+		m_chooser.addObject("Middle Position", "MiddlePosition");
+		m_chooser.addObject("Right Position", "RightPosition");
+		SmartDashboard.putData("Auto Mode", m_chooser);
 		
 		
 		SmartDashboard.setPersistent("Try to go for Scale?");
