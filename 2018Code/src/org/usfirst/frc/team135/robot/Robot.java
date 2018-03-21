@@ -41,7 +41,7 @@ public class Robot extends TimedRobot {
 	public static Lift lift;
 	public static Intake intake;
 	public static Hang hang;
-	public static Canifier canifier;
+	//public static Canifier canifier;
 	
 	public static String msg;
 	Command m_autonomousCommand;
@@ -56,7 +56,7 @@ public class Robot extends TimedRobot {
 		//Order does matter.
 		
 		navx = NavX.getInstance();
-		canifier = Canifier.getInstance();
+		//canifier = Canifier.getInstance();
 		ultrasonic = UltrasonicSensor.getInstance();
 		drivetrain = DriveTrain.getInstance();
 		hang = Hang.getInstance();

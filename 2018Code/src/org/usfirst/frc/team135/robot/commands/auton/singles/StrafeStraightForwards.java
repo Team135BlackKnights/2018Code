@@ -10,12 +10,12 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 /**
  *
  */
-public class StrafeStraightSideways extends InstantCommand {
+public class StrafeStraightForwards extends InstantCommand {
 
 	private FunctionalDoubleManager _rangedSensor;
 	private double _targetDistance;
 	
-	private static final int RIGHT = 1, LEFT = -1;
+	private static final int FORWARD = 1, BACKWARD = -1;
 	
 	private static final double DRIVE_POWER = .6;
 	
@@ -23,7 +23,7 @@ public class StrafeStraightSideways extends InstantCommand {
 	
 	private int _direction = 1;
 	
-    public StrafeStraightSideways(double targetDistance, int direction, boolean facingBackwards, FunctionalDoubleManager rangedSensor, double timeout) {
+    public StrafeStraightForwards(double targetDistance, int direction, boolean facingBackwards, FunctionalDoubleManager rangedSensor, double timeout) {
         super();
         requires(Robot.drivetrain);
         
@@ -62,18 +62,18 @@ public class StrafeStraightSideways extends InstantCommand {
     	
     	timer.start();
     	
-    	if (this._direction == StrafeStraightSideways.RIGHT)
+    	if (this._direction == StrafeStraightForwards.FORWARD)
     	{
     		while (this._rangedSensor.get() > this._targetDistance && DriverStation.getInstance().isAutonomous() && timer.get() < this._timeout)
     		{
-        		Robot.drivetrain.driveCartesian(this._direction * StrafeStraightSideways.DRIVE_POWER, 0, 0, 0);
+        		Robot.drivetrain.driveCartesian(0, this._direction * StrafeStraightForwards.DRIVE_POWER, 0);
     		}
     	}
-    	else if (this._direction == StrafeStraightSideways.LEFT)
+    	else if (this._direction == StrafeStraightForwards.BACKWARD)
     	{
     		while (this._rangedSensor.get() > this._targetDistance && DriverStation.getInstance().isAutonomous()  && timer.get() < this._timeout)
     		{
-        		Robot.drivetrain.driveCartesian(this._direction * StrafeStraightSideways.DRIVE_POWER, 0, 0, 0);
+        		Robot.drivetrain.driveCartesian(0, this._direction * StrafeStraightForwards.DRIVE_POWER, 0);
     		}
     	}
     	
