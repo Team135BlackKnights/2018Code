@@ -130,6 +130,14 @@ public interface RobotMap
 			public static final int SOLENOID_PORT = 6;
 
 		}
+		
+		public interface CAMERA
+		{
+
+			double CAMERA_HEIGHT = 0;
+			
+		}
+		
 	}
 	
 	public interface COMPETITION
@@ -183,6 +191,13 @@ public interface RobotMap
 			public static final int HANG_1_VICTOR_ID = 3;
 			public static final int SOLENOID_PORT = 4;
 
+		}
+
+		public interface CAMERA
+		{
+
+			double CAMERA_HEIGHT = 0;
+			
 		}
 	}
 }
