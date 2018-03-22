@@ -55,11 +55,11 @@ public class LeftPosition extends CommandGroup {
     		if (scalePosition == CLOSE)
     		{
     			//2 cube
-    			//addSequential(new SideToNearScale(false));
+    			addSequential(new SideToNearScale(false));
     		}
     		else
     		{
-    			//1 cube
+    			addSequential(new SideToAutoline(false));
     		}
     		
     	}
@@ -69,35 +69,35 @@ public class LeftPosition extends CommandGroup {
     		
     		if (switchPosition == CLOSE && scalePosition == CLOSE)
     		{
-    			//1 on switch, 1 on scale
+    			addSequential(new SideToAutoline(false));
     		}
     		else if (switchPosition == FAR && scalePosition == FAR)
     		{
     			if (SmartDashboard.getBoolean("Prefer Switch or Scale?", true))
     			{
-    				
+    				addSequential(new SideToAutoline(false));
     			}
     			else
     			{
-    				//1 cube scale
+    				addSequential(new SideToAutoline(false));
     			}
     		}
     		else if (switchPosition == CLOSE && scalePosition == FAR)
     		{
     			if (SmartDashboard.getBoolean("Prefer Switch or Scale?", true))
     			{
-    				//3 cube switch
+    				addSequential(new SideToAutoline(false));
     			}
     			else
     			{
-    				//1 cube scale
+    				addSequential(new SideToAutoline(false));
     			}
     		}
     		else if (switchPosition == FAR && scalePosition == CLOSE)
     		{
     			if (SmartDashboard.getBoolean("Prefer Switch or Scale?", true))
     			{
-    				//1 cube switch
+    				addSequential(new SideToAutoline(false));
     			}
     			else
     			{

@@ -115,10 +115,12 @@ public class Robot extends TimedRobot {
 		
 		if (m_chooser.getSelected().equals("LeftPosition"))
 		{
+			camera.setDriverMode(true);
 			m_autonomousCommand = new LeftPosition();
 		}
 		else if (m_chooser.getSelected().equals("RightPosition"))
 		{
+			camera.setDriverMode(true);
 			m_autonomousCommand = new RightPosition();
 		}
 		else if (m_chooser.getSelected().equals("MiddlePosition"))

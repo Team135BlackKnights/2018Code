@@ -52,7 +52,7 @@ public class RightPosition extends CommandGroup {
     		//Go for scale only
     		if (scalePosition == CLOSE)
     		{
-    			//addSequential(new SideToNearScale(true));
+    			addSequential(new SideToNearScale(true));
     		}
     		else
     		{

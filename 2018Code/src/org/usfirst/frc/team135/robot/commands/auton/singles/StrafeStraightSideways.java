@@ -1,6 +1,7 @@
 package org.usfirst.frc.team135.robot.commands.auton.singles;
 
 import org.usfirst.frc.team135.robot.Robot;
+import org.usfirst.frc.team135.robot.RobotMap.STRAFE_MODE;
 import org.usfirst.frc.team135.robot.util.FunctionalDoubleManager;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -23,7 +24,9 @@ public class StrafeStraightSideways extends InstantCommand {
 	
 	private int _direction = 1;
 	
-    public StrafeStraightSideways(double targetDistance, int direction, boolean facingBackwards, FunctionalDoubleManager rangedSensor, double timeout) {
+	private STRAFE_MODE _mode;
+	
+    public StrafeStraightSideways(double targetDistance, int direction, boolean facingBackwards, FunctionalDoubleManager rangedSensor, STRAFE_MODE mode, double timeout) {
         super();
         requires(Robot.drivetrain);
         
@@ -36,6 +39,8 @@ public class StrafeStraightSideways extends InstantCommand {
         {
         	this._direction *= -1;
         }
+        
+        this._mode = mode;
         
         this._timeout = timeout;
         
@@ -62,20 +67,41 @@ public class StrafeStraightSideways extends InstantCommand {
     	
     	timer.start();
     	
-    	if (this._direction == StrafeStraightSideways.RIGHT)
+    	if (this._mode == STRAFE_MODE.REDUCE)
     	{
-    		while (this._rangedSensor.get() > this._targetDistance && DriverStation.getInstance().isAutonomous() && timer.get() < this._timeout)
-    		{
-        		Robot.drivetrain.driveCartesian(this._direction * StrafeStraightSideways.DRIVE_POWER, 0, 0, 0);
-    		}
+        	if (this._direction == StrafeStraightSideways.RIGHT)
+        	{
+        		while (this._rangedSensor.get() > this._targetDistance && DriverStation.getInstance().isAutonomous() && timer.get() < this._timeout)
+        		{
+            		Robot.drivetrain.driveCartesian(this._direction * StrafeStraightSideways.DRIVE_POWER, 0, 0, 0);
+        		}
+        	}
+        	else if (this._direction == StrafeStraightSideways.LEFT)
+        	{
+        		while (this._rangedSensor.get() > this._targetDistance && DriverStation.getInstance().isAutonomous()  && timer.get() < this._timeout)
+        		{
+            		Robot.drivetrain.driveCartesian(this._direction * StrafeStraightSideways.DRIVE_POWER, 0, 0, 0);
+        		}
+        	}
     	}
-    	else if (this._direction == StrafeStraightSideways.LEFT)
+    	else
     	{
-    		while (this._rangedSensor.get() > this._targetDistance && DriverStation.getInstance().isAutonomous()  && timer.get() < this._timeout)
-    		{
-        		Robot.drivetrain.driveCartesian(this._direction * StrafeStraightSideways.DRIVE_POWER, 0, 0, 0);
-    		}
+        	if (this._direction == StrafeStraightSideways.RIGHT)
+        	{
+        		while (this._rangedSensor.get() < this._targetDistance && DriverStation.getInstance().isAutonomous() && timer.get() < this._timeout)
+        		{
+            		Robot.drivetrain.driveCartesian(this._direction * StrafeStraightSideways.DRIVE_POWER, 0, 0, 0);
+        		}
+        	}
+        	else if (this._direction == StrafeStraightSideways.LEFT)
+        	{
+        		while (this._rangedSensor.get() < this._targetDistance && DriverStation.getInstance().isAutonomous()  && timer.get() < this._timeout)
+        		{
+            		Robot.drivetrain.driveCartesian(this._direction * StrafeStraightSideways.DRIVE_POWER, 0, 0, 0);
+        		}
+        	}
     	}
+
     	
     	Robot.drivetrain.stopMotors();
     		
