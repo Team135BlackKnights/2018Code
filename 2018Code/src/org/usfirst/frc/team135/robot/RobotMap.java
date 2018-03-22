@@ -62,8 +62,8 @@ public interface RobotMap
 		public static final double // All measurements are in inches
 			AUTO_LINE = 70, 
 			WALL_SLANT_END = 10, 
-			SIDE_SCALE_X = 43.5f, 
-			SIDE_SCALE_Y = 330, 
+			SIDE_SCALE_X = 35f, 
+			SIDE_SCALE_Y = 350, 
 			SIDE_SWITCH_X = 53f,
 			SIDE_SWITCH_Y = 120, 
 			MID_SWITCH_X = 105f, 
