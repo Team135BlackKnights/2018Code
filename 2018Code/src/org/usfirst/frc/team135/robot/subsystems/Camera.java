@@ -77,7 +77,7 @@ public class Camera extends Subsystem implements RobotMap{
 	
 	public boolean isTargetVisible()
 	{
-		return this._targetVisible.getBoolean(false);
+		return (this._targetVisible.getDouble(0) == 1);
 	}
 	
 	public double getCrosshairXPosition()
@@ -138,7 +138,7 @@ public class Camera extends Subsystem implements RobotMap{
     
     public void periodic()
     {
-    	//System.out.println(this.getXOffsetDegrees());
+    	///System.out.println(this.getCrosshairXPosition());
     }
 }
 

@@ -26,7 +26,7 @@ public class DriveDiagonal extends InstantCommand {
 	public DriveDiagonal(double power, double initAngle, FunctionalDoubleManager angleSensor, boolean searching, double timeout) {
 		super();
 		this._power = power;
-		this._angle = initAngle;
+		this._angle =  initAngle + 90;
 		this._angleSensor = angleSensor;
 		this._timeout = timeout;
 
@@ -46,7 +46,7 @@ public class DriveDiagonal extends InstantCommand {
 				double x = this._power * Math.cos(this._angle * (Math.PI / 180.0));
 				double y = this._power * Math.sin(this._angle * (Math.PI / 180.0));
 
-				while ((!Robot.camera.isTargetVisible() || this._angleSensor.get() > 0 || Math.abs(Robot.camera.getCrosshairXPosition()) < .1 ) 
+				while ((!Robot.camera.isTargetVisible() || this._angleSensor.get() > 0 && Robot.ultrasonic.getLeftSonarValue() < 40) 
 						&& timer.get() < this._timeout) 
 				{
 					Robot.drivetrain.driveCartesian(x, y, 0);
