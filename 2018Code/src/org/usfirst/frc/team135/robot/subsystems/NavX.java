@@ -42,7 +42,6 @@ public class NavX extends Subsystem
 	}
 	public double getFusedAngle()
 	{
-
 		return ((ahrs.getFusedHeading() + initAngle) % 360);
 	}
 	

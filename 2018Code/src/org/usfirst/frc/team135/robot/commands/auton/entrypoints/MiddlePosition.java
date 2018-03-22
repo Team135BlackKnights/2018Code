@@ -31,15 +31,14 @@ public class MiddlePosition extends CommandGroup {
     	
     	if (SmartDashboard.getBoolean("Try to go for Switch?", true) && !SmartDashboard.getBoolean("Try to go for Scale?", false))
     	{
-    		System.out.println(Robot.navx.getFusedAngle());
     		if (switchPosition == RIGHT)
     		{
     			
-    			//addSequential(new MidToSwitch(true));
+    			addSequential(new MidToSwitch(true));
     		}
     		else if (switchPosition == LEFT)
     		{
-    			//addSequential(new MidToSwitch(false));
+    			addSequential(new MidToSwitch(false));
     		}
     		else
     		{

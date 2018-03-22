@@ -32,10 +32,10 @@ public class StrafeStraightSideways extends InstantCommand {
         
         this._direction = direction;
         
-        /*if (facingBackwards)
+        if (facingBackwards)
         {
         	this._direction *= -1;
-        }*/
+        }
         
         this._timeout = timeout;
         

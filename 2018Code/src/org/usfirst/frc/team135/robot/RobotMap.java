@@ -207,6 +207,8 @@ public interface RobotMap
 		
 			public static final double
 				CAMERA_HEIGHT = 8.625; //In inches;
+
+			public static final double INVALID_ANGLE = -50;
 			
 		}
 	}

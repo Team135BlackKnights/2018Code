@@ -40,7 +40,8 @@ public class Camera extends Subsystem implements RobotMap{
     	_targetSkew,
     	_pipelineLatency,
     	_camMode,
-    	_pipeline;
+    	_pipeline,
+    	_crosshairX;
 
 	// Put methods for controlling this subsystem
     // here. Call these from Commands.
@@ -67,20 +68,35 @@ public class Camera extends Subsystem implements RobotMap{
     	this._targetArea = this._cameraTable.getEntry("ta");
     	this._targetSkew = this._cameraTable.getEntry("ts");
     	this._pipelineLatency = this._cameraTable.getEntry("tl");
+    	this._crosshairX = this._cameraTable.getEntry("cx0");
     	
     	this.setDriverMode(false);
     	
     	cameraHeight = (Preferences.getInstance().getBoolean("Is Competition Bot?", true)) ? COMPETITION.CAMERA.CAMERA_HEIGHT : PRACTICE.CAMERA.CAMERA_HEIGHT;
 	}
 	
+	public boolean isTargetVisible()
+	{
+		return this._targetVisible.getBoolean(false);
+	}
+	
+	public double getCrosshairXPosition()
+	{
+		return this._crosshairX.getDouble(0);
+	}
 	public double getXOffsetDegrees()
 	{
-		return this._xOffsetDegrees.getDouble(0);
+		return this._xOffsetDegrees.getDouble(-50);
+	}
+	
+	public double getTargetBoundingRectArea()
+	{
+		return this._targetArea.getDouble(-1);
 	}
 	
 	public double getYOffsetDegrees()
 	{
-		return this._yOffsetDegrees.getDouble(0);
+		return this._yOffsetDegrees.getDouble(-50);
 	}
 	
 	public void setDriverMode(boolean isDriverMode)
@@ -122,7 +138,7 @@ public class Camera extends Subsystem implements RobotMap{
     
     public void periodic()
     {
-    	//System.out.println(this.getXDistance(FIELD.SWITCH_TAPE_MIDPOINT_HEIGHT));
+    	//System.out.println(this.getXOffsetDegrees());
     }
 }
 

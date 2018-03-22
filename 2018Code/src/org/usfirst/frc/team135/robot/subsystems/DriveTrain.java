@@ -172,7 +172,16 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	
 	public void ConfigureEncoderDirection()
 	{
-		rearLeftTalon.setSensorPhase(false); //true
+		if (Preferences.getInstance().getBoolean("Is Competition Bot?", true))
+		{
+			rearLeftTalon.setSensorPhase(false);
+		}
+		else
+		{
+			rearLeftTalon.setSensorPhase(true);
+		}
+		
+
 		rearRightTalon.setSensorPhase(false); 
 		frontLeftTalon.setSensorPhase(false);
 		frontRightTalon.setSensorPhase(false); //false

@@ -47,31 +47,35 @@ public class UltrasonicSensor extends Subsystem {
     	frontSonar.setAutomaticMode(true);
     	
     }
-    	public double getRightSonarValue()
-    	{
-    		double RightSonarDistance = rightSonar.getRangeInches();
-    		SmartDashboard.putNumber("Right Sonar Distance: ",RightSonarDistance);
-    		return RightSonarDistance;
-    	}
-    	public double getLeftSonarValue()
-    	{
-    		double LeftSonarDistance = leftSonar.getRangeInches();
-    		SmartDashboard.putNumber("Left Sonar Distance: ", LeftSonarDistance);
-    		return LeftSonarDistance;
-    	}
-    	public double getBackSonarValue()
-    	{
-    		double BackSonarDistance = backSonar.getRangeInches();
-    		SmartDashboard.putNumber("Back Sonar Distance: ", BackSonarDistance);
-    		return BackSonarDistance;
-    	}
-    	
-    	public double getFrontSonarValue()
-    	{
-    		double FrontSonarDistance = frontSonar.getRangeInches();
-    		SmartDashboard.putNumber("Front Sonar Distance: ", FrontSonarDistance);
-    		return FrontSonarDistance;
-    	}
+    
+    public boolean isCubeInMandibles()
+    {
+    	return (getRightSonarValue() < 7);
+    }
+
+	public double getRightSonarValue() {
+		double RightSonarDistance = rightSonar.getRangeInches();
+		SmartDashboard.putNumber("Right Sonar Distance: ", RightSonarDistance);
+		return RightSonarDistance;
+	}
+
+	public double getLeftSonarValue() {
+		double LeftSonarDistance = leftSonar.getRangeInches();
+		SmartDashboard.putNumber("Left Sonar Distance: ", LeftSonarDistance);
+		return LeftSonarDistance;
+	}
+
+	public double getBackSonarValue() {
+		double BackSonarDistance = backSonar.getRangeInches();
+		SmartDashboard.putNumber("Back Sonar Distance: ", BackSonarDistance);
+		return BackSonarDistance;
+	}
+
+	public double getFrontSonarValue() {
+		double FrontSonarDistance = frontSonar.getRangeInches();
+		SmartDashboard.putNumber("Front Sonar Distance: ", FrontSonarDistance);
+		return FrontSonarDistance;
+	}
     	
     public void initDefaultCommand() {
         
@@ -79,7 +83,7 @@ public class UltrasonicSensor extends Subsystem {
     
     public void periodic()
     {
-    	getLeftSonarValue();
+    	SmartDashboard.putBoolean("Cube In Mandibles", isCubeInMandibles());
     	//System.out.println("Sonar: " + getLeftSonarValue() + ", " + getRightSonarValue());
     }
 

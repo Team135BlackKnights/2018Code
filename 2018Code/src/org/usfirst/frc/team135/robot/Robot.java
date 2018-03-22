@@ -31,8 +31,6 @@ import org.usfirst.frc.team135.robot.subsystems.*;
  * project.
  */
 public class Robot extends TimedRobot {
-	public static final ExampleSubsystem kExampleSubsystem
-			= new ExampleSubsystem();
 	
 	public static NavX navx;
 	public static UltrasonicSensor ultrasonic;
@@ -41,12 +39,12 @@ public class Robot extends TimedRobot {
 	public static Lift lift;
 	public static Intake intake;
 	public static Hang hang;
+	public static Camera camera;
 	//public static Canifier canifier;
 	
 	public static String msg;
 	Command m_autonomousCommand;
-	Command getGameSpecificMessage;
-	Command setSmartDashboardKeys;
+
 	SendableChooser<String> m_chooser = new SendableChooser<>();
 	
 	
@@ -63,8 +61,9 @@ public class Robot extends TimedRobot {
 		intake = Intake.GetInstance();
 		lift = Lift.getInstance();
 		oi = OI.getInstance();
+		camera = Camera.getInstance();
 		
-		//CameraServer.getInstance().startAutomaticCapture();
+		CameraServer.getInstance().addServer("10.1.35.11", 5800);
 		
 		m_chooser.addDefault("Autoline", "Autoline");
 		m_chooser.addObject("Left Position", "LeftPosition");
@@ -130,6 +129,8 @@ public class Robot extends TimedRobot {
 		{
 			m_autonomousCommand = new SideToAutoline(true);
 		}
+		
+		Robot.drivetrain.ResetEncoders();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -153,6 +154,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		camera.setDriverMode(true);
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
