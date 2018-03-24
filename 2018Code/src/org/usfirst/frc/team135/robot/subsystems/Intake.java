@@ -93,7 +93,7 @@ public class Intake extends Subsystem implements RobotMap{
 	
 	public void DriveWheels(double power)
 	{
-		rightWheel.set(power);
+		rightWheel.set(-power);
 		leftWheel.set(power);
 	}	
 	public void MoveMandibles(DoubleSolenoid.Value value)

@@ -4,6 +4,7 @@ import org.usfirst.frc.team135.robot.Robot;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -26,6 +27,23 @@ public class RunLift extends Command {
     	//System.out.println("Running lift at power: " + Preferences.getInstance().getDouble("Lift Speed", 0.0));
     	
     	double joyValue = Robot.oi.GetManipY();
+    	/*
+    	if (Robot.lift.getLiftMotorCurrentDraw() > 60)
+    	{
+    		
+    		SmartDashboard.putBoolean("Lift Current Alert", false);
+    	}
+    	else
+    	{
+    		SmartDashboard.putBoolean("Lift Current Alert", true);
+    	}
+    	*/
+    	if (Robot.lift.getEncoderPosition() >= 1380)
+    	{
+    		Robot.lift.mantainPosition();
+    		return;
+    	}
+    	
     	if (joyValue > 0)
     	{
     		joyValue *= Preferences.getInstance().getDouble("Lift Up Speed", 0.0);

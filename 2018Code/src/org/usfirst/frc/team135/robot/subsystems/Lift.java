@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -32,6 +33,10 @@ public class Lift extends Subsystem implements RobotMap
 	
 	public boolean isMantaining;
 	
+	public boolean isDrawingTooMuchCurrent = false;
+	
+	public double tripPoint = 0.0;
+	PowerDistributionPanel pdp;
 
 	
 	private Lift()
@@ -63,6 +68,8 @@ public class Lift extends Subsystem implements RobotMap
 		liftMotor.config_kF(0, kF, 10);
 		//liftMotor.configMotionCruiseVelocity(100, 10);
 		//liftMotor.configMotionAcceleration(500, 10);
+		
+		pdp = new PowerDistributionPanel(0);
 		
 		
 		
@@ -171,10 +178,15 @@ public class Lift extends Subsystem implements RobotMap
 		liftMotor.set(ControlMode.Velocity, 0);
 	}
 	
+	public double getLiftMotorCurrentDraw()
+	{
+		return pdp.getCurrent(3);
+	}
+	
     public void initDefaultCommand() {
     	setDefaultCommand(new RunLift());
     }
-    
+   
     
     
     public void periodic()
@@ -185,6 +197,7 @@ public class Lift extends Subsystem implements RobotMap
     	//SmartDashboard.putNumber("Lift Velocity", getEncoderVelocity());
     	//SmartDashboard.putNumber("Lift Acceleration", getEncoderAcceleration());
     	//System.out.println(getEncoderPosition());
+    	//SmartDashboard.putNumber("Lift Current Draw", pdp.getCurrent(3));
     }
 }
 

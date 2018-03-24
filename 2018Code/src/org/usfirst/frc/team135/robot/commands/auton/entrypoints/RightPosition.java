@@ -66,41 +66,35 @@ public class RightPosition extends CommandGroup {
     		
     		if (switchPosition == CLOSE && scalePosition == CLOSE)
     		{
-    			//1 on switch, 1 on scale
+    			if (SmartDashboard.getBoolean("Prefer Switch or Scale?", true))
+    			{
+    				addSequential(new SideToNearSwitch(true));
+    			}
+    			else
+    			{
+    				addSequential(new SideToNearScale(true));
+    			}
     		}
     		else if (switchPosition == FAR && scalePosition == FAR)
     		{
     			if (SmartDashboard.getBoolean("Prefer Switch or Scale?", true))
     			{
-    				//1 cube switch
+    				addSequential(new SideToAutoline(true));
     			}
     			else
     			{
-    				//1 cube scale
+    				addSequential(new SideToAutoline(true));
     			}
     		}
     		else if (switchPosition == CLOSE && scalePosition == FAR)
     		{
-    			if (SmartDashboard.getBoolean("Prefer Switch or Scale?", true))
-    			{
-    				//3 cube switch
-    			}
-    			else
-    			{
-    				//1 cube scale
-    			}
+    			addSequential(new SideToNearSwitch(true));
     		}
     		else if (switchPosition == FAR && scalePosition == CLOSE)
     		{
-    			if (SmartDashboard.getBoolean("Prefer Switch or Scale?", true))
-    			{
-    				//1 cube switch
-    			}
-    			else
-    			{
-    				//2 cube scale
-    			}
+    			addSequential(new SideToNearScale(true));
     		}
+    		
     	}
 
     }

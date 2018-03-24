@@ -70,6 +70,14 @@ public class LeftPosition extends CommandGroup {
     		if (switchPosition == CLOSE && scalePosition == CLOSE)
     		{
     			addSequential(new SideToAutoline(false));
+    			if (SmartDashboard.getBoolean("Prefer Switch or Scale?", true))
+    			{
+    				addSequential(new SideToNearSwitch(false));
+    			}
+    			else
+    			{
+    				addSequential(new SideToNearScale(false));
+    			}
     		}
     		else if (switchPosition == FAR && scalePosition == FAR)
     		{
@@ -84,25 +92,11 @@ public class LeftPosition extends CommandGroup {
     		}
     		else if (switchPosition == CLOSE && scalePosition == FAR)
     		{
-    			if (SmartDashboard.getBoolean("Prefer Switch or Scale?", true))
-    			{
-    				addSequential(new SideToAutoline(false));
-    			}
-    			else
-    			{
-    				addSequential(new SideToAutoline(false));
-    			}
+    			addSequential(new SideToNearSwitch(false));
     		}
     		else if (switchPosition == FAR && scalePosition == CLOSE)
     		{
-    			if (SmartDashboard.getBoolean("Prefer Switch or Scale?", true))
-    			{
-    				addSequential(new SideToAutoline(false));
-    			}
-    			else
-    			{
-    				addSequential(new SideToNearScale(false));
-    			}
+    			addSequential(new SideToNearScale(false));		
     		}
     	}
 

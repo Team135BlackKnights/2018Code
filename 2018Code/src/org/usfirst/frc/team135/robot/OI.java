@@ -37,6 +37,7 @@ public class OI implements RobotMap
 		MANDIBLES_WHEELS_IN,
 		MANDIBLES_WHEELS_OUT,
 		DRIVE_HANG,
+		DRIVE_HANG_BACK,
 		TOGGLE_COMPRESSOR,
 		TOGGLE_HANG,
 		THROW_CUBE_FORWARD,
@@ -85,6 +86,8 @@ public class OI implements RobotMap
 		TOGGLE_HANG = new JoystickButton(RIGHT, 6);
 		
 		RESET_NAVX = new JoystickButton(LEFT, 12);
+		
+		DRIVE_HANG_BACK = new JoystickButton(RIGHT, 2);
 		AssignButtons();
 	}
 	
@@ -170,6 +173,8 @@ public class OI implements RobotMap
 		MANDIBLES_WHEELS_OUT.whileHeld(new DriveMandibleWheels(false));
 	
 		DRIVE_HANG.whileHeld(new RunHang());
+		
+		DRIVE_HANG_BACK.whileHeld(new DriveHangTestBack());
 		
 		TOGGLE_HANG.whenPressed(new ToggleHang());
 		
