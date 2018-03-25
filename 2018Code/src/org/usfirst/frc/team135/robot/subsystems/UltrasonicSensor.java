@@ -86,6 +86,8 @@ public class UltrasonicSensor extends Subsystem {
     	SmartDashboard.putBoolean("Cube In Mandibles", isCubeInMandibles());
     	//System.out.println("Sonar: " + getLeftSonarValue() + ", " + getRightSonarValue());
     	getLeftSonarValue();
+    	getBackSonarValue();
+    	getFrontSonarValue();
     }
 
 }

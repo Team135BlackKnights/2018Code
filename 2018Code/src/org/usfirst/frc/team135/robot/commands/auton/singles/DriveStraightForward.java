@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
  */
 public class DriveStraightForward extends InstantCommand implements RobotMap{
 	private static final int FORWARD = 1, BACKWARD = -1;
-	private static final double DRIVE_POWER = .7;
+	private static final double DRIVE_POWER = .6;
 	
 	private FunctionalDoubleManager _rangedSensor, _encoder;
 	private Mode _driveMode;

@@ -30,7 +30,7 @@ public class MidToSwitch extends CommandGroup implements RobotMap{
        	
     	if(switchIsRight)
     	{
-    		addSequential(new DriveDiagonal(.7, -5, () -> Robot.camera.getXOffsetDegrees() + 90.0, false, 5));
+    		addSequential(new DriveDiagonal(.7, 5, () -> Robot.camera.getXOffsetDegrees() + 90.0, false, 5));
     		//addSequential(new DriveAlongProfile(PROFILING.MID_TO_RIGHT_SWITCH, MidToSwitch.TIMEOUT));
     		//addSequential(new DriveStraightForward(FIELD.MID_SWITCH_X * .1 * -1, false, 5));
     	}

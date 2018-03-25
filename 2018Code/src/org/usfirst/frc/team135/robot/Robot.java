@@ -10,6 +10,7 @@ package org.usfirst.frc.team135.robot;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -32,6 +33,7 @@ import org.usfirst.frc.team135.robot.subsystems.*;
  */
 public class Robot extends TimedRobot {
 	
+	public static PDP pdp;
 	public static NavX navx;
 	public static UltrasonicSensor ultrasonic;
 	public static OI oi;
@@ -53,6 +55,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		//Order does matter.
 		
+		//pdp = PDP.getInstance();
 		navx = NavX.getInstance();
 		//canifier = Canifier.getInstance();
 		ultrasonic = UltrasonicSensor.getInstance();
@@ -63,7 +66,7 @@ public class Robot extends TimedRobot {
 		oi = OI.getInstance();
 		camera = Camera.getInstance();
 		
-		CameraServer.getInstance().addServer("10.1.35.11", 5800);
+		//CameraServer.getInstance().addServer("10.1.35.11", 5800);
 		
 		m_chooser.addDefault("Autoline", "Autoline");
 		m_chooser.addObject("Left Position", "LeftPosition");
@@ -94,6 +97,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		//Robot.navx.reset();
 	}
 
 	/**
@@ -111,7 +115,11 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		
 		Robot.msg = DriverStation.getInstance().getGameSpecificMessage();
+		
 		Robot.navx.reset();
+		Timer.delay(.01);
+		Robot.drivetrain.ResetEncoders();
+		Timer.delay(.01);
 		
 		if (m_chooser.getSelected().equals("LeftPosition"))
 		{
@@ -132,7 +140,6 @@ public class Robot extends TimedRobot {
 			m_autonomousCommand = new SideToAutoline(true);
 		}
 		
-		Robot.drivetrain.ResetEncoders();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand

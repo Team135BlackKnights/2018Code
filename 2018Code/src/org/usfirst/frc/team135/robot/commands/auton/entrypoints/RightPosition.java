@@ -56,7 +56,7 @@ public class RightPosition extends CommandGroup {
     		}
     		else
     		{
-    			//1 cube
+    			addSequential(new SideToAutoline(true));
     		}
     		
     	}

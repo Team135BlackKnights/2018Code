@@ -63,8 +63,8 @@ public interface RobotMap
 			AUTO_LINE = 70, 
 			WALL_SLANT_END = 10, 
 			SIDE_SCALE_X = 37.5f, 
-			SIDE_SCALE_Y = 350 - 36, 
-			SIDE_SWITCH_X = 53f,
+			SIDE_SCALE_Y = 326 - 48, 
+			SIDE_SWITCH_X = 51f,
 			SIDE_SWITCH_Y = 120, 
 			MID_SWITCH_X = 105f, 
 			MID_SWITCH_Y = 160,
@@ -169,7 +169,7 @@ public interface RobotMap
 
 		public interface DRIVETRAIN {
 			public static final double 
-				MAX_VELOCITY_TICKS_PER_100MS = 225,
+				MAX_VELOCITY_TICKS_PER_100MS = 285,
 				MAX_VELOCITY_TICKS = MAX_VELOCITY_TICKS_PER_100MS * 10, //Per second
 				MAX_ACCELERATION_TICKS_PER_100MS = 1090,
 				MAX_ACCELERATION_TICKS = MAX_ACCELERATION_TICKS_PER_100MS  * 10,

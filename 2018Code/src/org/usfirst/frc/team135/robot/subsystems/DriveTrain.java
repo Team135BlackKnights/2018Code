@@ -455,7 +455,10 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	
 	public void periodic()
 	{
-		//System.out.println(getEncoderCounts(frontLeftTalon));
+		SmartDashboard.putNumber("Front Left Displacement", (getEncoderCounts(frontLeftTalon)));
+		SmartDashboard.putNumber("Front Right Displacement", (getEncoderCounts(frontRightTalon)));
+		SmartDashboard.putNumber("Rear Left Talon Displacement", (getEncoderCounts(rearLeftTalon)));
+		SmartDashboard.putNumber("Rear Right Displacement", (getEncoderCounts(rearRightTalon)));
 	}
 		
     public void initDefaultCommand() 

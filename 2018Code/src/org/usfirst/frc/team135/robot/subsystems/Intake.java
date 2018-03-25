@@ -80,6 +80,17 @@ public class Intake extends Subsystem implements RobotMap{
 		retraction.set(DoubleSolenoid.Value.kOff);
 	}
 	
+	public void setCompressorOff()
+	{
+		compressor.setClosedLoopControl(false);
+		compressor.stop();
+	}
+	
+	public void setCompressorOn()
+	{
+		compressor.setClosedLoopControl(true);
+	}
+	
 	public void ToggleCompressor()
 	{
 		compressorState = !compressorState;

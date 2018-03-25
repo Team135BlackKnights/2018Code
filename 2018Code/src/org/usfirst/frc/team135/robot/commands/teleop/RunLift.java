@@ -38,22 +38,25 @@ public class RunLift extends Command {
     		SmartDashboard.putBoolean("Lift Current Alert", true);
     	}
     	*/
-    	if (Robot.lift.getEncoderPosition() >= 1380)
+    	if (Robot.lift.getEncoderPosition() >= 1500)
     	{
+    		Robot.intake.setCompressorOn();
     		Robot.lift.mantainPosition();
     		return;
-    	}
-    	
+    	}	
     	if (joyValue > 0)
     	{
+    		Robot.intake.setCompressorOff();		
     		joyValue *= Preferences.getInstance().getDouble("Lift Up Speed", 0.0);
     	}
     	else if (joyValue < 0)
     	{
+    		Robot.intake.setCompressorOn();
     		joyValue *= -Preferences.getInstance().getDouble("Lift Down Speed", 0.0);
     	}
     	else if (joyValue == 0)
     	{
+    		Robot.intake.setCompressorOn();
     		Robot.lift.mantainPosition();
     		return;
     	}
