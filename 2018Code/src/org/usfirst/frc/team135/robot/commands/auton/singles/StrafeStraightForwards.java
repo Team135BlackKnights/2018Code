@@ -17,7 +17,7 @@ public class StrafeStraightForwards extends InstantCommand {
 	
 	private static final int FORWARD = 1, BACKWARD = -1;
 	
-	private static final double DRIVE_POWER = .6;
+	private static final double DRIVE_POWER = .5;
 	
 	private double _timeout;
 	

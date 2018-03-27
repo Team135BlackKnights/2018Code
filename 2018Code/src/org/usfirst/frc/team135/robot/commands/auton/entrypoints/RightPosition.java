@@ -101,6 +101,11 @@ public class RightPosition extends CommandGroup {
     
     private int getSwitchPosition(String msg)
     {
+    	if (msg.isEmpty() || msg.equals(null))
+    	{
+    		return INVALID;
+    	}
+    	
     	if (msg.toUpperCase().charAt(0) == 'R') //Switch is straight up from us
     	{
     		return CLOSE;
@@ -118,6 +123,12 @@ public class RightPosition extends CommandGroup {
     
     private int getScalePosition(String msg)
     {
+    	if (msg.isEmpty() || msg.equals(null))
+    	{
+    		return INVALID;
+    	}
+    	
+    	
     	if (msg.toUpperCase().charAt(1)  == 'R') //Switch is straight up from us
     	{
     		return CLOSE;

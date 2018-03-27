@@ -107,7 +107,6 @@ public class DriveStraightForward extends InstantCommand implements RobotMap{
     		if (direction == DriveStraightForward.FORWARD)
     		{
 				while (this._rangedSensor.get() < this._targetDisplacement && timer.get() < this._timeout && DriverStation.getInstance().isAutonomous()) {
-
 					Robot.drivetrain.driveTank(DriveStraightForward.DRIVE_POWER * direction, DriveStraightForward.DRIVE_POWER * direction);
 
 				}
@@ -121,6 +120,7 @@ public class DriveStraightForward extends InstantCommand implements RobotMap{
 				}
     		}
     	   
+    		
     	}
     	else if (this._driveMode == Mode.ENCODER)
     	{
@@ -129,17 +129,15 @@ public class DriveStraightForward extends InstantCommand implements RobotMap{
     			System.out.println("Encoder got: " + this._encoder.get());
         	    while(this._encoder.get() < this._targetDisplacement && timer.get() < this._timeout && DriverStation.getInstance().isAutonomous()) {
         	    	Robot.drivetrain.driveTank(DriveStraightForward.DRIVE_POWER * direction, DriveStraightForward.DRIVE_POWER * direction);
-        	    	
+        	    	                                                                                                                                                                                                         
         	    }
     		}
     		else if (direction == DriveStraightForward.BACKWARD)
-    		{
-
+    		{	
         	    while(this._encoder.get() > this._targetDisplacement && timer.get() < this._timeout && DriverStation.getInstance().isAutonomous()) {	
         			System.out.println("Encoder got: " + this._encoder.get());
         			System.out.println("Target Displacement: " + this._targetDisplacement);
-        	    	Robot.drivetrain.driveTank(DriveStraightForward.DRIVE_POWER * direction, DriveStraightForward.DRIVE_POWER * direction);
-        	    	
+        	    	Robot.drivetrain.driveTank(DriveStraightForward.DRIVE_POWER * direction, DriveStraightForward.DRIVE_POWER * direction);        	    	
         	    }
     		}
 

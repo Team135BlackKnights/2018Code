@@ -154,6 +154,11 @@ public class LeftPosition extends CommandGroup {
     
     private int getSwitchPosition(String msg)
     {
+    	if (msg.isEmpty() || msg.equals(null))
+    	{
+    		return INVALID;
+    	}
+    	
     	if (msg.toUpperCase().charAt(0)  == 'L') //Switch is straight up from us
     	{
     		return CLOSE;
@@ -161,7 +166,7 @@ public class LeftPosition extends CommandGroup {
     	else if (msg.toUpperCase().charAt(0)  == 'R') //Switch is far away from us
     	{
     		return FAR;
-    	}
+    	}                                                          
     	else
     	{
     		System.out.println("Unable to get a valid game specific message. Only running autoline.");
@@ -171,6 +176,12 @@ public class LeftPosition extends CommandGroup {
     
     private int getScalePosition(String msg)
     {
+    	if (msg.isEmpty() || msg.equals(null))
+    	{
+    		return INVALID;
+    	}
+    	
+    	
     	if (msg.toUpperCase().charAt(1) == 'L') //Switch is straight up from us
     	{
     		return CLOSE;

@@ -38,7 +38,7 @@ public class RunLift extends Command {
     		SmartDashboard.putBoolean("Lift Current Alert", true);
     	}
     	*/
-    	if (Robot.lift.getEncoderPosition() >= 1500)
+    	if (Robot.lift.getEncoderPosition() >= 1520)
     	{
     		Robot.intake.setCompressorOn();
     		Robot.lift.mantainPosition();

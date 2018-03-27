@@ -5,6 +5,7 @@ import org.usfirst.frc.team135.robot.RobotMap;
 import org.usfirst.frc.team135.robot.RobotMap.*;
 import org.usfirst.frc.team135.robot.commands.auton.singles.DriveMandiblesWheelsTimed;
 import org.usfirst.frc.team135.robot.commands.auton.singles.DriveStraightForward;
+import org.usfirst.frc.team135.robot.commands.auton.singles.DriveStraightYWithSonar;
 import org.usfirst.frc.team135.robot.commands.auton.singles.SetLiftPosition;
 import org.usfirst.frc.team135.robot.commands.auton.singles.StrafeStraightSideways;
 import org.usfirst.frc.team135.robot.commands.teleop.DriveMandibleWheels;
@@ -26,14 +27,13 @@ public class SideToNearScale extends CommandGroup implements RobotMap {
     	double drive_mandible_wheels_timeout = 1;
     	
     	
-    	addSequential(new DriveStraightForward(encoder_direction * (FIELD.SIDE_SCALE_Y - 60), isRight, 4));
-    	addSequential(new ExtendMandibles());
-    	addSequential(new SetLiftPosition(COMPETITION.LIFT.SCALE_POSITION));
-    	addSequential(new RetractMandibles());
-    	addSequential(new DriveStraightForward(encoder_direction * (FIELD.SIDE_SCALE_Y), isRight, 4));
-    	addSequential(new StrafeStraightSideways(FIELD.SIDE_SCALE_X,
-       											strafe_direction, !isRight, () -> Robot.ultrasonic.getLeftSonarValue(), STRAFE_MODE.GAIN, 1.0));
-    	addSequential(new DriveMandiblesWheelsTimed(drive_mandible_wheels_timeout, -1));
+    	addSequential(new DriveStraightYWithSonar(() -> Robot.ultrasonic.getLeftSonarValue(), 28, FIELD.SIDE_SCALE_STOP_POINT, 5));
+    	//addSequential(new ExtendMandibles());
+    	//addSequential(new SetLiftPosition(COMPETITION.LIFT.SCALE_POSITION));
+    	addSequential(new DriveStraightYWithSonar(() -> Robot.ultrasonic.getLeftSonarValue(), 28, FIELD.SIDE_SCALE_Y, 5));
+    	//addSequential(new StrafeStraightSideways(FIELD.SIDE_SCALE_X,
+       	//										strafe_direction, !isRight, () -> Robot.ultrasonic.getLeftSonarValue(), STRAFE_MODE.GAIN, 1.0));
+    	//addSequential(new DriveMandiblesWheelsTimed(drive_mandible_wheels_timeout, -1));
 
     }
 }

@@ -33,7 +33,7 @@ import org.usfirst.frc.team135.robot.subsystems.*;
  */
 public class Robot extends TimedRobot {
 	
-	public static PDP pdp;
+	//public static PDP pdp;
 	public static NavX navx;
 	public static UltrasonicSensor ultrasonic;
 	public static OI oi;
@@ -72,7 +72,7 @@ public class Robot extends TimedRobot {
 		m_chooser.addObject("Left Position", "LeftPosition");
 		m_chooser.addObject("Middle Position", "MiddlePosition");
 		m_chooser.addObject("Right Position", "RightPosition");
-		SmartDashboard.putData("Auto Mode", m_chooser);
+		SmartDashboard.putData("Auto mode", m_chooser);
 		
 		
 		SmartDashboard.setPersistent("Try to go for Scale?");
@@ -99,36 +99,20 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 		//Robot.navx.reset();
 	}
-
-	/**
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString code to get the auto name from the text box below the Gyro
-	 *
-	 * <p>You can add additional auto modes by adding additional commands to the
-	 * chooser code above (like the commented example) or additional comparisons
-	 * to the switch structure below with additional strings & commands.
-	 */
+	
 	@Override
 	public void autonomousInit() {
-		
-		Robot.msg = DriverStation.getInstance().getGameSpecificMessage();
+		Robot.camera.setDriverMode(true);
 		
 		Robot.navx.reset();
-		Timer.delay(.01);
-		Robot.drivetrain.ResetEncoders();
-		Timer.delay(.01);
+		Robot.msg = DriverStation.getInstance().getGameSpecificMessage();
 		
 		if (m_chooser.getSelected().equals("LeftPosition"))
 		{
-			camera.setDriverMode(true);
 			m_autonomousCommand = new LeftPosition();
 		}
 		else if (m_chooser.getSelected().equals("RightPosition"))
 		{
-			camera.setDriverMode(true);
 			m_autonomousCommand = new RightPosition();
 		}
 		else if (m_chooser.getSelected().equals("MiddlePosition"))

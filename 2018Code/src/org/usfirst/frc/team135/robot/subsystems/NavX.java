@@ -36,9 +36,21 @@ public class NavX extends Subsystem
 		return instance;
 	}
 	
+	public static NavX getNewInstance()
+	{
+		instance = new NavX();
+		return instance;
+	}
+	
 	public void reset()
 	{
 		ahrs.reset();
+		initAngle = -getFusedAngle();
+	}
+
+	public double getRate()
+	{
+		return ahrs.getRate();
 	}
 	public double getFusedAngle()
 	{

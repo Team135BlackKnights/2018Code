@@ -126,17 +126,18 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		//Configure orientation helper.
 		if (Preferences.getInstance().getBoolean("Is Competition Bot?", true))
 		{
-			orientationHelper = new PIDController(.01, 0, .1, navx, buffer);
+			orientationHelper = new PIDController(.01, 0, .001, navx, buffer);
 		}
 		else
 		{
-			orientationHelper = new PIDController(.01, 0, .1, navx, buffer);
+			orientationHelper = new PIDController(.01, 0, .001, navx, buffer);
 		}
 		
 		orientationHelper.setInputRange(0, 360);
 		orientationHelper.setOutputRange(-.2, .2);
 		orientationHelper.setAbsoluteTolerance(.2);
 		orientationHelper.setContinuous();
+		orientationHelper.setSetpoint(0);
 		
 		//Get PIDF constants.
 		InitializeDriveTrain();
@@ -340,10 +341,11 @@ public class DriveTrain extends Subsystem implements RobotMap{
 			
 			if (Math.abs(rotationalRate) == 0 && !orientationHelper.isEnabled() && (x != 0 || y != 0)) {
 				// PID controller will bias motors accordingly
+				orientationHelper.setSetpoint(Robot.navx.getFusedAngle());
 				orientationHelper.enable();
-				orientationHelper.setSetpoint(Robot.navx.getFusedAngle()); // See about using a navx in the future
 			} 
 			else if ((Math.abs(rotationalRate) != 0  || (x == 0 && y == 0)) && orientationHelper.isEnabled()) {
+				orientationHelper.setSetpoint(Robot.navx.getFusedAngle());
 				orientationHelper.disable();
 			}
 			
@@ -455,10 +457,10 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	
 	public void periodic()
 	{
-		SmartDashboard.putNumber("Front Left Displacement", (getEncoderCounts(frontLeftTalon)));
-		SmartDashboard.putNumber("Front Right Displacement", (getEncoderCounts(frontRightTalon)));
-		SmartDashboard.putNumber("Rear Left Talon Displacement", (getEncoderCounts(rearLeftTalon)));
-		SmartDashboard.putNumber("Rear Right Displacement", (getEncoderCounts(rearRightTalon)));
+		//SmartDashboard.putNumber("Front Left Displacement", (getEncoderCounts(frontLeftTalon)));
+		//SmartDashboard.putNumber("Front Right Displacement", (getEncoderCounts(frontRightTalon)));
+		//SmartDashboard.putNumber("Rear Left Talon Displacement", (getEncoderCounts(rearLeftTalon)));
+		//SmartDashboard.putNumber("Rear Right Displacement", (getEncoderCounts(rearRightTalon)));
 	}
 		
     public void initDefaultCommand() 

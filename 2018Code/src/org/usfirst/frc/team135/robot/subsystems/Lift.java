@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Preferences;
@@ -69,7 +70,7 @@ public class Lift extends Subsystem implements RobotMap
 		//liftMotor.configMotionCruiseVelocity(100, 10);
 		//liftMotor.configMotionAcceleration(500, 10);
 		
-		pdp = new PowerDistributionPanel(0);
+		//pdp = new PowerDistributionPanel(0);
 		
 		
 		
@@ -153,7 +154,7 @@ public class Lift extends Subsystem implements RobotMap
 		
 		if (direction == 1)
 		{
-			while(getEncoderPosition() < position && timer.get() < 3)
+			while(getEncoderPosition() < position && DriverStation.getInstance().isAutonomous() && timer.get() < 6)
 			{
 				set(1 * direction);
 			}
@@ -197,7 +198,7 @@ public class Lift extends Subsystem implements RobotMap
     	//SmartDashboard.putNumber("Lift Velocity", getEncoderVelocity());
     	//SmartDashboard.putNumber("Lift Acceleration", getEncoderAcceleration());
     	//System.out.println(getEncoderPosition());
-    	SmartDashboard.putNumber("Lift Current Draw", pdp.getCurrent(3));
+    	//SmartDashboard.putNumber("Lift Current Draw", pdp.getCurrent(3));
     }
 }
 
