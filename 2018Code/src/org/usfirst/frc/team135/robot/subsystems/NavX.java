@@ -44,6 +44,11 @@ public class NavX extends Subsystem
 	{
 		return ((ahrs.getFusedHeading() + initAngle) % 360);
 	}
+	public double getYawBasedAngle()
+	{
+		return ahrs.getYaw();
+		
+	}
 	
 	public void periodic()
 	{

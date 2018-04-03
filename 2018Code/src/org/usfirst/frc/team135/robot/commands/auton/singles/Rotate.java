@@ -33,9 +33,9 @@ public class Rotate extends Command {
     	
     	
     	initAngleController();
+    	
 
     }
-    
     
     private void initAngleController()
     {

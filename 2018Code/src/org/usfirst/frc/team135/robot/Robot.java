@@ -20,6 +20,7 @@ import org.usfirst.frc.team135.robot.commands.auton.entrypoints.LeftPosition;
 import org.usfirst.frc.team135.robot.commands.auton.entrypoints.MiddlePosition;
 import org.usfirst.frc.team135.robot.commands.auton.entrypoints.RightPosition;
 import org.usfirst.frc.team135.robot.commands.auton.groups.SideToAutoline;
+import org.usfirst.frc.team135.robot.commands.auton.groups.SideToFarScale;
 import org.usfirst.frc.team135.robot.commands.teleop.*;
 import org.usfirst.frc.team135.robot.subsystems.*;
 
@@ -69,6 +70,7 @@ public class Robot extends TimedRobot {
 		m_chooser.addObject("Left Position", "LeftPosition");
 		m_chooser.addObject("Middle Position", "MiddlePosition");
 		m_chooser.addObject("Right Position", "RightPosition");
+		m_chooser.addObject("Current Test", "Current Test");
 		SmartDashboard.putData("Auto Mode", m_chooser);
 		
 		
@@ -109,7 +111,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		
+		/*
+		  
 		Robot.msg = DriverStation.getInstance().getGameSpecificMessage();
 		Robot.navx.reset();
 		
@@ -129,6 +132,8 @@ public class Robot extends TimedRobot {
 		{
 			m_autonomousCommand = new SideToAutoline(true);
 		}
+		*/
+		m_autonomousCommand = new SideToFarScale(true);
 		
 		Robot.drivetrain.ResetEncoders();
 		/*

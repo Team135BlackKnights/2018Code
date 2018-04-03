@@ -2,6 +2,7 @@ package org.usfirst.frc.team135.robot.commands.auton.groups;
 
 import org.usfirst.frc.team135.robot.Robot;
 import org.usfirst.frc.team135.robot.RobotMap;
+import org.usfirst.frc.team135.robot.commands.auton.singles.DriveAlongProfile;
 import org.usfirst.frc.team135.robot.commands.auton.singles.DriveStraightForward;
 import org.usfirst.frc.team135.robot.commands.auton.singles.SetLiftPosition;
 import org.usfirst.frc.team135.robot.commands.auton.singles.StrafeStraightSideways;
@@ -15,10 +16,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class SideToNearSwitch extends CommandGroup implements RobotMap {	
 	
-	private static final double DISTANCE_FROM_SWITCH_WALL = 4;
+	//private static final double DISTANCE_FROM_SWITCH_WALL = 4;
     public SideToNearSwitch(boolean isRight) 
     {
-    	int strafe_direction = isRight ?  DIRECTION.LEFT : DIRECTION.RIGHT;
+    	/*int strafe_direction = isRight ?  DIRECTION.LEFT : DIRECTION.RIGHT;
     	int encoder_direction = isRight ? DIRECTION.BACKWARD : DIRECTION.FORWARD;
     	   	
     	addSequential(new DriveStraightForward(encoder_direction * FIELD.SIDE_SWITCH_Y, isRight, 3));
@@ -26,6 +27,18 @@ public class SideToNearSwitch extends CommandGroup implements RobotMap {
        	addSequential(new SetLiftPosition(COMPETITION.LIFT.SWITCH_POSITION));
        	addSequential(new StrafeStraightSideways(SideToNearSwitch.DISTANCE_FROM_SWITCH_WALL,
        											strafe_direction, !isRight, () -> Robot.ultrasonic.getRightSonarValue(), 1.5));
-       	addSequential(new GrabMandibles());
+       	addSequential(new GrabMandibles()); */
+    	addSequential(new ExtendMandibles());
+    	addSequential(new SetLiftPosition(COMPETITION.LIFT.SWITCH_POSITION));
+    	
+    	if (isRight)
+    	{
+    		addSequential(new DriveAlongProfile(PROFILING.RightSideNearSwitch, 2));
+    	}
+    	else 
+    	{
+        	addSequential(new DriveAlongProfile(PROFILING.LeftSideNearSwitch, 2));
+    	}
+    	addSequential(new GrabMandibles());
     }
 }

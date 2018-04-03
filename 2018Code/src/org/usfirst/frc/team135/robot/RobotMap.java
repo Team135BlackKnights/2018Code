@@ -12,7 +12,7 @@ public interface RobotMap
 	}
 	public interface PROFILING
 	{
-		public static final Waypoint[] 
+		/*public static final Waypoint[] 
 				
 				MID_TO_RIGHT_SWITCH =
 				{
@@ -36,16 +36,29 @@ public interface RobotMap
 					new Waypoint(-15.511 * CONVERSIONS.INCHES2METERS, 106.938 * CONVERSIONS.INCHES2METERS, 5.85),
 					new Waypoint(-25.547 * CONVERSIONS.INCHES2METERS, 117.430 * CONVERSIONS.INCHES2METERS, 5.05),
 					new Waypoint(-42.938 * CONVERSIONS.INCHES2METERS, 120.188 * CONVERSIONS.INCHES2METERS, 3.14),
-				};
+				};*/
+		public static final String 
+		LeftSideFarScale = "Left Side Far Scale",
+		LeftSideNearScale = "Left Side Near Scale",
+		LeftSideNearSwitch = "Left Side Near Switch",
+		RightSideFarScale = "Right Side Far Scale",
+		RightSideNearScale = "Right Side Near Scale",
+		RightSideNearSwitch = "Right Side Near Switch";
+		
+			
 	}
-	
+	;
 	public interface CONVERSIONS
 	{
 		public static final double
 			INCHES2METERS = 0.0254, //meters/inch
 			TICKS2INCHES = 0.0704, //inches/tick
+			INCHES2FEET = 1 / 12,
+			FEET2INCHES = 1 / INCHES2FEET,
 			INCHES2TICKS = 1 / TICKS2INCHES, //ticks/inch
 			TICKS2METERS = TICKS2INCHES * INCHES2METERS,		//rev/inches * inches/tick = REV/TICK
+			TICKS2FEET = TICKS2INCHES / 12,
+			FEET2TICKS = 1 / TICKS2FEET,
 			TICKS2REVS = (1 / (COMPETITION.DRIVETRAIN.WHEEL_DIAMETER * Math.PI)) * TICKS2INCHES,
 			REVS2TICKS = 1 / TICKS2REVS,
 			TICKS2RADIANS = TICKS2REVS * (2 * Math.PI), //Revs/tick * radians/rev = radians/tick
@@ -65,7 +78,8 @@ public interface RobotMap
 			MID_SWITCH_Y = 160,
 			FAR_SCALE_X = 189f,
 			FAR_SCALE_Y = 17.5,
-			FAR_SWITCH_X = 160;
+			FAR_SWITCH_X = 160,
+			FAR_SCALE_DISTANCE = 222;
 	}
 	
 	public interface DIRECTION {

@@ -3,6 +3,7 @@ package org.usfirst.frc.team135.robot.commands.auton.groups;
 import org.usfirst.frc.team135.robot.Robot;
 import org.usfirst.frc.team135.robot.RobotMap;
 import org.usfirst.frc.team135.robot.RobotMap.*;
+import org.usfirst.frc.team135.robot.commands.auton.singles.DriveAlongProfile;
 import org.usfirst.frc.team135.robot.commands.auton.singles.DriveStraightForward;
 import org.usfirst.frc.team135.robot.commands.auton.singles.SetLiftPosition;
 import org.usfirst.frc.team135.robot.commands.auton.singles.StrafeStraightSideways;
@@ -20,7 +21,7 @@ public class SideToNearScale extends CommandGroup implements RobotMap {
  
 	private static final boolean _BACKWARD = false;
     public SideToNearScale(boolean isRight) {
-    	int strafe_direction = isRight ?  DIRECTION.LEFT : DIRECTION.RIGHT;
+  /*  	int strafe_direction = isRight ?  DIRECTION.LEFT : DIRECTION.RIGHT;
     	int encoder_direction = isRight ? DIRECTION.BACKWARD : DIRECTION.FORWARD;  	
     	
     	addSequential(new ExtendMandibles());
@@ -29,6 +30,18 @@ public class SideToNearScale extends CommandGroup implements RobotMap {
     	addSequential(new RetractMandibles());
     	//addSequential(new DriveStraightForward(encoder_direction * (FIELD.SCALE_Y), isRight, 4));
     	addSequential(new DriveMandibleWheels(SideToNearScale._BACKWARD));
-
+		*/
+	if (isRight)
+	{
+		addSequential(new DriveAlongProfile(PROFILING.RightSideNearScale, 4));
+		
+	}
+	else
+	{
+		addSequential(new DriveAlongProfile(PROFILING.LeftSideNearScale, 4));
+	}
+		addSequential(new ExtendMandibles());
+		addSequential(new SetLiftPosition(COMPETITION.LIFT.SCALE_POSITION));
+		add
     }
 }

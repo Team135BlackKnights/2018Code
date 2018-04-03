@@ -52,7 +52,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	private static final int ENCODER_TICK_COUNT = 256;
 	private static final int ENCODER_QUAD_COUNT = (ENCODER_TICK_COUNT * 4);
 	
-	private static final double MOTOR_SETPOINT_PER_100MS = DRIVETRAIN.MAX_VELOCITY_TICKS_PER_100MS; //NU/100 ms MAX SPEED for slowest motor
+	private static final double MOTOR_SETPOINT_PER_100MS = 289; //NU/100 ms MAX SPEED for slowest motor
 	
 	private MotorSafetyHelper m_safetyHelper = new MotorSafetyHelper(chassis); //watchdog
 	
@@ -61,25 +61,25 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	
 	private PIDOut buffer; //Stores the orientation helper's motor bias
 	
-	private double RearRightkP;  //PID constants for each of the drive talons
-	private double RearRightkI;
-	private double RearRightkD;
-	private double RearRightkF;
+	public double RearRightkP;  //PID constants for each of the drive talons
+	public double RearRightkI;
+	public double RearRightkD;
+	public double RearRightkF;
 
-	private double RearLeftkP; 
-	private double RearLeftkI;
-	private double RearLeftkD;
-	private double RearLeftkF;
+	public double RearLeftkP; 
+	public double RearLeftkI;
+	public double RearLeftkD;
+	public double RearLeftkF;
 	
-	private double FrontRightkP; 
-	private double FrontRightkI;
-	private double FrontRightkD;
-	private double FrontRightkF;
+	public double FrontRightkP; 
+	public double FrontRightkI;
+	public double FrontRightkD;
+	public double FrontRightkF;
 	
-	private double FrontLeftkP; 
-	private double FrontLeftkI;
-	private double FrontLeftkD;
-	private double FrontLeftkF;
+	public double FrontLeftkP; 
+	public double FrontLeftkI;
+	public double FrontLeftkD;
+	public double FrontLeftkF;
 	
 	public int
 	FR_ID = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.DRIVETRAIN.FRONT_RIGHT_TALON_ID : PRACTICE.DRIVETRAIN.FRONT_RIGHT_TALON_ID),
