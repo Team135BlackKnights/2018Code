@@ -34,8 +34,7 @@ public class SideToNearScale extends CommandGroup implements RobotMap {
 		*/
 	if (isRight)
 	{
-		addSequential(new DriveAlongProfile(PROFILING.RightSideNearScale, 4));
-		
+		addSequential(new DriveAlongProfile(PROFILING.RightSideNearScale, 4));	
 	}
 	else
 	{
@@ -43,6 +42,6 @@ public class SideToNearScale extends CommandGroup implements RobotMap {
 	}
 		addSequential(new ExtendMandibles());
 		addSequential(new SetLiftPosition(COMPETITION.LIFT.SCALE_POSITION));
-		addSequential(new DriveMandibleWheelsTimed(1, 1));
+		addSequential(new DriveMandibleWheelsTimed(-1, 1));
     }
 }
