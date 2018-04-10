@@ -36,7 +36,7 @@ public class Lift extends Subsystem implements RobotMap
 	public boolean isDrawingTooMuchCurrent = false;
 	
 	public double tripPoint = 0.0;
-	PowerDistributionPanel pdp;
+	//PowerDistributionPanel pdp;
 
 	
 	private Lift()
@@ -69,7 +69,7 @@ public class Lift extends Subsystem implements RobotMap
 		//liftMotor.configMotionCruiseVelocity(100, 10);
 		//liftMotor.configMotionAcceleration(500, 10);
 		
-		pdp = new PowerDistributionPanel(0);
+		//pdp = new PowerDistributionPanel(0);
 		
 		
 		
@@ -178,10 +178,10 @@ public class Lift extends Subsystem implements RobotMap
 		liftMotor.set(ControlMode.Velocity, 0);
 	}
 	
-	public double getLiftMotorCurrentDraw()
+	/*public double getLiftMotorCurrentDraw()
 	{
 		return pdp.getCurrent(3);
-	}
+	}*/
 	
     public void initDefaultCommand() {
     	setDefaultCommand(new RunLift());
@@ -197,7 +197,7 @@ public class Lift extends Subsystem implements RobotMap
     	//SmartDashboard.putNumber("Lift Velocity", getEncoderVelocity());
     	//SmartDashboard.putNumber("Lift Acceleration", getEncoderAcceleration());
     	//System.out.println(getEncoderPosition());
-    	SmartDashboard.putNumber("Lift Current Draw", pdp.getCurrent(3));
+    	//SmartDashboard.putNumber("Lift Current Draw", pdp.getCurrent(3));
     }
 }
 

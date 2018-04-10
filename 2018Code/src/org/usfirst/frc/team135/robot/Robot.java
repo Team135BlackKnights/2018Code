@@ -21,6 +21,8 @@ import org.usfirst.frc.team135.robot.commands.auton.entrypoints.LeftPosition;
 import org.usfirst.frc.team135.robot.commands.auton.entrypoints.MiddlePosition;
 import org.usfirst.frc.team135.robot.commands.auton.entrypoints.RightPosition;
 import org.usfirst.frc.team135.robot.commands.auton.groups.SideToAutoline;
+import org.usfirst.frc.team135.robot.commands.auton.groups.SideToFarScale;
+import org.usfirst.frc.team135.robot.commands.auton.groups.SideToNearScale;
 import org.usfirst.frc.team135.robot.commands.teleop.*;
 import org.usfirst.frc.team135.robot.subsystems.*;
 
@@ -33,7 +35,7 @@ import org.usfirst.frc.team135.robot.subsystems.*;
  */
 public class Robot extends TimedRobot {
 	
-	public static PDP pdp;
+	//public static PDP pdp;
 	public static NavX navx;
 	public static UltrasonicSensor ultrasonic;
 	public static OI oi;
@@ -72,6 +74,7 @@ public class Robot extends TimedRobot {
 		m_chooser.addObject("Left Position", "LeftPosition");
 		m_chooser.addObject("Middle Position", "MiddlePosition");
 		m_chooser.addObject("Right Position", "RightPosition");
+		m_chooser.addObject("Current Test", "Current Test");
 		SmartDashboard.putData("Auto Mode", m_chooser);
 		
 		
@@ -114,13 +117,16 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		
-		Robot.msg = DriverStation.getInstance().getGameSpecificMessage();
+		//Robot.msg = DriverStation.getInstance().getGameSpecificMessage();
 		
 		Robot.navx.reset();
 		Timer.delay(.01);
 		Robot.drivetrain.ResetEncoders();
 		Timer.delay(.01);
 		
+		m_autonomousCommand = new SideToFarScale(true);
+		
+	/*	
 		if (m_chooser.getSelected().equals("LeftPosition"))
 		{
 			camera.setDriverMode(true);
@@ -139,7 +145,7 @@ public class Robot extends TimedRobot {
 		{
 			m_autonomousCommand = new SideToAutoline(true);
 		}
-		
+		*/
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand

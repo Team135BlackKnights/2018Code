@@ -70,7 +70,10 @@ public interface RobotMap
 			MID_SWITCH_Y = 160,
 			FAR_SCALE_X = 189f,
 			FAR_SCALE_Y = 17.5,
-			FAR_SWITCH_X = 160;
+			FAR_SWITCH_X = 160,
+			
+			FAR_SCALE_DISTANCE_FROM_WALL = 222,
+			FAR_SCALE_DISTANCE_TO_SCALE = 200;
 	}
 	
 	public interface DIRECTION {

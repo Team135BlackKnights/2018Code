@@ -27,7 +27,7 @@ public class Intake extends Subsystem implements RobotMap{
 	
 	private boolean compressorState = true;
 	
-	boolean rightWheelInverted = false;
+	boolean rightWheelInverted = !Preferences.getInstance().getBoolean("Is Competition Bot", false);
 	boolean leftWheelInverted = true;
 	
 	static private Intake instance;
