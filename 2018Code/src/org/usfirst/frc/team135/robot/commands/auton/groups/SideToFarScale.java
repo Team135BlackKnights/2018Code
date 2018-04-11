@@ -30,7 +30,7 @@ public class SideToFarScale extends CommandGroup implements RobotMap {
     	addSequential(new DriveStraightForward(EncoderDirection * -FIELD.FAR_SCALE_DISTANCE_TO_SCALE, isRight, 3));
     	addSequential(new ExtendMandibles());
     	addSequential(new SetLiftPosition(COMPETITION.LIFT.SCALE_POSITION));
-    	
+    	addSequential(new StrafeStraightSideways(86, -1, true, () -> Robot.ultrasonic.getLeftSonarValue(),  STRAFE_MODE.GAIN, 3)); // Sonar distance from switch, -1 means left, backwards = true, Lambda passed is an left ultrasonic value, Gains value for strafe mode, 3 second timeout 
     	addSequential(new GrabMandibles());
     }
 }

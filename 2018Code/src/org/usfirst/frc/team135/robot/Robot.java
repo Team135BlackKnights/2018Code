@@ -67,8 +67,8 @@ public class Robot extends TimedRobot {
 		hang = Hang.getInstance();
 		intake = Intake.GetInstance();
 		lift = Lift.getInstance();
-		oi = OI.getInstance();
 		camera = Camera.getInstance();
+		oi = OI.getInstance();
 		
 		
 		m_chooser.addDefault("Autoline", "Autoline");
@@ -76,7 +76,8 @@ public class Robot extends TimedRobot {
 		m_chooser.addObject("Middle Position", "MiddlePosition");
 		m_chooser.addObject("Right Position", "RightPosition");
 		m_chooser.addObject("Current Test", "CurrentTest");
-		
+
+		SmartDashboard.putData("Auto Mode", m_chooser);
 		
 		SmartDashboard.setPersistent("Try to go for Scale?");
 		SmartDashboard.setPersistent("Try to go for Switch?");
@@ -119,7 +120,7 @@ public class Robot extends TimedRobot {
 		
 		Robot.msg = DriverStation.getInstance().getGameSpecificMessage();
 		
-		/*
+		
 	
 		if (m_chooser.getSelected().equals("LeftPosition"))
 		{
@@ -140,9 +141,8 @@ public class Robot extends TimedRobot {
 		else
 		{
 			m_autonomousCommand = new SideToAutoline(true);
-		}*/
+		}
 		
-		m_autonomousCommand = new Test();
 		
 		m_autonomousCommand.start();
 		

@@ -72,8 +72,8 @@ public interface RobotMap
 			FAR_SCALE_Y = 17.5,
 			FAR_SWITCH_X = 160,
 			
-			FAR_SCALE_DISTANCE_FROM_WALL = 202, //222,
-			FAR_SCALE_DISTANCE_TO_SCALE = 125; //200
+			FAR_SCALE_DISTANCE_FROM_WALL = 202, //222 on practice_bot
+			FAR_SCALE_DISTANCE_TO_SCALE = 125; //200 on practice_bot
 	}
 	
 	public interface DIRECTION {
