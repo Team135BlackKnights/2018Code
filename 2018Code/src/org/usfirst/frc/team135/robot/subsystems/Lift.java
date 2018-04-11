@@ -130,7 +130,7 @@ public class Lift extends Subsystem implements RobotMap
 	public void set(double speed)
 	{
 		//System.out.println(speed);
-		liftMotor.set(ControlMode.Velocity, speed);
+		liftMotor.set(ControlMode.PercentOutput, speed);
 	}
 	
 	public void stopMotor()
@@ -156,14 +156,14 @@ public class Lift extends Subsystem implements RobotMap
 		{
 			while(getEncoderPosition() < position && timer.get() < 3)
 			{
-				set(Preferences.getInstance().getDouble("Lift Up Speed", 0));
+				set(1 * direction);
 			}
 		}
 		else
 		{
 			while(getEncoderPosition() > position && timer.get() < 3)
 			{
-				set(Preferences.getInstance().getDouble("Lift Down Speed", 0));
+				set(1 * direction);
 			}
 		}
 

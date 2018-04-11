@@ -4,7 +4,6 @@ import org.usfirst.frc.team135.robot.Robot;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -27,46 +26,21 @@ public class RunLift extends Command {
     	//System.out.println("Running lift at power: " + Preferences.getInstance().getDouble("Lift Speed", 0.0));
     	
     	double joyValue = Robot.oi.GetManipY();
-    	/*
-    	if (Robot.lift.getLiftMotorCurrentDraw() > 60)
+    	
+    	if (joyValue > 0)
     	{
-    		
-    		SmartDashboard.putBoolean("Lift Current Alert", false);
+    		joyValue *= Preferences.getInstance().getDouble("Lift Up Speed", 0.0);
     	}
     	else
     	{
-    		SmartDashboard.putBoolean("Lift Current Alert", true);
+    		joyValue *= -Preferences.getInstance().getDouble("Lift Down Speed", 0.0);
     	}
-    	*/
-    	if (Robot.lift.getEncoderPosition() >= 1500)
+    	
+    	if (joyValue == 0)
     	{
-    		Robot.intake.setCompressorOn();
-    		Robot.lift.set(0);
+    		Robot.lift.mantainPosition();
     		return;
     	}
-    	
-    	if (Math.abs(joyValue) < .05)
-    	{
-    		joyValue = 0;
-    	}
-    	
-    	joyValue += .01;
-    	if (joyValue > 0)
-    	{
-    		Robot.intake.setCompressorOff();		
-    		joyValue *= Preferences.getInstance().getDouble("Lift Up Speed", 0.0);
-    	}
-    	else if (joyValue < 0)
-    	{
-    		Robot.intake.setCompressorOn();
-    		joyValue *= Preferences.getInstance().getDouble("Lift Down Speed", 0.0);
-    	}
-    	else if (joyValue == 0)
-    	{
-    		Robot.intake.setCompressorOn();
-    	}
-    	
-  
     	
     	Robot.lift.set(joyValue);
 
@@ -82,12 +56,12 @@ public class RunLift extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	
+		Robot.lift.mantainPosition();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-
+    	end();
     }
 }
