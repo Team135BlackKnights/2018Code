@@ -72,7 +72,7 @@ public class Camera extends Subsystem implements RobotMap{
     	
     	this.setDriverMode(false);
     	
-    	this.setTrackingMode(COMPETITION.CAMERA.REFLECTIVE_TAPE_MODE);
+    	this.setTrackingMode(COMPETITION.CAMERA.POWER_CUBE_MODE);
     	
     	cameraHeight = (Preferences.getInstance().getBoolean("Is Competition Bot?", true)) ? COMPETITION.CAMERA.CAMERA_HEIGHT : PRACTICE.CAMERA.CAMERA_HEIGHT;
 	}

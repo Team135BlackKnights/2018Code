@@ -44,7 +44,7 @@ public class Lift extends Subsystem implements RobotMap
 		
 		double
 		kP = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.LIFT.kP : PRACTICE.LIFT.kP),
-		kI = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.LIFT.kP : PRACTICE.LIFT.kP),
+		kI = 0,//(Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.LIFT.kI : PRACTICE.LIFT.kI),
 		kD = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.LIFT.kD : PRACTICE.LIFT.kD),
 		kF = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.LIFT.kF : PRACTICE.LIFT.kF);
 	
@@ -129,7 +129,8 @@ public class Lift extends Subsystem implements RobotMap
 	
 	public void set(double speed)
 	{
-		liftMotor.set(ControlMode.PercentOutput, speed);
+		//System.out.println(speed);
+		liftMotor.set(ControlMode.Velocity, speed);
 	}
 	
 	public void stopMotor()
@@ -194,7 +195,7 @@ public class Lift extends Subsystem implements RobotMap
     	SmartDashboard.putNumber("Lift Position", getEncoderPosition());
     	SmartDashboard.putNumber("Lift Setpoint", setpoint);
     	//System.out.println(getEncoderPosition());
-    	//SmartDashboard.putNumber("Lift Velocity", getEncoderVelocity());
+    	SmartDashboard.putNumber("Lift Velocity", getEncoderVelocity());
     	//SmartDashboard.putNumber("Lift Acceleration", getEncoderAcceleration());
     	//System.out.println(getEncoderPosition());
     	//SmartDashboard.putNumber("Lift Current Draw", pdp.getCurrent(3));

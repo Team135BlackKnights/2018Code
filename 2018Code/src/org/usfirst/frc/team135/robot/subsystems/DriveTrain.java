@@ -134,8 +134,8 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		}
 		
 		orientationHelper.setInputRange(0, 360);
-		orientationHelper.setOutputRange(-.2, .2);
-		orientationHelper.setAbsoluteTolerance(.2);
+		orientationHelper.setOutputRange(-.15, .15);
+		orientationHelper.setAbsoluteTolerance(1);
 		orientationHelper.setContinuous();
 		
 		//Get PIDF constants.

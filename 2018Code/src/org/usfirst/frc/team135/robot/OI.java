@@ -85,7 +85,7 @@ public class OI implements RobotMap
 		TOGGLE_COMPRESSOR = new JoystickButton(RIGHT, 4);
 		TOGGLE_HANG = new JoystickButton(RIGHT, 6);
 		
-		RESET_NAVX = new JoystickButton(LEFT, 12);
+		RESET_NAVX = new JoystickButton(LEFT, 8);
 		
 		DRIVE_HANG_BACK = new JoystickButton(RIGHT, 2);
 		AssignButtons();
@@ -149,7 +149,7 @@ public class OI implements RobotMap
 	
 	public boolean GetNavXResetButton()
 	{
-		return LEFT.getRawButton(11);
+		return LEFT.getRawButton(7);
 	}
 	
 	private void AssignButtons()

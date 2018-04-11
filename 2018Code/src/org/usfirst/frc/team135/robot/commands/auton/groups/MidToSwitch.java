@@ -2,6 +2,7 @@ package org.usfirst.frc.team135.robot.commands.auton.groups;
 
 import org.usfirst.frc.team135.robot.Robot;
 import org.usfirst.frc.team135.robot.RobotMap;
+import org.usfirst.frc.team135.robot.RobotMap.COMPETITION.CAMERA;
 import org.usfirst.frc.team135.robot.commands.auton.singles.DriveAlongProfile;
 import org.usfirst.frc.team135.robot.commands.auton.singles.DriveDiagonal;
 import org.usfirst.frc.team135.robot.commands.auton.singles.DriveStraightForward;
@@ -28,6 +29,8 @@ public class MidToSwitch extends CommandGroup implements RobotMap{
        	addSequential(new SetLiftPosition(COMPETITION.LIFT.SWITCH_POSITION));
        	//addSequential(new StrafeStraightForwards(12, 1, true, () -> Robot.ultrasonic.getRightSonarValue(),  2));
        	
+       	Robot.camera.setDriverMode(false);
+       	Robot.camera.setTrackingMode(CAMERA.REFLECTIVE_TAPE_MODE);
     	if(switchIsRight)
     	{
     		addSequential(new DriveDiagonal(.7, 20, () -> Robot.camera.getXOffsetDegrees() + 90.0, false, 5));

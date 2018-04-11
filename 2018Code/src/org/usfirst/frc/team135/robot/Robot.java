@@ -20,9 +20,11 @@ import org.usfirst.frc.team135.robot.RobotMap.AUTO;
 import org.usfirst.frc.team135.robot.commands.auton.entrypoints.LeftPosition;
 import org.usfirst.frc.team135.robot.commands.auton.entrypoints.MiddlePosition;
 import org.usfirst.frc.team135.robot.commands.auton.entrypoints.RightPosition;
+import org.usfirst.frc.team135.robot.commands.auton.entrypoints.Test;
 import org.usfirst.frc.team135.robot.commands.auton.groups.SideToAutoline;
 import org.usfirst.frc.team135.robot.commands.auton.groups.SideToFarScale;
 import org.usfirst.frc.team135.robot.commands.auton.groups.SideToNearScale;
+import org.usfirst.frc.team135.robot.commands.auton.singles.DriveAndGetCube;
 import org.usfirst.frc.team135.robot.commands.teleop.*;
 import org.usfirst.frc.team135.robot.subsystems.*;
 
@@ -74,8 +76,7 @@ public class Robot extends TimedRobot {
 		m_chooser.addObject("Left Position", "LeftPosition");
 		m_chooser.addObject("Middle Position", "MiddlePosition");
 		m_chooser.addObject("Right Position", "RightPosition");
-		m_chooser.addObject("Current Test", "Current Test");
-		SmartDashboard.putData("Auto Mode", m_chooser);
+		m_chooser.addObject("Current Test", "CurrentTest");
 		
 		
 		SmartDashboard.setPersistent("Try to go for Scale?");
@@ -117,51 +118,37 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		
-		//Robot.msg = DriverStation.getInstance().getGameSpecificMessage();
+		Robot.msg = DriverStation.getInstance().getGameSpecificMessage();
 		
-		Robot.navx.reset();
-		Timer.delay(.01);
-		Robot.drivetrain.ResetEncoders();
-		Timer.delay(.01);
-		
-		m_autonomousCommand = new SideToFarScale(true);
-		
-	/*	
+		/*
+	
 		if (m_chooser.getSelected().equals("LeftPosition"))
 		{
-			camera.setDriverMode(true);
 			m_autonomousCommand = new LeftPosition();
 		}
 		else if (m_chooser.getSelected().equals("RightPosition"))
 		{
-			camera.setDriverMode(true);
 			m_autonomousCommand = new RightPosition();
 		}
 		else if (m_chooser.getSelected().equals("MiddlePosition"))
 		{
 			m_autonomousCommand = new MiddlePosition();
 		}
+		else if (m_chooser.getSelected().equals("CurrentTest"))
+		{
+			m_autonomousCommand = new Test();
+		}
 		else
 		{
 			m_autonomousCommand = new SideToAutoline(true);
-		}
-		*/
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
-		// schedule the autonomous command (example)
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.start();
-		}
+		}*/
+		
+		m_autonomousCommand = new Test();
+		
+		m_autonomousCommand.start();
+		
 	}
-
-	/**
-	 * This function is called periodically during autonomous.
-	 */
+	
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();

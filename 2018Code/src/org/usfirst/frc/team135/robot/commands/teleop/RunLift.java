@@ -41,9 +41,16 @@ public class RunLift extends Command {
     	if (Robot.lift.getEncoderPosition() >= 1500)
     	{
     		Robot.intake.setCompressorOn();
-    		Robot.lift.mantainPosition();
+    		Robot.lift.set(0);
     		return;
-    	}	
+    	}
+    	
+    	if (Math.abs(joyValue) < .05)
+    	{
+    		joyValue = 0;
+    	}
+    	
+    	joyValue += .01;
     	if (joyValue > 0)
     	{
     		Robot.intake.setCompressorOff();		
@@ -52,15 +59,14 @@ public class RunLift extends Command {
     	else if (joyValue < 0)
     	{
     		Robot.intake.setCompressorOn();
-    		joyValue *= -Preferences.getInstance().getDouble("Lift Down Speed", 0.0);
+    		joyValue *= Preferences.getInstance().getDouble("Lift Down Speed", 0.0);
     	}
     	else if (joyValue == 0)
     	{
     		Robot.intake.setCompressorOn();
-    		Robot.lift.mantainPosition();
-    		return;
     	}
     	
+  
     	
     	Robot.lift.set(joyValue);
 

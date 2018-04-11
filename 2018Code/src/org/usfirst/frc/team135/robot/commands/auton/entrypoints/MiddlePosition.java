@@ -3,6 +3,7 @@ package org.usfirst.frc.team135.robot.commands.auton.entrypoints;
 import org.usfirst.frc.team135.robot.Robot;
 import org.usfirst.frc.team135.robot.commands.auton.groups.MidToSwitch;
 import org.usfirst.frc.team135.robot.commands.auton.singles.InitializeAngle;
+import org.usfirst.frc.team135.robot.commands.teleop.ResetNavX;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -21,6 +22,7 @@ public class MiddlePosition extends CommandGroup {
     public MiddlePosition() {
     	int switchPosition = getSwitchPosition(Robot.msg);
     	
+    	addSequential(new ResetNavX());
     	addSequential(new InitializeAngle(270));
     	
     	if (switchPosition == INVALID)

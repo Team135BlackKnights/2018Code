@@ -6,6 +6,7 @@ import org.usfirst.frc.team135.robot.commands.auton.groups.SideToAutoline;
 import org.usfirst.frc.team135.robot.commands.auton.groups.SideToNearScale;
 import org.usfirst.frc.team135.robot.commands.auton.groups.SideToNearSwitch;
 import org.usfirst.frc.team135.robot.commands.auton.singles.InitializeAngle;
+import org.usfirst.frc.team135.robot.commands.teleop.ResetNavX;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -27,6 +28,8 @@ public class LeftPosition extends CommandGroup {
     	int switchPosition = getSwitchPosition(Robot.msg);
     	int scalePosition = getScalePosition(Robot.msg);
     	
+    	
+    	addSequential(new ResetNavX());
     	if (switchPosition == INVALID || scalePosition == INVALID)
     	{
     		addSequential(new SideToAutoline(false));

@@ -72,8 +72,8 @@ public interface RobotMap
 			FAR_SCALE_Y = 17.5,
 			FAR_SWITCH_X = 160,
 			
-			FAR_SCALE_DISTANCE_FROM_WALL = 222,
-			FAR_SCALE_DISTANCE_TO_SCALE = 200;
+			FAR_SCALE_DISTANCE_FROM_WALL = 202, //222,
+			FAR_SCALE_DISTANCE_TO_SCALE = 125; //200
 	}
 	
 	public interface DIRECTION {
@@ -99,7 +99,7 @@ public interface RobotMap
 
 			public static final double LOW_POSITION = 0, SWITCH_POSITION = 650, SCALE_POSITION = 1410;
 
-			public static final double kP = 0.04, kI = 0.0, kD = 0, kF = 0.33;
+			public static final double kP = 4, kI = 0.0, kD = 3 * Math.sqrt(kP), kF = 12;
 
 		}
 
@@ -144,7 +144,8 @@ public interface RobotMap
 
 			public static final int
 				REFLECTIVE_TAPE_MODE = 0,
-				POWER_CUBE_MODE = 1;
+				POWER_CUBE_MODE_RIGHT_SIDE = 1,
+				POWER_CUBE_MODE_LEFT_SIDE = 2;				
 		
 			public static final double
 				CAMERA_HEIGHT = 8.625; //In inches;
