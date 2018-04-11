@@ -156,14 +156,14 @@ public class Lift extends Subsystem implements RobotMap
 		{
 			while(getEncoderPosition() < position && timer.get() < 3)
 			{
-				set(1 * direction);
+				set(Preferences.getInstance().getDouble("Lift Up Speed", 0));
 			}
 		}
 		else
 		{
 			while(getEncoderPosition() > position && timer.get() < 3)
 			{
-				set(1 * direction);
+				set(Preferences.getInstance().getDouble("Lift Down Speed", 0));
 			}
 		}
 

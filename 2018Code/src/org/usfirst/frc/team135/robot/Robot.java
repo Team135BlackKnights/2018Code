@@ -70,7 +70,6 @@ public class Robot extends TimedRobot {
 		oi = OI.getInstance();
 		camera = Camera.getInstance();
 		
-		//CameraServer.getInstance().addServer("10.1.35.11", 5800);
 		
 		m_chooser.addDefault("Autoline", "Autoline");
 		m_chooser.addObject("Left Position", "LeftPosition");
