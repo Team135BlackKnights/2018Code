@@ -44,7 +44,7 @@ public class Lift extends Subsystem implements RobotMap
 		
 		double
 		kP = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.LIFT.kP : PRACTICE.LIFT.kP),
-		kI = 0,//(Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.LIFT.kI : PRACTICE.LIFT.kI),
+		kI = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.LIFT.kP : PRACTICE.LIFT.kP),
 		kD = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.LIFT.kD : PRACTICE.LIFT.kD),
 		kF = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.LIFT.kF : PRACTICE.LIFT.kF);
 	
