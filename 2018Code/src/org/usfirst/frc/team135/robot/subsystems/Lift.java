@@ -44,7 +44,7 @@ public class Lift extends Subsystem implements RobotMap
 		
 		double
 		kP = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.LIFT.kP : PRACTICE.LIFT.kP),
-		kI = 0,//(Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.LIFT.kI : PRACTICE.LIFT.kI),
+		kI = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.LIFT.kP : PRACTICE.LIFT.kP),
 		kD = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.LIFT.kD : PRACTICE.LIFT.kD),
 		kF = (Preferences.getInstance().getBoolean("Is Competition Bot?", true) ? COMPETITION.LIFT.kF : PRACTICE.LIFT.kF);
 	
@@ -61,6 +61,11 @@ public class Lift extends Subsystem implements RobotMap
 		liftMotor.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_100Ms, 10);
 		liftMotor.configVelocityMeasurementWindow(64, 10); //Might want to check this later
 		
+		liftMotor.configForwardSoftLimitThreshold(1450, 10);
+		liftMotor.configReverseSoftLimitThreshold(0, 10);
+		
+		liftMotor.configForwardSoftLimitEnable(true, 10);
+		liftMotor.configReverseSoftLimitEnable(true, 10);
 		
 		liftMotor.config_kP(0, kP, 10);
 		liftMotor.config_kI(0, kI, 10);
@@ -130,7 +135,7 @@ public class Lift extends Subsystem implements RobotMap
 	public void set(double speed)
 	{
 		//System.out.println(speed);
-		liftMotor.set(ControlMode.Velocity, speed);
+		liftMotor.set(ControlMode.PercentOutput, speed);
 	}
 	
 	public void stopMotor()
@@ -176,7 +181,7 @@ public class Lift extends Subsystem implements RobotMap
 	
 	public void mantainPosition()
 	{
-		liftMotor.set(ControlMode.Velocity, 0);
+		liftMotor.set(ControlMode.Velocity, .75);
 	}
 	
 	/*public double getLiftMotorCurrentDraw()
@@ -192,7 +197,9 @@ public class Lift extends Subsystem implements RobotMap
     
     public void periodic()
     {
-    	SmartDashboard.putNumber("Lift Position", getEncoderPosition());
+    	//SmartDashboard.putNumber("Lift Position", getEncoderPosition());
+    	
+    	System.out.println(getEncoderPosition());
     	SmartDashboard.putNumber("Lift Setpoint", setpoint);
     	//System.out.println(getEncoderPosition());
     	SmartDashboard.putNumber("Lift Velocity", getEncoderVelocity());

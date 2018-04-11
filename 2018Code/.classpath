@@ -19,6 +19,5 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="var" path="navx-mxp"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/navx_frc.jar"/>
-	<classpathentry kind="var" path="USERLIBS_DIR/Pathfinder-Java-1.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

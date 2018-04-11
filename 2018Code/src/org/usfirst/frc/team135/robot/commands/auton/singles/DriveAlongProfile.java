@@ -10,15 +10,21 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import jaci.pathfinder.*;
-import jaci.pathfinder.followers.EncoderFollower;
-import jaci.pathfinder.modifiers.TankModifier;
+//import jaci.pathfinder.*;
+//import jaci.pathfinder.followers.EncoderFollower;
+//import jaci.pathfinder.modifiers.TankModifier;
 /**
  *
  */
 public class DriveAlongProfile extends Command implements RobotMap {
 
-	private Waypoint[] _points;
+	@Override
+	protected boolean isFinished() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/*private Waypoint[] _points;
 	private Trajectory _leftTrajectory, _rightTrajectory;
 	private EncoderFollower _leftEncoderFollower, _rightEncoderFollower;
 	
@@ -171,4 +177,5 @@ public class DriveAlongProfile extends Command implements RobotMap {
     {
     	this.end();
     }
+    */
 }

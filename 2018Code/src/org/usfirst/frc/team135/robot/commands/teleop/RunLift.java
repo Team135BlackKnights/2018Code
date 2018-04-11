@@ -38,10 +38,10 @@ public class RunLift extends Command {
     		SmartDashboard.putBoolean("Lift Current Alert", true);
     	}
     	*/
-    	if (Robot.lift.getEncoderPosition() >= 1500)
+    	if (Robot.lift.getEncoderPosition() >= 1450)
     	{
     		Robot.intake.setCompressorOn();
-    		Robot.lift.set(0);
+    		Robot.lift.mantainPosition();
     		return;
     	}
     	
@@ -50,7 +50,6 @@ public class RunLift extends Command {
     		joyValue = 0;
     	}
     	
-    	joyValue += .01;
     	if (joyValue > 0)
     	{
     		Robot.intake.setCompressorOff();		
@@ -59,11 +58,13 @@ public class RunLift extends Command {
     	else if (joyValue < 0)
     	{
     		Robot.intake.setCompressorOn();
-    		joyValue *= Preferences.getInstance().getDouble("Lift Down Speed", 0.0);
+    		joyValue *= -Preferences.getInstance().getDouble("Lift Down Speed", 0.0);
     	}
     	else if (joyValue == 0)
     	{
     		Robot.intake.setCompressorOn();
+    		Robot.lift.mantainPosition();
+    		return;
     	}
     	
   

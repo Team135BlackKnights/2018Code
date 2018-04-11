@@ -6,6 +6,7 @@ import org.usfirst.frc.team135.robot.RobotMap.COMPETITION.CAMERA;
 import org.usfirst.frc.team135.robot.commands.auton.singles.DriveAlongProfile;
 import org.usfirst.frc.team135.robot.commands.auton.singles.DriveDiagonal;
 import org.usfirst.frc.team135.robot.commands.auton.singles.DriveStraightForward;
+import org.usfirst.frc.team135.robot.commands.auton.singles.InitializeAngle;
 import org.usfirst.frc.team135.robot.commands.auton.singles.SetLiftPosition;
 import org.usfirst.frc.team135.robot.commands.auton.singles.StrafeStraightForwards;
 import org.usfirst.frc.team135.robot.commands.auton.singles.StrafeStraightSideways;
@@ -25,21 +26,23 @@ public class MidToSwitch extends CommandGroup implements RobotMap{
 	
     public MidToSwitch(boolean switchIsRight) {
     	
+    	addSequential(new InitializeAngle(270));
     	addSequential(new ExtendMandibles());
        	addSequential(new SetLiftPosition(COMPETITION.LIFT.SWITCH_POSITION));
        	//addSequential(new StrafeStraightForwards(12, 1, true, () -> Robot.ultrasonic.getRightSonarValue(),  2));
        	
        	Robot.camera.setDriverMode(false);
        	Robot.camera.setTrackingMode(CAMERA.REFLECTIVE_TAPE_MODE);
+       	
     	if(switchIsRight)
     	{
-    		addSequential(new DriveDiagonal(.7, 20, () -> Robot.camera.getXOffsetDegrees() + 90.0, false, 5));
+    		addSequential(new DriveDiagonal(.5, 20, () -> Robot.camera.getXOffsetDegrees() + 90.0, false, 5));
     		//addSequential(new DriveAlongProfile(PROFILING.MID_TO_RIGHT_SWITCH, MidToSwitch.TIMEOUT));
     		//addSequential(new DriveStraightForward(FIELD.MID_SWITCH_X * .1 * -1, false, 5));
     	}
     	else
     	{
-    		addSequential(new DriveDiagonal(.7, -30, () -> Robot.camera.getXOffsetDegrees() + 90.0, true, 5));
+    		addSequential(new DriveDiagonal(.5, -30, () -> Robot.camera.getXOffsetDegrees() + 90.0, true, 5));
     	}
     	
   

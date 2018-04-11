@@ -1,8 +1,5 @@
 package org.usfirst.frc.team135.robot;
 
-import jaci.pathfinder.Pathfinder;
-import jaci.pathfinder.Waypoint;
-
 public interface RobotMap 
 {
 	
@@ -17,7 +14,7 @@ public interface RobotMap
 	}
 	public interface PROFILING
 	{
-		public static final Waypoint[] 
+		/*public static final Waypoint[] 
 				
 				MID_TO_RIGHT_SWITCH =
 				{
@@ -41,7 +38,7 @@ public interface RobotMap
 					new Waypoint(-15.511 * CONVERSIONS.INCHES2METERS, 106.938 * CONVERSIONS.INCHES2METERS, 5.85),
 					new Waypoint(-25.547 * CONVERSIONS.INCHES2METERS, 117.430 * CONVERSIONS.INCHES2METERS, 5.05),
 					new Waypoint(-42.938 * CONVERSIONS.INCHES2METERS, 120.188 * CONVERSIONS.INCHES2METERS, 3.14),
-				};
+				};*/
 	}
 	
 	public interface CONVERSIONS
@@ -167,7 +164,7 @@ public interface RobotMap
 
 			public static final double LOW_POSITION = 0, SWITCH_POSITION = 650, SCALE_POSITION = 1460;
 
-			public static final double kP = .04, kI = 0.0, kD = .4, kF = .4;
+			public static final double kP = .04, kI = 0.0, kD = 0, kF = .33;
 
 		}
 

@@ -21,6 +21,7 @@ import org.usfirst.frc.team135.robot.commands.auton.entrypoints.LeftPosition;
 import org.usfirst.frc.team135.robot.commands.auton.entrypoints.MiddlePosition;
 import org.usfirst.frc.team135.robot.commands.auton.entrypoints.RightPosition;
 import org.usfirst.frc.team135.robot.commands.auton.entrypoints.Test;
+import org.usfirst.frc.team135.robot.commands.auton.groups.MidToSwitch;
 import org.usfirst.frc.team135.robot.commands.auton.groups.SideToAutoline;
 import org.usfirst.frc.team135.robot.commands.auton.groups.SideToFarScale;
 import org.usfirst.frc.team135.robot.commands.auton.groups.SideToNearScale;
@@ -78,6 +79,7 @@ public class Robot extends TimedRobot {
 		m_chooser.addObject("Right Position", "RightPosition");
 		m_chooser.addObject("Current Test", "CurrentTest");
 		
+		SmartDashboard.putData("Auto modes", m_chooser);
 		
 		SmartDashboard.setPersistent("Try to go for Scale?");
 		SmartDashboard.setPersistent("Try to go for Switch?");
@@ -143,7 +145,7 @@ public class Robot extends TimedRobot {
 			m_autonomousCommand = new SideToAutoline(true);
 		}*/
 		
-		m_autonomousCommand = new Test();
+		m_autonomousCommand = new MidToSwitch(true);
 		
 		m_autonomousCommand.start();
 		
