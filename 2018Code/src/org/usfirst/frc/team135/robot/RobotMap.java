@@ -99,7 +99,7 @@ public interface RobotMap
 
 			public static final double LOW_POSITION = 0, SWITCH_POSITION = 650, SCALE_POSITION = 1410;
 
-			public static final double kP = 4, kI = 0.0, kD = 3 * Math.sqrt(kP), kF = 12;
+			public static final double kP = 0.04, kI = 0.0, kD = 0, kF = 0.33;
 
 		}
 
