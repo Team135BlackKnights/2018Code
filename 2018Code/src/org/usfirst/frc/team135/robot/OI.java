@@ -23,7 +23,7 @@ public class OI implements RobotMap
 	private Joystick LEFT, RIGHT, MANIP;  
 
 	private JoystickButton 
-		//Unused
+		//Unused//
 		DRIVE_REAR_LEFT, 
 		DRIVE_REAR_RIGHT, 
 		DRIVE_FRONT_RIGHT, 
