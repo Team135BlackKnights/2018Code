@@ -28,9 +28,7 @@ public class SwitchToStack extends CommandGroup {
     		angle = 150;
     	}
     	
-    	addSequential(new StrafeStraightSideways(30, LEFT, false, () -> Robot.ultrasonic.getRightSonarValue(), STRAFE_MODE.GAIN, 3));
-    	addSequential(new Rotate(angle));
-    	addSequential(new DriveDiagonal(.5, angle, () -> Robot.camera.getXOffsetDegrees(), true, 5));
+    	addSequential(new DriveDiagonal(.5, angle, () -> Robot.camera.getXOffsetDegrees(), true, angle,  5));
     	addParallel(new DriveMandiblesWheelsTimed(1, 5));
     }
 }

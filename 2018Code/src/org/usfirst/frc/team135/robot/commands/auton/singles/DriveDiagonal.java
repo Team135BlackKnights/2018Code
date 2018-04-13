@@ -108,7 +108,7 @@ public class DriveDiagonal extends InstantCommand {
 			double x = this._power * Math.cos(this._angle * (Math.PI / 180.0));
 			double y = this._power * Math.sin(this._angle * (Math.PI / 180.0));
 
-			Robot.drivetrain.driveCartesian(x, y, buffer.output);
+			Robot.drivetrain.driveCartesian(x, y, this._buffer.output);
 		}
 
 		Robot.drivetrain.stopMotors();
