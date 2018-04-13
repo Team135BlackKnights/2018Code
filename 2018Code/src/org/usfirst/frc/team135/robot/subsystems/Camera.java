@@ -145,10 +145,10 @@ public class Camera extends Subsystem implements RobotMap{
     
     public void periodic()
     {
-    	/*if (DriverStation.getInstance().isOperatorControl() || DriverStation.getInstance().isDisabled())
+    	if (DriverStation.getInstance().isOperatorControl() || DriverStation.getInstance().isDisabled())
     	{
     		this.setDriverMode(true);
-    	}*/
+    	}
     	
     	///System.out.println(this.getCrosshairXPosition());
     }

@@ -164,7 +164,7 @@ public interface RobotMap
 
 			public static final double LOW_POSITION = 0, SWITCH_POSITION = 650, SCALE_POSITION = 1460;
 			
-			public static final double SOFT_STOP = 1500;
+			public static final double SOFT_STOP = 1480;
 
 			public static final double kP = .04, kI = 0.0, kD = 0, kF = .33;
 

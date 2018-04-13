@@ -9,6 +9,7 @@ package org.usfirst.frc.team135.robot;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -66,11 +67,12 @@ public class Robot extends TimedRobot {
 		m_chooser.addObject("Left Position", "LeftPosition");
 		m_chooser.addObject("Middle Position", "MiddlePosition");
 		m_chooser.addObject("Right Position", "RightPosition");
-		SmartDashboard.putData("Auto Mode", m_chooser);
+		SmartDashboard.putData("Auto mode", m_chooser);
 		
-		SmartDashboard.putBoolean("Try to go for scale?", false);
+		/*SmartDashboard.putBoolean("Try to go for scale?", false);
 		SmartDashboard.putBoolean("Try to go for switch?", false);
 		SmartDashboard.putBoolean("Prefer Switch?", false);
+		*/
 		
 		SmartDashboard.setPersistent("Try to go for scale?");
 		SmartDashboard.setPersistent("Try to go for switch?");

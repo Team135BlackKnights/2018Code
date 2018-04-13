@@ -39,22 +39,22 @@ public class RunLift extends Command {
     		SmartDashboard.putBoolean("Lift Current Alert", true);
     	}
     	*/
-    	if (Robot.lift.getEncoderPosition() > COMPETITION.LIFT.SOFT_STOP && !Robot.lift.stopLatch && !Robot.oi.overrideLiftSoftStop() && joyValue > 0)
+    	if (Robot.lift.getEncoderPosition() >= COMPETITION.LIFT.SOFT_STOP && !Robot.lift.stopLatch && !Robot.oi.overrideLiftSoftStop() && joyValue > 0)
     	{	
     		Robot.lift.stopLatch = true;
     		Robot.intake.setCompressorOn();
-    		Robot.lift.mantainPosition();
+    		Robot.lift.holdPosition();
     		return;
     	}
-    	else if (Robot.lift.getEncoderPosition() > COMPETITION.LIFT.SOFT_STOP - 10 && Robot.lift.stopLatch && !Robot.oi.overrideLiftSoftStop() && joyValue > 0)
+    	else if (Robot.lift.getEncoderPosition() >= COMPETITION.LIFT.SOFT_STOP - 30 && Robot.lift.stopLatch && !Robot.oi.overrideLiftSoftStop() && joyValue > 0)
     	{
     		Robot.intake.setCompressorOn();
-    		Robot.lift.mantainPosition();
+    		Robot.lift.holdPosition();
     		return;
     	}
     	
     	
-    	if (Robot.lift.getEncoderPosition() < COMPETITION.LIFT.SOFT_STOP - 10)
+    	if (Robot.lift.getEncoderPosition() < COMPETITION.LIFT.SOFT_STOP - 30)
     	{
     		Robot.lift.stopLatch = false;
     	}
@@ -67,17 +67,17 @@ public class RunLift extends Command {
     	if (joyValue > 0)
     	{
     		Robot.intake.setCompressorOff();		
-    		joyValue *= Preferences.getInstance().getDouble("Lift Up Speed", 0.0);
+    		joyValue *= Preferences.getInstance().getDouble("Lift Up Speed", 1.0);
     	}
     	else if (joyValue < 0)
     	{
     		Robot.intake.setCompressorOn();
-    		joyValue *= -Preferences.getInstance().getDouble("Lift Down Speed", 0.0);
+    		joyValue *= -Preferences.getInstance().getDouble("Lift Down Speed", -1.0);
     	}
     	else if (joyValue == 0)
     	{
     		Robot.intake.setCompressorOn();
-    		Robot.lift.mantainPosition();
+    		Robot.lift.holdVelocityAtZero();
     		return;
     	}
     	

@@ -52,7 +52,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	private static final int ENCODER_TICK_COUNT = 256;
 	private static final int ENCODER_QUAD_COUNT = (ENCODER_TICK_COUNT * 4);
 	
-	private static final double MOTOR_SETPOINT_PER_100MS = DRIVETRAIN.MAX_VELOCITY_TICKS_PER_100MS; //NU/100 ms MAX SPEED for slowest motor
+	private static final double MOTOR_SETPOINT_PER_100MS = COMPETITION.DRIVETRAIN.MAX_VELOCITY_TICKS_PER_100MS; //NU/100 ms MAX SPEED for slowest motor
 	
 	private MotorSafetyHelper m_safetyHelper = new MotorSafetyHelper(chassis); //watchdog
 	
@@ -141,7 +141,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		//Get PIDF constants.
 		InitializeDriveTrain();
 	
-		isFieldOriented = Preferences.getInstance().getBoolean("Is Field Oriented?", false);
+		isFieldOriented = Preferences.getInstance().getBoolean("Is Field Oriented?", true);
 	}
 	
 	public void ConfigureTalons(WPI_TalonSRX talon, int talon_id)
@@ -204,25 +204,25 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		{
 			competition = "";
 		}
-		RearRightkP = Preferences.getInstance().getDouble(competition + "RearRightP", 0); //get PID constants from Dashboard
+		RearRightkP = Preferences.getInstance().getDouble(competition + "RearRightP", 2.5); //get PID constants from Dashboard
 		RearRightkI = Preferences.getInstance().getDouble(competition + "RearRightI", 0);
-		RearRightkD = Preferences.getInstance().getDouble(competition + "RearRightD", 0);
-		RearRightkF = Preferences.getInstance().getDouble(competition + "RearRightF", 0);
+		RearRightkD = Preferences.getInstance().getDouble(competition + "RearRightD", 25.0);
+		RearRightkF = Preferences.getInstance().getDouble(competition + "RearRightF", 3.6);
 		
-		RearLeftkP = Preferences.getInstance().getDouble(competition + "RearLeftP", 0);
+		RearLeftkP = Preferences.getInstance().getDouble(competition + "RearLeftP", 2.3);
 		RearLeftkI = Preferences.getInstance().getDouble(competition + "RearLeftI", 0);
-		RearLeftkD = Preferences.getInstance().getDouble(competition + "RearLeftD", 0);
-		RearLeftkF = Preferences.getInstance().getDouble(competition + "RearLeftF", 0);
+		RearLeftkD = Preferences.getInstance().getDouble(competition + "RearLeftD", 22.0);
+		RearLeftkF = Preferences.getInstance().getDouble(competition + "RearLeftF", 3.55);
 		
-		FrontRightkP = Preferences.getInstance().getDouble(competition + "FrontRightP", 0);
+		FrontRightkP = Preferences.getInstance().getDouble(competition + "FrontRightP", 2.4);
 		FrontRightkI = Preferences.getInstance().getDouble(competition + "FrontRightI", 0);
-		FrontRightkD = Preferences.getInstance().getDouble(competition + "FrontRightD", 0);
-		FrontRightkF = Preferences.getInstance().getDouble(competition + "FrontRightF", 0);
+		FrontRightkD = Preferences.getInstance().getDouble(competition + "FrontRightD", 24.0);
+		FrontRightkF = Preferences.getInstance().getDouble(competition + "FrontRightF", 3.6);
 		
-		FrontLeftkP = Preferences.getInstance().getDouble(competition + "FrontLeftP", 0);
+		FrontLeftkP = Preferences.getInstance().getDouble(competition + "FrontLeftP", 2.0);
 		FrontLeftkI = Preferences.getInstance().getDouble(competition + "FrontLeftI", 0);
-		FrontLeftkD = Preferences.getInstance().getDouble(competition + "FrontLeftD", 0);
-		FrontLeftkF = Preferences.getInstance().getDouble(competition + "FrontLeftF", 0);
+		FrontLeftkD = Preferences.getInstance().getDouble(competition + "FrontLeftD", 20.0);
+		FrontLeftkF = Preferences.getInstance().getDouble(competition + "FrontLeftF", 3.5);
 		
 		OrientationHelper_kP = Preferences.getInstance().getDouble(competition + "OrientationHelper_kP", 0);
 		OrientationHelper_kI = Preferences.getInstance().getDouble(competition + "OrientationHelper_kI", 0);
@@ -335,7 +335,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		
 		double rearLeftSpeed, rearRightSpeed, frontLeftSpeed, frontRightSpeed, maxRightSpeed, maxLeftSpeed, maxSpeed;
 		
-		if (Preferences.getInstance().getBoolean("Enable Orientation Helper", false))
+		if (Preferences.getInstance().getBoolean("Enable Orientation Helper", true))
 		{
 			
 			if (Math.abs(rotationalRate) == 0 && !orientationHelper.isEnabled() && (x != 0 || y != 0)) {

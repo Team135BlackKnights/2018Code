@@ -21,7 +21,7 @@ public class SetLiftPosition extends InstantCommand {
     protected void initialize() 
     {
     	Robot.lift.setToPosition(this._position);
-    	Robot.lift.mantainPosition();
+    	Robot.lift.holdVelocityAtZero();
     }
 
 }
