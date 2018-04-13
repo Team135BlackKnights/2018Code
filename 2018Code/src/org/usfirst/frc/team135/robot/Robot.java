@@ -40,6 +40,7 @@ public class Robot extends TimedRobot {
 	public static Hang hang;
 	public static Camera camera;
 	//public static Canifier canifier;
+	//public static PDP pdp;
 	
 	public static String msg;
 	Command m_autonomousCommand;
@@ -60,7 +61,7 @@ public class Robot extends TimedRobot {
 		intake = Intake.GetInstance();
 		lift = Lift.getInstance();
 		oi = OI.getInstance();
-		
+
 		
 		//CameraServer.getInstance().startAutomaticCapture();
 		m_chooser.addDefault("Autoline", "Autoline");

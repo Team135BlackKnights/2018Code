@@ -150,6 +150,8 @@ public class Camera extends Subsystem implements RobotMap{
     		this.setDriverMode(true);
     	}
     	
+    	
+    	
     	///System.out.println(this.getCrosshairXPosition());
     }
 }

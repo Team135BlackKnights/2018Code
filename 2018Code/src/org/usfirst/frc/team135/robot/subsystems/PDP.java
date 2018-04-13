@@ -37,8 +37,7 @@ public class PDP extends Subsystem {
 	}
 
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+    	//System.out.println("PDP Channel 4: " + pdp.getCurrent(4) + "amps");
     }
 }
 
