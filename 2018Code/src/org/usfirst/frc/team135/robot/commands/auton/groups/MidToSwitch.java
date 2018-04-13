@@ -36,13 +36,13 @@ public class MidToSwitch extends CommandGroup implements RobotMap{
        	
     	if(switchIsRight)
     	{
-    		addSequential(new DriveDiagonal(.5, 20, () -> Robot.camera.getXOffsetDegrees() + 90.0, false, 5));
+    		addSequential(new DriveDiagonal(.5, 20, () -> Robot.camera.getXOffsetDegrees() + 90.0, false, Robot.navx.getFusedAngle(), 5));
     		//addSequential(new DriveAlongProfile(PROFILING.MID_TO_RIGHT_SWITCH, MidToSwitch.TIMEOUT));
     		//addSequential(new DriveStraightForward(FIELD.MID_SWITCH_X * .1 * -1, false, 5));
     	}
     	else
     	{
-    		addSequential(new DriveDiagonal(.5, -30, () -> Robot.camera.getXOffsetDegrees() + 90.0, true, 5));
+    		addSequential(new DriveDiagonal(.5, -30, () -> Robot.camera.getXOffsetDegrees() + 90.0, true, Robot.navx.getFusedAngle(), 5));
     	}
     	
   
