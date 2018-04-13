@@ -36,6 +36,8 @@ public class Lift extends Subsystem implements RobotMap
 	public boolean isDrawingTooMuchCurrent = false;
 	
 	public double tripPoint = 0.0;
+	
+	public boolean stopLatch = false; 
 	//PowerDistributionPanel pdp;
 
 	

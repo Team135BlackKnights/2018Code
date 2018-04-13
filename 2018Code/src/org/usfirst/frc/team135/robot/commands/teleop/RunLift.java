@@ -1,6 +1,7 @@
 package org.usfirst.frc.team135.robot.commands.teleop;
 
 import org.usfirst.frc.team135.robot.Robot;
+import org.usfirst.frc.team135.robot.RobotMap.COMPETITION;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
@@ -38,11 +39,24 @@ public class RunLift extends Command {
     		SmartDashboard.putBoolean("Lift Current Alert", true);
     	}
     	*/
-    	if (Robot.lift.getEncoderPosition() > 1485)
+    	if (Robot.lift.getEncoderPosition() > COMPETITION.LIFT.SOFT_STOP && !Robot.lift.stopLatch && !Robot.oi.overrideLiftSoftStop() && joyValue > 0)
+    	{	
+    		Robot.lift.stopLatch = true;
+    		Robot.intake.setCompressorOn();
+    		Robot.lift.mantainPosition();
+    		return;
+    	}
+    	else if (Robot.lift.getEncoderPosition() > COMPETITION.LIFT.SOFT_STOP - 10 && Robot.lift.stopLatch && !Robot.oi.overrideLiftSoftStop() && joyValue > 0)
     	{
     		Robot.intake.setCompressorOn();
     		Robot.lift.mantainPosition();
     		return;
+    	}
+    	
+    	
+    	if (Robot.lift.getEncoderPosition() < COMPETITION.LIFT.SOFT_STOP - 10)
+    	{
+    		Robot.lift.stopLatch = false;
     	}
     	
     	if (Math.abs(joyValue) < .05)

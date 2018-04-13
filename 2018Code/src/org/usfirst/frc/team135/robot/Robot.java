@@ -45,7 +45,6 @@ public class Robot extends TimedRobot {
 	
 	SendableChooser<String> m_chooser = new SendableChooser<>();
 	
-	
 
 	@Override
 	public void robotInit() {
@@ -73,8 +72,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putBoolean("Try to go for switch?", false);
 		SmartDashboard.putBoolean("Prefer Switch?", false);
 		
-		SmartDashboard.setPersistent("Try to go for Scale?");
-		SmartDashboard.setPersistent("Try to go for Switch?");
+		SmartDashboard.setPersistent("Try to go for scale?");
+		SmartDashboard.setPersistent("Try to go for switch?");
 		SmartDashboard.setPersistent("Prefer Switch?");
 		
 	}
