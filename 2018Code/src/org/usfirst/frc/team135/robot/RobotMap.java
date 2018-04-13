@@ -209,7 +209,8 @@ public interface RobotMap
 
 			public static final int
 				REFLECTIVE_TAPE_MODE = 0,
-				POWER_CUBE_MODE = 1;
+				POWER_CUBE_MODE_RIGHT_SIDE = 1,
+				POWER_CUBE_MODE_LEFT_SIDE = 2;	
 		
 			public static final double
 				CAMERA_HEIGHT = 8.625; //In inches;

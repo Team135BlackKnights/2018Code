@@ -10,22 +10,15 @@ package org.usfirst.frc.team135.robot;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team135.robot.RobotMap.AUTO;
 import org.usfirst.frc.team135.robot.commands.auton.entrypoints.LeftPosition;
 import org.usfirst.frc.team135.robot.commands.auton.entrypoints.MiddlePosition;
 import org.usfirst.frc.team135.robot.commands.auton.entrypoints.RightPosition;
-import org.usfirst.frc.team135.robot.commands.auton.entrypoints.Test;
-import org.usfirst.frc.team135.robot.commands.auton.groups.MidToSwitch;
 import org.usfirst.frc.team135.robot.commands.auton.groups.SideToAutoline;
-import org.usfirst.frc.team135.robot.commands.auton.groups.SideToFarScale;
-import org.usfirst.frc.team135.robot.commands.auton.groups.SideToNearScale;
-import org.usfirst.frc.team135.robot.commands.auton.singles.DriveAndGetCube;
 import org.usfirst.frc.team135.robot.commands.teleop.*;
 import org.usfirst.frc.team135.robot.subsystems.*;
 
@@ -36,9 +29,7 @@ import org.usfirst.frc.team135.robot.subsystems.*;
  * creating this project, you must also update the build.properties file in the
  * project.
  */
-public class Robot extends TimedRobot {
-	
-	//public static PDP pdp;
+public class Robot extends TimedRobot {	
 	public static NavX navx;
 	public static UltrasonicSensor ultrasonic;
 	public static OI oi;
@@ -51,7 +42,7 @@ public class Robot extends TimedRobot {
 	
 	public static String msg;
 	Command m_autonomousCommand;
-
+	
 	SendableChooser<String> m_chooser = new SendableChooser<>();
 	
 	
@@ -60,30 +51,31 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		//Order does matter.
 		
-		//pdp = PDP.getInstance();
 		navx = NavX.getInstance();
 		//canifier = Canifier.getInstance();
+		camera = Camera.getInstance();
 		ultrasonic = UltrasonicSensor.getInstance();
 		drivetrain = DriveTrain.getInstance();
 		hang = Hang.getInstance();
 		intake = Intake.GetInstance();
 		lift = Lift.getInstance();
 		oi = OI.getInstance();
-		camera = Camera.getInstance();
 		
-		//CameraServer.getInstance().addServer("10.1.35.11", 5800);
 		
+		//CameraServer.getInstance().startAutomaticCapture();
 		m_chooser.addDefault("Autoline", "Autoline");
 		m_chooser.addObject("Left Position", "LeftPosition");
 		m_chooser.addObject("Middle Position", "MiddlePosition");
 		m_chooser.addObject("Right Position", "RightPosition");
-		m_chooser.addObject("Current Test", "CurrentTest");
+		SmartDashboard.putData("Auto Mode", m_chooser);
 		
-		SmartDashboard.putData("Auto modes", m_chooser);
+		SmartDashboard.putBoolean("Try to go for scale?", false);
+		SmartDashboard.putBoolean("Try to go for switch?", false);
+		SmartDashboard.putBoolean("Prefer Switch?", false);
 		
 		SmartDashboard.setPersistent("Try to go for Scale?");
 		SmartDashboard.setPersistent("Try to go for Switch?");
-		SmartDashboard.setPersistent("Prefer Switch or Scale?");
+		SmartDashboard.setPersistent("Prefer Switch?");
 		
 	}
 
@@ -95,15 +87,12 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() 
 	{
-/*
-		getGameSpecificMessage.start();
-		setSmartDashboardKeys.start();*/
+		camera.setDriverMode(true);
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		//Robot.navx.reset();
 	}
 
 	/**
@@ -119,38 +108,37 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		msg = DriverStation.getInstance().getGameSpecificMessage();
 		
-		Robot.msg = DriverStation.getInstance().getGameSpecificMessage();
+		camera.setDriverMode(false);
 		
-		/*
-	
-		if (m_chooser.getSelected().equals("LeftPosition"))
+		String position = m_chooser.getSelected();
+		
+		if (position.equals("LeftPosition"))
 		{
 			m_autonomousCommand = new LeftPosition();
 		}
-		else if (m_chooser.getSelected().equals("RightPosition"))
-		{
-			m_autonomousCommand = new RightPosition();
-		}
-		else if (m_chooser.getSelected().equals("MiddlePosition"))
+		else if (position.equals("MiddlePosition"))
 		{
 			m_autonomousCommand = new MiddlePosition();
 		}
-		else if (m_chooser.getSelected().equals("CurrentTest"))
+		else if (position.equals("RightPosition"))
 		{
-			m_autonomousCommand = new Test();
+			m_autonomousCommand = new RightPosition();
 		}
 		else
 		{
-			m_autonomousCommand = new SideToAutoline(true);
-		}*/
-		
-		m_autonomousCommand = new MidToSwitch(true);
-		
-		m_autonomousCommand.start();
-		
+			m_autonomousCommand = new SideToAutoline(false);
+		}
+
+		if (m_autonomousCommand != null) {
+			m_autonomousCommand.start();
+		}
 	}
-	
+
+	/**
+	 * This function is called periodically during autonomous.
+	 */
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
@@ -158,14 +146,17 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		camera.setDriverMode(true);
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
+		
+		Robot.camera.setDriverMode(true);
+		
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
+	
 	}
 
 	/**

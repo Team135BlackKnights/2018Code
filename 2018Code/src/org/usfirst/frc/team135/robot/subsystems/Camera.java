@@ -1,5 +1,6 @@
 package org.usfirst.frc.team135.robot.subsystems;
 
+import org.usfirst.frc.team135.robot.Robot;
 import org.usfirst.frc.team135.robot.RobotMap;
 import org.usfirst.frc.team135.robot.RobotMap.COMPETITION.CAMERA;
 
@@ -72,7 +73,7 @@ public class Camera extends Subsystem implements RobotMap{
     	
     	this.setDriverMode(false);
     	
-    	this.setTrackingMode(COMPETITION.CAMERA.POWER_CUBE_MODE);
+    	this.setTrackingMode(COMPETITION.CAMERA.REFLECTIVE_TAPE_MODE);
     	
     	cameraHeight = (Preferences.getInstance().getBoolean("Is Competition Bot?", true)) ? COMPETITION.CAMERA.CAMERA_HEIGHT : PRACTICE.CAMERA.CAMERA_HEIGHT;
 	}
@@ -129,7 +130,7 @@ public class Camera extends Subsystem implements RobotMap{
 	
 	public void setTrackingMode(int pipelineNumber)
 	{
-		if (pipelineNumber == COMPETITION.CAMERA.POWER_CUBE_MODE)
+		if (pipelineNumber == COMPETITION.CAMERA.POWER_CUBE_MODE_LEFT_SIDE || pipelineNumber == COMPETITION.CAMERA.POWER_CUBE_MODE_RIGHT_SIDE)
 		{
 			this._ledMode.setDouble(Camera._LED_OFF);
 		}
@@ -144,6 +145,11 @@ public class Camera extends Subsystem implements RobotMap{
     
     public void periodic()
     {
+    	/*if (DriverStation.getInstance().isOperatorControl() || DriverStation.getInstance().isDisabled())
+    	{
+    		this.setDriverMode(true);
+    	}*/
+    	
     	///System.out.println(this.getCrosshairXPosition());
     }
 }

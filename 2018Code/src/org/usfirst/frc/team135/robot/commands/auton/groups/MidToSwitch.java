@@ -32,7 +32,6 @@ public class MidToSwitch extends CommandGroup implements RobotMap{
        	//addSequential(new StrafeStraightForwards(12, 1, true, () -> Robot.ultrasonic.getRightSonarValue(),  2));
        	
        	Robot.camera.setDriverMode(false);
-       	Robot.camera.setTrackingMode(CAMERA.REFLECTIVE_TAPE_MODE);
        	
     	if(switchIsRight)
     	{

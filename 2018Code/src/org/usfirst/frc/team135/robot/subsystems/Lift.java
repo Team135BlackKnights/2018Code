@@ -61,10 +61,8 @@ public class Lift extends Subsystem implements RobotMap
 		liftMotor.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_100Ms, 10);
 		liftMotor.configVelocityMeasurementWindow(64, 10); //Might want to check this later
 		
-		liftMotor.configForwardSoftLimitThreshold(1450, 10);
 		liftMotor.configReverseSoftLimitThreshold(0, 10);
 		
-		liftMotor.configForwardSoftLimitEnable(true, 10);
 		liftMotor.configReverseSoftLimitEnable(true, 10);
 		
 		liftMotor.config_kP(0, kP, 10);

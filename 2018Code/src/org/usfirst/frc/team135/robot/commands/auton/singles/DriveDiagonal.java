@@ -2,6 +2,7 @@ package org.usfirst.frc.team135.robot.commands.auton.singles;
 
 import org.usfirst.frc.team135.robot.Robot;
 import org.usfirst.frc.team135.robot.RobotMap;
+import org.usfirst.frc.team135.robot.RobotMap.COMPETITION;
 import org.usfirst.frc.team135.robot.util.FunctionalDoubleManager;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -31,6 +32,8 @@ public class DriveDiagonal extends InstantCommand {
 		this._timeout = timeout;
 
 		this._searching = searching;
+		
+		Robot.camera.setTrackingMode(COMPETITION.CAMERA.REFLECTIVE_TAPE_MODE);
 
 	}
 
@@ -67,10 +70,10 @@ public class DriveDiagonal extends InstantCommand {
 
 			this._angle = this._angleSensor.get();
 			
-			if (this._searching == false)
+			/* if (this._searching == false)
 			{
 				this._angle *= 1.05;
-			}
+			}*/
 
 			double x = this._power * Math.cos(this._angle * (Math.PI / 180.0));
 			double y = this._power * Math.sin(this._angle * (Math.PI / 180.0));
