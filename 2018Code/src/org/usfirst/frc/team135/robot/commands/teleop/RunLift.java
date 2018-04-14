@@ -42,13 +42,13 @@ public class RunLift extends Command {
     	if (Robot.lift.getEncoderPosition() >= COMPETITION.LIFT.SOFT_STOP && !Robot.lift.stopLatch && !Robot.oi.overrideLiftSoftStop() && joyValue > 0)
     	{	
     		Robot.lift.stopLatch = true;
-    		Robot.intake.setCompressorOn();
+    		//Robot.intake.setCompressorOn();
     		Robot.lift.holdPosition();
     		return;
     	}
     	else if (Robot.lift.getEncoderPosition() >= COMPETITION.LIFT.SOFT_STOP - 30 && Robot.lift.stopLatch && !Robot.oi.overrideLiftSoftStop() && joyValue > 0)
     	{
-    		Robot.intake.setCompressorOn();
+    		//Robot.intake.setCompressorOn();
     		Robot.lift.holdPosition();
     		return;
     	}
@@ -66,17 +66,17 @@ public class RunLift extends Command {
     	
     	if (joyValue > 0)
     	{
-    		Robot.intake.setCompressorOff();		
+    		//Robot.intake.setCompressorOff();		
     		joyValue *= Preferences.getInstance().getDouble("Lift Up Speed", 1.0);
     	}
     	else if (joyValue < 0)
     	{
-    		Robot.intake.setCompressorOn();
+    		//Robot.intake.setCompressorOn();
     		joyValue *= -Preferences.getInstance().getDouble("Lift Down Speed", -1.0);
     	}
     	else if (joyValue == 0)
     	{
-    		Robot.intake.setCompressorOn();
+    		//Robot.intake.setCompressorOn();
     		Robot.lift.holdVelocityAtZero();
     		return;
     	}
