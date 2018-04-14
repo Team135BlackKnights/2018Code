@@ -74,7 +74,6 @@ public class LeftPosition extends CommandGroup {
     		
     		if (switchPosition == CLOSE && scalePosition == CLOSE)
     		{
-    			addSequential(new SideToAutoline(false));
     			if (SmartDashboard.getBoolean("Prefer Switch?", false))
     			{
     				addSequential(new SideToNearSwitch(false));
