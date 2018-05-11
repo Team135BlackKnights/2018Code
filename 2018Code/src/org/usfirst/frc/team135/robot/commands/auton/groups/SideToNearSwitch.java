@@ -7,6 +7,7 @@ import org.usfirst.frc.team135.robot.commands.auton.singles.SetLiftPosition;
 import org.usfirst.frc.team135.robot.commands.auton.singles.StrafeStraightSideways;
 import org.usfirst.frc.team135.robot.commands.teleop.ExtendMandibles;
 import org.usfirst.frc.team135.robot.commands.teleop.GrabMandibles;
+import org.usfirst.frc.team135.robot.commands.teleop.RetractMandibles;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -22,7 +23,7 @@ public class SideToNearSwitch extends CommandGroup implements RobotMap {
     	int encoder_direction = isRight ? DIRECTION.BACKWARD : DIRECTION.FORWARD;
     	   	
     	addSequential(new DriveStraightForward(encoder_direction * FIELD.SIDE_SWITCH_Y, isRight, 3));
-    	addSequential(new ExtendMandibles());
+    	addSequential(new RetractMandibles()); //Retract is extend in auto
        	addSequential(new SetLiftPosition(COMPETITION.LIFT.SWITCH_POSITION));
        	addSequential(new StrafeStraightSideways(SideToNearSwitch.DISTANCE_FROM_SWITCH_WALL,
        											strafe_direction, !isRight, () -> Robot.ultrasonic.getRightSonarValue(), STRAFE_MODE.REDUCE, 1.5));

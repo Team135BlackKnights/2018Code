@@ -14,7 +14,7 @@ import org.usfirst.frc.team135.robot.commands.teleop.RetractMandibles;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-/**
+/**W
  *
  */
 public class SideToNearScale extends CommandGroup implements RobotMap {
@@ -27,9 +27,9 @@ public class SideToNearScale extends CommandGroup implements RobotMap {
     	
     	
     	addSequential(new DriveStraightForward(encoder_direction * (FIELD.SIDE_SCALE_Y - 60), isRight, 4));
-    	addSequential(new ExtendMandibles());
+    	//addSequential(new ExtendMandibles());
+    	addSequential(new RetractMandibles());
     	addSequential(new SetLiftPosition(COMPETITION.LIFT.SCALE_POSITION));
-    	//addSequential(new RetractMandibles());
     	addSequential(new DriveStraightForward(encoder_direction * (FIELD.SIDE_SCALE_Y), isRight, 4));
     	addSequential(new StrafeStraightSideways(FIELD.SIDE_SCALE_X,
        											strafe_direction, !isRight, () -> Robot.ultrasonic.getLeftSonarValue(), STRAFE_MODE.GAIN, 1.0));

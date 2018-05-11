@@ -36,6 +36,8 @@ public class Lift extends Subsystem implements RobotMap
 	public boolean isDrawingTooMuchCurrent = false;
 	
 	public double tripPoint = 0.0;
+	
+	public boolean stopLatch = false; 
 	//PowerDistributionPanel pdp;
 
 	
@@ -61,16 +63,18 @@ public class Lift extends Subsystem implements RobotMap
 		liftMotor.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_100Ms, 10);
 		liftMotor.configVelocityMeasurementWindow(64, 10); //Might want to check this later
 		
-		liftMotor.configForwardSoftLimitThreshold(1450, 10);
 		liftMotor.configReverseSoftLimitThreshold(0, 10);
 		
-		liftMotor.configForwardSoftLimitEnable(true, 10);
 		liftMotor.configReverseSoftLimitEnable(true, 10);
 		
 		liftMotor.config_kP(0, kP, 10);
 		liftMotor.config_kI(0, kI, 10);
 		liftMotor.config_kD(0, kD, 10);
 		liftMotor.config_kF(0, kF, 10);
+		
+		liftMotor.config_kP(1, 1.0, 10);
+		liftMotor.config_kI(1, 0.2, 10);
+		liftMotor.config_kD(1, 10.0, 10);
 		//liftMotor.configMotionCruiseVelocity(100, 10);
 		//liftMotor.configMotionAcceleration(500, 10);
 		
@@ -179,9 +183,16 @@ public class Lift extends Subsystem implements RobotMap
 		setpoint = position;
 	}
 	
-	public void mantainPosition()
+	public void holdVelocityAtZero()
 	{
+		liftMotor.selectProfileSlot(0, 0);
 		liftMotor.set(ControlMode.Velocity, .75);
+	}
+	
+	public void holdPosition()
+	{
+		liftMotor.selectProfileSlot(1, 0);
+		liftMotor.set(ControlMode.Position, this.getEncoderPosition());
 	}
 	
 	/*public double getLiftMotorCurrentDraw()
@@ -199,10 +210,10 @@ public class Lift extends Subsystem implements RobotMap
     {
     	//SmartDashboard.putNumber("Lift Position", getEncoderPosition());
     	
-    	System.out.println(getEncoderPosition());
-    	SmartDashboard.putNumber("Lift Setpoint", setpoint);
+    	//SmartDashboard.putNumber("Lift Position", getEncoderPosition());
+    	//SmartDashboard.putNumber("Lift Setpoint", setpoint);
     	//System.out.println(getEncoderPosition());
-    	SmartDashboard.putNumber("Lift Velocity", getEncoderVelocity());
+    	//SmartDashboard.putNumber("Lift Velocity", getEncoderVelocity());
     	//SmartDashboard.putNumber("Lift Acceleration", getEncoderAcceleration());
     	//System.out.println(getEncoderPosition());
     	//SmartDashboard.putNumber("Lift Current Draw", pdp.getCurrent(3));

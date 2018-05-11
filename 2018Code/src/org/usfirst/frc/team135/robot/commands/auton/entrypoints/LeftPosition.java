@@ -6,6 +6,7 @@ import org.usfirst.frc.team135.robot.commands.auton.groups.SideToAutoline;
 import org.usfirst.frc.team135.robot.commands.auton.groups.SideToNearScale;
 import org.usfirst.frc.team135.robot.commands.auton.groups.SideToNearSwitch;
 import org.usfirst.frc.team135.robot.commands.auton.singles.InitializeAngle;
+import org.usfirst.frc.team135.robot.commands.auton.singles.ResetEncoders;
 import org.usfirst.frc.team135.robot.commands.teleop.ResetNavX;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -28,8 +29,9 @@ public class LeftPosition extends CommandGroup {
     	int switchPosition = getSwitchPosition(Robot.msg);
     	int scalePosition = getScalePosition(Robot.msg);
     	
-    	
+    	addSequential(new ResetEncoders());
     	addSequential(new ResetNavX());
+    	
     	if (switchPosition == INVALID || scalePosition == INVALID)
     	{
     		addSequential(new SideToAutoline(false));
@@ -38,7 +40,7 @@ public class LeftPosition extends CommandGroup {
     	}
     	
     	
-    	if (SmartDashboard.getBoolean("Try to go for Switch?", true) && !SmartDashboard.getBoolean("Try to go for Scale?", false))
+    	if (SmartDashboard.getBoolean("Try to go for switch?", true) && !SmartDashboard.getBoolean("Try to go for scale?", false))
     	{
     		
     		//Go for switch only
@@ -52,7 +54,7 @@ public class LeftPosition extends CommandGroup {
     			addSequential(new SideToAutoline(false));
     		}
     	}
-    	else if (!SmartDashboard.getBoolean("Try to go for Switch?", true) && SmartDashboard.getBoolean("Try to go for Scale?", false))
+    	else if (!SmartDashboard.getBoolean("Try to go for switch?", true) && SmartDashboard.getBoolean("Try to go for scale?", false))
     	{
     		//Go for scale only
     		if (scalePosition == CLOSE)
@@ -72,8 +74,7 @@ public class LeftPosition extends CommandGroup {
     		
     		if (switchPosition == CLOSE && scalePosition == CLOSE)
     		{
-    			addSequential(new SideToAutoline(false));
-    			if (SmartDashboard.getBoolean("Prefer Switch or Scale?", true))
+    			if (SmartDashboard.getBoolean("Prefer Switch?", false))
     			{
     				addSequential(new SideToNearSwitch(false));
     			}
@@ -84,7 +85,7 @@ public class LeftPosition extends CommandGroup {
     		}
     		else if (switchPosition == FAR && scalePosition == FAR)
     		{
-    			if (SmartDashboard.getBoolean("Prefer Switch or Scale?", true))
+    			if (SmartDashboard.getBoolean("Prefer Switch?", false))
     			{
     				addSequential(new SideToAutoline(false));
     			}

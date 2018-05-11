@@ -28,7 +28,7 @@ public class Intake extends Subsystem implements RobotMap{
 	private boolean compressorState = true;
 	
 	boolean rightWheelInverted = false;
-	boolean leftWheelInverted = true;
+	boolean leftWheelInverted = false;
 	
 	static private Intake instance;
 	

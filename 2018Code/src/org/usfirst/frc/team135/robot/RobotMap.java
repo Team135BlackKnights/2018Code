@@ -59,8 +59,8 @@ public interface RobotMap
 		public static final double // All measurements are in inches
 			AUTO_LINE = 70, 
 			WALL_SLANT_END = 10, 
-			SIDE_SCALE_X = 37.5f, 
-			SIDE_SCALE_Y = 326 - 48, 
+			SIDE_SCALE_X = 34, 
+			SIDE_SCALE_Y = 278, 
 			SIDE_SWITCH_X = 51f,
 			SIDE_SWITCH_Y = 120, 
 			MID_SWITCH_X = 105f, 
@@ -163,6 +163,8 @@ public interface RobotMap
 			public static final int LIFT_MOTOR_ID = 3;
 
 			public static final double LOW_POSITION = 0, SWITCH_POSITION = 650, SCALE_POSITION = 1460;
+			
+			public static final double SOFT_STOP = 1480;
 
 			public static final double kP = .04, kI = 0.0, kD = 0, kF = .33;
 
@@ -209,7 +211,8 @@ public interface RobotMap
 
 			public static final int
 				REFLECTIVE_TAPE_MODE = 0,
-				POWER_CUBE_MODE = 1;
+				POWER_CUBE_MODE_RIGHT_SIDE = 1,
+				POWER_CUBE_MODE_LEFT_SIDE = 2;	
 		
 			public static final double
 				CAMERA_HEIGHT = 8.625; //In inches;

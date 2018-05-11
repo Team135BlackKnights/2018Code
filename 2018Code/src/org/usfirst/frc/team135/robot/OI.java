@@ -23,7 +23,7 @@ public class OI implements RobotMap
 	private Joystick LEFT, RIGHT, MANIP;  
 
 	private JoystickButton 
-		//Unused
+		//Unused TESTTTTTT
 		DRIVE_REAR_LEFT, 
 		DRIVE_REAR_RIGHT, 
 		DRIVE_FRONT_RIGHT, 
@@ -75,11 +75,11 @@ public class OI implements RobotMap
 		MANDIBLES_OPEN = new JoystickButton(MANIP, 6);
 		MANDIBLES_CLOSE = new JoystickButton(MANIP, 4);
 		
-		MANDIBLES_UP = new JoystickButton(MANIP, 5);
-		MANDIBLES_DOWN = new JoystickButton(MANIP, 3);
+		MANDIBLES_UP = new JoystickButton(MANIP, 3);
+		MANDIBLES_DOWN = new JoystickButton(MANIP, 5);
 		
-		THROW_CUBE_FORWARD = new JoystickButton(MANIP, 8);
-		THROW_CUBE_BACKWARD = new JoystickButton(MANIP, 7);
+		//THROW_CUBE_FORWARD = new JoystickButton(MANIP, 8);
+		//THROW_CUBE_BACKWARD = new JoystickButton(MANIP, 7);
 		
 		DRIVE_HANG = new JoystickButton(RIGHT, 1);
 		TOGGLE_COMPRESSOR = new JoystickButton(RIGHT, 4);
@@ -101,6 +101,11 @@ public class OI implements RobotMap
 		{
 			return input;
 		}
+	}
+	
+	public boolean overrideLiftSoftStop()
+	{
+		return MANIP.getRawButton(7);
 	}
 	
 	public double GetLeftY()
@@ -166,8 +171,8 @@ public class OI implements RobotMap
 		MANDIBLES_UP.whenPressed(new RetractMandibles());
 		MANDIBLES_DOWN.whenPressed(new ExtendMandibles());
 		
-		THROW_CUBE_FORWARD.whenPressed(new ThrowCubeForward());
-		THROW_CUBE_BACKWARD.whenPressed(new ThrowCubeBackwards());
+		//THROW_CUBE_FORWARD.whenPressed(new ThrowCubeForward());
+		//THROW_CUBE_BACKWARD.whenPressed(new ThrowCubeBackwards());
 		
 		MANDIBLES_WHEELS_IN.whileHeld(new DriveMandibleWheels(true));
 		MANDIBLES_WHEELS_OUT.whileHeld(new DriveMandibleWheels(false));
