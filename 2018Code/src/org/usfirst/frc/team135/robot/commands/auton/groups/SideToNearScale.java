@@ -27,13 +27,12 @@ public class SideToNearScale extends CommandGroup implements RobotMap {
     	
     	
     	addSequential(new DriveStraightForward(encoder_direction * (FIELD.SIDE_SCALE_Y - 60), isRight, 4));
-    	addSequential(new ExtendMandibles());
-    	addSequential(new SetLiftPosition(COMPETITION.LIFT.SCALE_POSITION));
     	addSequential(new RetractMandibles());
+    	addSequential(new SetLiftPosition(COMPETITION.LIFT.SCALE_POSITION));
     	addSequential(new DriveStraightForward(encoder_direction * (FIELD.SIDE_SCALE_Y), isRight, 4));
     	addSequential(new StrafeStraightSideways(FIELD.SIDE_SCALE_X,
        											strafe_direction, !isRight, () -> Robot.ultrasonic.getLeftSonarValue(), STRAFE_MODE.GAIN, 1.0));
-    	addSequential(new DriveMandiblesWheelsTimed(drive_mandible_wheels_timeout, -1));
+    	addSequential(new DriveMandiblesWheelsTimed(drive_mandible_wheels_timeout, 1));
 
     }
 }

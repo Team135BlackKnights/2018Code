@@ -69,14 +69,14 @@ public class OI implements RobotMap
 		DRIVE_FRONT_LEFT = new JoystickButton(MANIP, 5);
 		DRIVE_FRONT_RIGHT = new JoystickButton(MANIP, 6);
 		*/
-		MANDIBLES_WHEELS_IN = new JoystickButton(MANIP, 1);
-		MANDIBLES_WHEELS_OUT = new JoystickButton(MANIP, 2);
+		MANDIBLES_WHEELS_IN = new JoystickButton(MANIP, 2);
+		MANDIBLES_WHEELS_OUT = new JoystickButton(MANIP, 1);
 		
-		MANDIBLES_OPEN = new JoystickButton(MANIP, 6);
-		MANDIBLES_CLOSE = new JoystickButton(MANIP, 4);
+		MANDIBLES_OPEN = new JoystickButton(MANIP, 4);
+		MANDIBLES_CLOSE = new JoystickButton(MANIP, 6);
 		
-		MANDIBLES_UP = new JoystickButton(MANIP, 5);
-		MANDIBLES_DOWN = new JoystickButton(MANIP, 3);
+		MANDIBLES_UP = new JoystickButton(MANIP, 3);
+		MANDIBLES_DOWN = new JoystickButton(MANIP, 5);
 		
 		THROW_CUBE_FORWARD = new JoystickButton(MANIP, 8);
 		THROW_CUBE_BACKWARD = new JoystickButton(MANIP, 7);
